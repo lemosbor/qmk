@@ -6,6 +6,9 @@ python3 -m pip install qmk
 
 qmk compile -kb preonic/rev3 -km default
 
+qmk compile -kb preonic/rev3 -km pri
+
+
 
 Ψ Compiling keymap with make preonic/rev3:default
 
