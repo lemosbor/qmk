@@ -1,0 +1,14 @@
+pacman --needed --noconfirm --disable-download-timeout -S git mingw-w64-x86_64-toolchain mingw-w64-x86_64-python3-pip
+pacman -S python3
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+python get-pip.py
+python3 -m pip install qmk
+
+qmk compile -kb preonic/rev3 -km default
+
+
+Ψ Compiling keymap with make preonic/rev3:default
+
+
+QMK Firmware 0.9.44
+Making preonic/rev3 with keymap default
