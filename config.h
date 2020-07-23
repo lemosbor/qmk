@@ -12,6 +12,7 @@
 #endif
 
 #define MUSIC_MASK (keycode != KC_NO)
+#define UNICODE_SELECTED_MODES UC_WINC
 
 /*
  * MIDI options
