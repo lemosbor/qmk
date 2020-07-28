@@ -1,6 +1,10 @@
 #include QMK_KEYBOARD_H
 #include "muse.h"
 
+#define _QWERTY 0
+#define _SERV 1
+#define LT_PER LT(_SERV, TO(_SERV))
+
 enum preonic_layers {
   _QWERTY,
   _SERV,
@@ -57,7 +61,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC,  \
   KC_CAPS,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, \
   KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, XP(JE,JEL),  KC_UP, KC_ENT,  \
-  KC_LCTL, KC_LGUI, KC_RALT, X(SNEK), SERV,   KC_SPC,  KC_SPC,  RAISE,   KC_DEL, KC_LEFT, KC_DOWN,   KC_RGHT  \
+  KC_LCTL, KC_LGUI, KC_RALT, X(SNEK), LT_PER,   KC_SPC,  KC_SPC,  SERV,   KC_DEL, KC_LEFT, KC_DOWN,   KC_RGHT  \
 ),
 
 /* сервисная
@@ -79,7 +83,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_F9, KC_F10, KC_F11, KC_F12, KC_NO, KC_SLSH, KC_HOME, KC_PGUP, KC_P7, KC_P8, KC_P9, KC_PPLS,\
   MO(2), RGB_TOG, KC_MS_U, KC_NO, KC_NO, KC_NO, KC_END, KC_PGDN, KC_P4, KC_P5, KC_P6, KC_PEQL,\
   KC_LSFT, KC_MS_L, C_MS_D, KC_MS_R, KC_NO, KC_BSLS, KC_LBRC, KC_RBRC, KC_P1, KC_P2, KC_P3, KC_PENT,\
-  KC_LCTL, KC_BTN1, KC_LALT, C_BTN2, KC_SPC, KC_SPC, KC_SPC, TO(0), KC_INS, KC_P0, KC_PDOT, KC_RGHT \
+  KC_LCTL, KC_BTN1, KC_LALT, C_BTN2, QWERTY, KC_SPC, KC_SPC, QWERTY, KC_INS, KC_P0, KC_PDOT, KC_RGHT \
 ),
   
   
@@ -104,7 +108,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,    KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, KC_DEL,  \
   KC_ESC,  KC_A,    KC_R,    KC_S,    KC_T,    KC_D,    KC_H,    KC_N,    KC_E,    KC_I,    KC_O,    KC_QUOT, \
   KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_K,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_ENT,  \
-  BACKLIT, KC_LCTL, KC_LALT, KC_LGUI, LOWER,   KC_SPC,  KC_SPC,  RAISE,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT  \
+  BACKLIT, KC_LCTL, KC_LALT, KC_LGUI, QWERTY,   KC_SPC,  KC_SPC,  QWERTY,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT  \
 ),
 
 /* Dvorak
