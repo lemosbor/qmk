@@ -1,2 +1,3 @@
 SRC += muse.c
 UNICODEMAP_ENABLE = yes
+RGBLIGHT_ENABLE = yes
