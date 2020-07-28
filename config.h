@@ -1,7 +1,7 @@
 #pragma once
 
 #ifdef AUDIO_ENABLE
-    #define STARTUP_SONG SONG(ODE_TO_JOY)
+    #define STARTUP_SONG SONG(ODE_TO_JOY) //музыка начала работы
     // #define STARTUP_SONG SONG(NO_SOUND)
     //  #define STARTUP_SONG SONG(PREONIC_SOUND)
 
@@ -13,6 +13,8 @@
 
 #define MUSIC_MASK (keycode != KC_NO)
 #define UNICODE_SELECTED_MODES UC_WINC
+#define RGBLIGHT_SLEEP // если ПК в спящем режиме, то подсветка не горит
+#define NO_DEBUG // отключить отладку
 
 /*
  * MIDI options
