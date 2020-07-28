@@ -118,14 +118,13 @@ set_unicode_input_mode(UC_WINC);
 
 }
 
+
 layer_state_t layer_state_set_user(layer_state_t state) {
     switch (get_highest_layer(state)) {
     case L_QWERTY:
-        if (user_config.rgb_layer_change) { rgblight_sethsv_noeeprom_magenta(); rgblight_mode_noeeprom(1); }
-        break;
+        rgblight_setrgb (0x00,  0x00, 0xFF);
     case L_SERV:
-        if (user_config.rgb_layer_change) { rgblight_sethsv_noeeprom_red(); rgblight_mode_noeeprom(1); }
-        break;
+        rgblight_setrgb (0xFF,  0x00, 0x00);
     }
   return state;
 }

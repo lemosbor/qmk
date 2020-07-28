@@ -10,9 +10,6 @@
 
 #define LOCKING_SUPPORT_ENABLE
 #define MUSIC_MASK (keycode != KC_NO)
-#define UNICODE_TYPE_DELAY 0
-#define UNICODE_KEY_WINC KC_RGUI
-#define UNICODE_SELECTED_MODES UC_WINC
 #define RGBLIGHT_SLEEP // если ПК в спящем режиме, то подсветка не горит
 #define NO_DEBUG // отключить отладку
 /*#define BACKLIGHT_LEVELS 3*/
