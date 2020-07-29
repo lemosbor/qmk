@@ -1,47 +1,22 @@
-#pragma once
+#pragma once // директива, для контроля за тем, чтобы файл при компиляции подключался строго один раз
 
-#ifdef AUDIO_ENABLE
-    #define STARTUP_SONG SONG(ODE_TO_JOY)
+#ifdef AUDIO_ENABLE //директива сообщает, что если последующий идентификатор определяется препроцессором, то выполняются все последующие директивы до первого появления #else/#endif 
+    #define STARTUP_SONG SONG(ODE_TO_JOY) //определяет макрос с токеном.  После определения макроса компилятор подставит строку токена для каждого обнаруженного идентификатора
     // #define STARTUP_SONG SONG(NO_SOUND)
-
 #endif
 
-#define MUSIC_MASK (keycode != KC_NO)
+#define MUSIC_MASK (keycode != KC_NO) // расширяет коды клавиш для музыкального режима https://docs.qmk.fm/#/feature_audio?id=music-mask
 
-#define LOCKING_SUPPORT_ENABLE
-#define MUSIC_MASK (keycode != KC_NO)
-#define RGBLIGHT_SLEEP // если ПК в спящем режиме, то подсветка не горит
-#define NO_DEBUG // отключить отладку
-/*#define BACKLIGHT_LEVELS 3*/
+#define LOCKING_SUPPORT_ENABLE // блокировка клавиш для капс локов
+#define LOCKING_RESYNC_ENABLE // синхронизация светодиода с каспами
 
-/*
- * MIDI options
- */
+#define RGBLIGHT_SLEEP // если ПК в спящем режиме, то подсветка отключается
+#define NO_DEBUG // отключить отладку для экономии кода
 
-/* Prevent use of disabled MIDI features in the keymap */
-//#define MIDI_ENABLE_STRICT 1
+// #define AUDIO_CLICKY звук нажатия клавиши
+// #define AUDIO_CLICKY_FREQ_DEFAULT 440.f // определяет частату звука нажатия клавиши
 
-/* enable basic MIDI features:
-   - MIDI notes can be sent when in Music mode is on
-*/
-
-#define MIDI_BASIC
-
-#define BACKLIGHT_LED_COUNT 2
-#undef BACKLIGHT_PIN
-#define BACKLIGHT_PINS { F5, B2 }
-
-/*#define AUDIO_CLICKY -добавляет звук нажатия
- #define AUDIO_CLICKY_FREQ_DEFAULT 440.f */
-
-/* enable advanced MIDI features:
-   - MIDI notes can be added to the keymap
-   - Octave shift and transpose
-   - Virtual sustain, portamento, and modulation wheel
-   - etc.
-*/
 //#define MIDI_ADVANCED
-
 /* override number of MIDI tone keycodes (each octave adds 12 keycodes and allocates 12 bytes) */
 //#define MIDI_TONE_KEYCODE_OCTAVES 2
 //qmk compile -kb preonic/rev3 -km pri
