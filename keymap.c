@@ -4,8 +4,23 @@
 #define L_OSNOVA 0 // слой 0 (основной)
 #define L_SERV 1 // слой 1 (сервисный)
 
+enum custom_keycodes {
+    E_2HEART //два сердца
+};
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case E_2HEART:
+        if (record->event.pressed) {
+            SEND_STRING(SS_LALT("D83D+DC95")); //ввод кода через альт 
+        }
+        return false;
+    }
+    return true;
+};
+
 enum unicode_names { //объявление юникодов
-    BANG,
+    BANG = 0,
     IRONY,
     SNEK,
     JE,
@@ -17,8 +32,7 @@ const uint32_t PROGMEM unicode_map[] = { // определение юникод�
     [IRONY] = 0x2E2E,  // ⸮
     [SNEK]  = 0x1F40D, // 🐍
     [JE]  = 0x0436, // ж
-    [JEL]  = 0x0416, // Ж
-  
+    [JEL]  = 0x0416 // Ж  
 };
 typedef struct { //назначение структуры нажатий https://docs.qmk.fm/#/feature_tap_dance?id=how-to-use
     bool is_press_action;
@@ -63,7 +77,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
  * ,-----------------------------------------------------------------------------------.
  * |   Ф1 |   Ф2 |  Ф3  |   Ф4 |  Ф5  |  Ф6  |  Ф7  |  Ф8  |  ЦИФ |   /  |   *  |  -   |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |  Ф9  |  Ф10 |  Ф11 |  Ф12 |      |   Ё  |  нач | вверх|   7  |   8  |   9  |  +   |
+ * |  Ф9  |  Ф10 |  Ф11 |  Ф12 | SNEK |   Ё  |  серд| вверх|   7  |   8  |   9  |  +   |
  * |------+------+------+------+------+-------------+------+------+------+------+------|
  * | Мо(2)|  цвет| Мверх|цвет р|музыка|свет  |  кон | вниз |   4  |   5  |   6  |  =   |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
@@ -74,7 +88,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
  */
 [L_SERV] = LAYOUT_preonic_grid( \
   KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, KC_F7, KC_F8, KC_NLCK, KC_PSLS, KC_PAST, KC_MINS, \
-  KC_F9, KC_F10, KC_F11, KC_F12, X(SNEK), KC_SLSH, KC_HOME, KC_PGUP, KC_P7, KC_P8, KC_P9, KC_PPLS,\
+  KC_F9, KC_F10, KC_F11, KC_F12, X(SNEK), KC_SLSH, E_2HEART, KC_PGUP, KC_P7, KC_P8, KC_P9, KC_PPLS,\
   KC_F9, RGB_TOG, KC_MS_U, RGB_MOD, AU_TOG, BL_TOGG, KC_END, KC_PGDN, KC_P4, KC_P5, KC_P6, KC_PEQL,\
   KC_LSFT, KC_MS_L, KC_MS_D, KC_MS_R, KC_COPY, KC_BSLS, KC_LBRC, KC_RBRC, KC_P1, KC_P2, KC_P3, KC_PENT,\
   KC_LCTL, KC_BTN1, KC_LALT, KC_BTN2, TO(L_OSNOVA), KC_SPC, KC_SPC, TO(L_OSNOVA), KC_PCMM, KC_P0, KC_PDOT, KC_RGHT \
