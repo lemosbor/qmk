@@ -13,6 +13,8 @@
 #define RGBLIGHT_SLEEP // если ПК в спящем режиме, то подсветка отключается
 #define NO_DEBUG // отключить отладку для экономии кода
 
+#define TAPPING_TERM 200 // задержка для клавиш двойного назначения
+
 // #define AUDIO_CLICKY звук нажатия клавиши
 // #define AUDIO_CLICKY_FREQ_DEFAULT 440.f // определяет частату звука нажатия клавиши
 
