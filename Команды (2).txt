@@ -9,9 +9,11 @@ qmk compile -kb preonic/rev3 -km default
 qmk compile -kb preonic/rev3 -km pri
 
 
-
-Ψ Compiling keymap with make preonic/rev3:default
-
-
-QMK Firmware 0.9.44
-Making preonic/rev3 with keymap default
+Установка слоя 0 как основного:
+void matrix_init_user(void) {
+    // This keymap only has a single base layer, so reset the default if needed
+    if(eeconfig_read_default_layer() > 0){
+        eeconfig_update_default_layer(0);
+        default_layer_set(0);
+    }
+}
