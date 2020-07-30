@@ -17,3 +17,32 @@ void matrix_init_user(void) {
         default_layer_set(0);
     }
 }
+
+Юникод:
+В файле конфиг
+#define UNICODE_KEY_WIN KC_LALT
+#define UNICODE_SELECTED_MODES UC_WIN
+в рулсах:
+UNICODE_ENABLE = yes   
+Настроить реестр виндуса для приёма.
+Обозначить клваиши:
+#include "process_unicode.h" // для юникода
+enum custom_keycodes {
+    LIQUOT = SAFE_RANGE,
+    RIQUOT,
+};
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {  // макрос прямой отправки слов (в т. ч. в юникоде) https://docs.qmk.fm/#/feature_macros?id=the-new-way-send_string-amp-process_record_user
+    switch (keycode) {
+        case LIQUOT:
+        if (record->event.pressed) {
+            send_unicode_string("😘"); 
+        }
+        break;
+        case RIQUOT:
+        if (record->event.pressed) {
+            send_unicode_string("ж");
+        }
+        break;
+    }
+    return true;
+}
