@@ -15,8 +15,9 @@
 
 #define TAPPING_TERM 200 // задержка для клавиш двойного назначения
 
-#define UNICODE_SELECTED_MODES UC_WINC, UC_WIN
-
+//#define UNICODE_KEY_WINC KC_LALT
+//#define UNICODE_KEY_WIN KC_LALT
+//#define UNICODE_SELECTED_MODES UC_WIN
 
 
 // #define AUDIO_CLICKY звук нажатия клавиши
