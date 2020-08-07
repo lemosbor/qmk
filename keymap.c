@@ -25,7 +25,8 @@ enum {
     VNIZ, // кнопка вниз
     VYH, // Вых / альт+Ф4
     TABB, // таб / альт+таб
-    WEMO // окно / окно+точка
+    WEMO, // окно / окно+точка
+    RU_AN // кнопка Р/А
 };
 uint8_t cur_dance(qk_tap_dance_state_t *state); // общая функция нажатий
 void ql_finished(qk_tap_dance_state_t *state, void *user_data); //индивидуальные функции двойных нажатий
@@ -35,11 +36,11 @@ void ql_reset(qk_tap_dance_state_t *state, void *user_data);
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определение матриц
 /* Основа
  * ,-----------------------------------------------------------------------------------.
- * | Вых  | !'`′ | "@~' | ,%°× |  ;$<₽| №#>§ | :^\÷ | ?&„→ | .*"* | («[{ | )»]} |  ВШ  |
+ * | -—_- | !'`′ | "@~' | ,%°× |  ;$<₽| №#>§ | :^\÷ | ?&„→ | .*"* | («[{ | )»]} |  ВШ  |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | -—_- |   Й  |   Ц  |   У  |   К  |   Е  |   Н  |   Г  |   Ш  |   Щ  |   З  |   Х  |
+ * | ТАБ  |   Й  |   Ц  |   У  |   К  |   Е  |   Н  |   Г  |   Ш  |   Щ  |   З  |   Х  |
  * |------+------+------+------+------+-------------+------+------+------+------+------|
- * | ТАБ  |   Ф  |   Ы  |   В  |   А  |   П  |   Р  |   О  |   Л  |   Д  |   Ж  |   Э  |
+ * | Вых  |   Ф  |   Ы  |   В  |   А  |   П  |   Р  |   О  |   Л  |   Д  |   Ж  |   Э  |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
  * | РЕГ  |   Я  |   Ч  |   С  |   М  |   И  |   Т  |   Ь  |   Б  |   Ю  |   ↑  | ВВОД |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
@@ -47,11 +48,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
  * `-----------------------------------------------------------------------------------'
  */
 [L_OSNOVA] = LAYOUT_preonic_grid( \
-  TD(VYH),  KC_1,    KC_2,  KC_5,   KC_4,   KC_3,    KC_6,   KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC, \
-  KC_MINS,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC,  \
-  TD(TABB),  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,   KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, \
+  KC_MINS,  KC_1,    KC_2,  KC_5,   KC_4,   KC_3,    KC_6,   KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC, \
+  TD(TABB),  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC,  \
+  TD(VYH),  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,   KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, \
   KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_UP, KC_ENT,  \
-  KC_LCTL, TD(WEMO), KC_RALT, KC_BSLS, TD(PER_LAY),   KC_SPC,  KC_SPC, KC_CAPS,   KC_DEL, KC_LEFT, KC_DOWN,   KC_RGHT  \
+  KC_LCTL, TD(WEMO), KC_LALT, KC_BSLS, TD(PER_LAY),   KC_SPC,  KC_SPC, TD(RU_AN),   KC_DEL, KC_LEFT, KC_DOWN,   KC_RGHT  \
 ),
 /* сервисная
  * ,-----------------------------------------------------------------------------------.
@@ -92,17 +93,16 @@ void ql_finished(qk_tap_dance_state_t *state, void *user_data) { // функци
     ql_tap_state.state = cur_dance(state);
     switch (ql_tap_state.state) {
         case SINGLE_TAP: // одиночное нажатие
-            //tap_code(KC_QUOT);
-            break;
-        case SINGLE_HOLD: // одиночное удержание. Временное переключение слоя
-            layer_on(L_SERV);
-            break;
-        case DOUBLE_TAP: // двойное нажатие удержание. Постоянное переключение слоя
             if (layer_state_is(L_SERV)) { // проверка не назначен ли данный слой уже                
                 layer_off(L_SERV); // если установлен, то отключить
             } else {
                 layer_on(L_SERV); // если не установлен, то включить
             }
+            break;
+        case SINGLE_HOLD: // одиночное удержание. Временное переключение слоя
+            layer_on(L_SERV);
+            break;
+        case DOUBLE_TAP: // двойное нажатие удержание. Постоянное переключение слоя
             break;
     }
 };
@@ -114,13 +114,31 @@ void ql_reset(qk_tap_dance_state_t *state, void *user_data) { // если кла
     ql_tap_state.state = 0; // обнуление состояния
 };
 
+
+void x_finished(qk_tap_dance_state_t *state, void *user_data) {
+    ql_tap_state.state = cur_dance(state);
+    switch (ql_tap_state.state) {
+        case SINGLE_TAP: register_code(KC_CAPS); break;
+        case SINGLE_HOLD: register_code(KC_RALT); break;
+    }
+}
+
+void x_reset(qk_tap_dance_state_t *state, void *user_data) {
+    switch (ql_tap_state.state) {
+        case SINGLE_TAP: unregister_code(KC_CAPS); break;
+        case SINGLE_HOLD: unregister_code(KC_RALT); break;
+    }
+    ql_tap_state.state = 0;
+}
+
 qk_tap_dance_action_t tap_dance_actions[] = { // связка кнопок с функциями двойного нажатия
     [PER_LAY] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, ql_finished, ql_reset, 275),
     [VVERH] = ACTION_TAP_DANCE_DOUBLE(KC_UP, KC_HOME), // вверх или домой
     [VNIZ] = ACTION_TAP_DANCE_DOUBLE(KC_DOWN, KC_END), // вниз или в конец
     [VYH] = ACTION_TAP_DANCE_DOUBLE(KC_ESC, LALT(KC_F4)), // выход или альт+ф4
     [TABB] = ACTION_TAP_DANCE_DOUBLE(KC_TAB, LALT(KC_TAB)), // таб или альт+таб https://docs.qmk.fm/#/feature_macros?id=super-alt%e2%86%aftab
-    [WEMO] = ACTION_TAP_DANCE_DOUBLE(KC_LGUI, LGUI(KC_DOT)) // вин или эмодзи
+    [WEMO] = ACTION_TAP_DANCE_DOUBLE(KC_LGUI, LGUI(KC_DOT)), // вин или эмодзи
+    [RU_AN] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, x_finished, x_reset)
 };
 
 layer_state_t layer_state_set_user(layer_state_t state) { //цветовая индикация переключения раскладок
