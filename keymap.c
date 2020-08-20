@@ -8,7 +8,6 @@
 #define L_OSNOVA 0 // слой 0 (основной)
 #define L_SERV 1 // слой 1 (сервисный)
 
-
 typedef struct { //назначение структуры нажатий https://docs.qmk.fm/#/feature_tap_dance?id=how-to-use
     bool is_press_action;
     uint8_t state;
@@ -31,7 +30,6 @@ enum {
 uint8_t cur_dance(qk_tap_dance_state_t *state); // общая функция нажатий
 void ql_finished(qk_tap_dance_state_t *state, void *user_data); //индивидуальные функции двойных нажатий
 void ql_reset(qk_tap_dance_state_t *state, void *user_data);
-
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определение матриц
 /* Основа
@@ -76,7 +74,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
 )
 };
 
-
 uint8_t cur_dance(qk_tap_dance_state_t *state) { // определение состояния двойного нажатия
     if (state->count == 1) { //если нажата один раз
         if (!state->pressed) return SINGLE_TAP; // если не удерживается, то Одиночное нажатие
@@ -89,7 +86,7 @@ static tap ql_tap_state = { // Инициализация двойного на�
     .state = 0 // обнуление состояния
 };
 
-void ql_finished(qk_tap_dance_state_t *state, void *user_data) { // функция реакции двойного нажатия
+void ql_finished(qk_tap_dance_state_t *state, void *user_data) { // функция реакции двойного нажатия Б/Ц. Действие при нажатии
     ql_tap_state.state = cur_dance(state);
     switch (ql_tap_state.state) {
         case SINGLE_TAP: // одиночное нажатие
@@ -106,24 +103,21 @@ void ql_finished(qk_tap_dance_state_t *state, void *user_data) { // функци
             break;
     }
 };
-
-void ql_reset(qk_tap_dance_state_t *state, void *user_data) { // если клавиша была нажата, а теперь отпущена (то отключить слой)
+void ql_reset(qk_tap_dance_state_t *state, void *user_data) { // Действие при отпускании (то отключить слой)
     if (ql_tap_state.state == SINGLE_HOLD) { //при одиночном нажатии
         layer_off(L_SERV); // отключить слой
     }
     ql_tap_state.state = 0; // обнуление состояния
 };
 
-
-void x_finished(qk_tap_dance_state_t *state, void *user_data) {
+void x_finished(qk_tap_dance_state_t *state, void *user_data) { // функция реакции двойного нажатия Р/А. Действие при нажатии
     ql_tap_state.state = cur_dance(state);
     switch (ql_tap_state.state) {
         case SINGLE_TAP: register_code(KC_CAPS); break;
         case SINGLE_HOLD: register_code(KC_RALT); break;
     }
 }
-
-void x_reset(qk_tap_dance_state_t *state, void *user_data) {
+void x_reset(qk_tap_dance_state_t *state, void *user_data) { // Действие при отпускании (то отключить слой)
     switch (ql_tap_state.state) {
         case SINGLE_TAP: unregister_code(KC_CAPS); break;
         case SINGLE_HOLD: unregister_code(KC_RALT); break;
@@ -132,13 +126,13 @@ void x_reset(qk_tap_dance_state_t *state, void *user_data) {
 }
 
 qk_tap_dance_action_t tap_dance_actions[] = { // связка кнопок с функциями двойного нажатия
-    [PER_LAY] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, ql_finished, ql_reset, 275),
+    [PER_LAY] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, ql_finished, ql_reset, 275), // Б/Ц
     [VVERH] = ACTION_TAP_DANCE_DOUBLE(KC_UP, KC_HOME), // вверх или домой
     [VNIZ] = ACTION_TAP_DANCE_DOUBLE(KC_DOWN, KC_END), // вниз или в конец
     [VYH] = ACTION_TAP_DANCE_DOUBLE(KC_ESC, LALT(KC_F4)), // выход или альт+ф4
     [TABB] = ACTION_TAP_DANCE_DOUBLE(KC_TAB, LALT(KC_TAB)), // таб или альт+таб https://docs.qmk.fm/#/feature_macros?id=super-alt%e2%86%aftab
     [WEMO] = ACTION_TAP_DANCE_DOUBLE(KC_LGUI, LGUI(KC_DOT)), // вин или эмодзи
-    [RU_AN] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, x_finished, x_reset)
+    [RU_AN] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, x_finished, x_reset) // Р/А
 };
 
 layer_state_t layer_state_set_user(layer_state_t state) { //цветовая индикация переключения раскладок
@@ -157,3 +151,16 @@ layer_state_t layer_state_set_user(layer_state_t state) { //цветовая и�
     //}
 //}
 //индикация сервисной раскладки
+const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) { // макрос копирования и вставки одной кнопкой
+    switch(id) {
+        case 0: {
+            if (record->event.pressed) {
+                return MACRO( D(LCTL), T(C), U(LCTL), END  );
+            } else {
+                return MACRO( D(LCTL), T(V), U(LCTL), END  );
+            }
+            break;
+        }
+    }
+    return MACRO_NONE;
+};
