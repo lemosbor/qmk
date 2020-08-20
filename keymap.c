@@ -44,7 +44,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
  * |------+------+------+------+------+------|------+------+------+------+------+------|
  * | РЕГ  |   Я  |   Ч  |   С  |   М  |   И  |   Т  |   Ь  |   Б  |   Ю  |   ↑  | ВВОД |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | УПР  | Окно | ДОП  |   \  |  Б/Ц |    пробел   |  Р/А |  УД  |   ←  |   ↓  |  →   |
+ * | УПР  | Окно | ДОП  |   \  |  Р/А |    пробел   |  Б/Ц |  УД  |   ←  |   ↓  |  →   |
  * `-----------------------------------------------------------------------------------'
  */
 [L_OSNOVA] = LAYOUT_preonic_grid( \
@@ -52,27 +52,27 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
   TD(TABB),  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC,  \
   TD(VYH),  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,   KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, \
   KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_UP, KC_ENT,  \
-  KC_LCTL, TD(WEMO), KC_LALT, KC_BSLS, TD(PER_LAY),   KC_SPC,  KC_SPC, TD(RU_AN),   KC_DEL, KC_LEFT, KC_DOWN,   KC_RGHT  \
+  KC_LCTL, TD(WEMO), KC_LALT, KC_BSLS, TD(RU_AN), KC_SPC,  KC_SPC, TD(PER_LAY), KC_DEL, KC_LEFT, KC_DOWN,   KC_RGHT  \
 ),
 /* сервисная
  * ,-----------------------------------------------------------------------------------.
  * |  Ф1  |  Ф2  |  Ф3  |  Ф4  |  Ф5  |  Ф6  |  Ф7  |  Ф8  |   *  |   /  |   -  |  ВШ  |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |  Ф9  |  Ф10 |  Ф11 |  Ф12 |  ЦИФ |  Ё   |  нач | вверх|   7  |   8  |   9  |  +   |
+ * |  Ф9  |  Ф10 |  Ф11 |  Ф12 | кон  |  Ё   |  нач | вверх|   7  |   8  |   9  |  +   |
  * |------+------+------+------+------+-------------+------+------+------+------+------|
- * |цвет р| цвет |М.верх|      |      |  вст |  кон | вниз |   4  |   5  |   6  |  =   |
+ * |цвет р|цвет в|М.верх| вст  |      |      |      | вниз |   4  |   5  |   6  |  =   |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
  * | РЕГ  |М.лево|М.вниз|М.прав|      |      |      |   Ъ  |   1  |   2  |   3  | ВВОД |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | УПР  | М.ЛК | ДОП  | М.ПК |  ФК  |    пробел   |      |   ,  |   0  |   .  | ТАБ  |
+ * | УПР  | М.ЛК | ДОП  | М.ПК |  ЦИФ |    пробел   |  Б/Ц |   ,  |   0  |   .  | ТАБ  |
  * `-----------------------------------------------------------------------------------'
  */
 [L_SERV] = LAYOUT_preonic_grid( \
   KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, KC_F7, KC_F8, KC_PAST, KC_PSLS, KC_PMNS, KC_BSPC, \
-  KC_F9, KC_F10, KC_F11, KC_F12, KC_NLCK, KC_SLSH, KC_HOME, KC_PGUP, KC_P7, KC_P8, KC_P9, KC_PPLS,\
-  RGB_MOD, RGB_TOG, KC_MS_U, KC_NO, KC_NO, KC_INS, KC_END, KC_PGDN, KC_P4, KC_P5, KC_P6, KC_EQL,\
+  KC_F9, KC_F10, KC_F11, KC_F12, KC_END, KC_SLSH, KC_HOME, KC_PGUP, KC_P7, KC_P8, KC_P9, KC_PPLS,\
+  RGB_MOD, RGB_TOG, KC_MS_U, KC_INS, KC_NO, KC_NO, KC_NO, KC_PGDN, KC_P4, KC_P5, KC_P6, KC_EQL,\
   KC_LSFT, KC_MS_L, KC_MS_D, KC_MS_R, KC_NO, KC_NO, KC_NO, KC_RBRC, KC_P1, KC_P2, KC_P3, KC_ENT,\
-  KC_LCTL, KC_BTN1, KC_LALT, KC_BTN2, TD(PER_LAY), KC_SPC, KC_SPC, KC_NO, KC_5, KC_P0, KC_PDOT, KC_TAB \
+  KC_LCTL, KC_BTN1, KC_LALT, KC_BTN2, KC_NLCK, KC_SPC, KC_SPC, TD(PER_LAY), KC_5, KC_P0, KC_PDOT, KC_TAB \
 )
 };
 
