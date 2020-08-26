@@ -100,8 +100,6 @@ void ql_finished(qk_tap_dance_state_t *state, void *user_data) { // функци
         case SINGLE_HOLD: // одиночное удержание. Временное переключение слоя
             layer_on(L_SERV);
             break;
-        case DOUBLE_TAP: // двойное нажатие удержание. Постоянное переключение слоя
-            break;
     }
 };
 void ql_reset(qk_tap_dance_state_t *state, void *user_data) { // Действие при отпускании (то отключить слой)
@@ -123,15 +121,15 @@ void x_reset(qk_tap_dance_state_t *state, void *user_data) { // Действие
         case SINGLE_TAP: unregister_code(KC_CAPS); break;
         case SINGLE_HOLD: unregister_code(KC_RALT); break;
     }
-    ql_tap_state.state = 0;
+    ql_tap_state.state = 0; // обнуление состояния
 };
 
 void kop_finished(qk_tap_dance_state_t *state, void *user_data) { // функция реакции двойного нажатия к/в. Действие при нажатии
     ql_tap_state.state = cur_dance(state);
     switch (ql_tap_state.state) {
-        case SINGLE_TAP: register_code16(LCTL(KC_C)); break;
-        case SINGLE_HOLD: register_code16(LCTL(KC_X)); break;
-        case DOUBLE_TAP: register_code16(LCTL(KC_V)); break; // двойное нажатие удержание. Постоянное переключение слоя
+        case SINGLE_TAP: register_code16(LCTL(KC_C)); break; // нажатие. Копировать
+        case SINGLE_HOLD: register_code16(LCTL(KC_X)); break; // удержание. Вырезать
+        case DOUBLE_TAP: register_code16(LCTL(KC_V)); break; // двойное нажатие. Вставить
     }
 };
 void kop_reset(qk_tap_dance_state_t *state, void *user_data) { // Действие при отпускании (то отключить слой)
@@ -142,7 +140,6 @@ void kop_reset(qk_tap_dance_state_t *state, void *user_data) { // Действи
     }
     ql_tap_state.state = 0; // обнуление состояния
 };
-
 
 qk_tap_dance_action_t tap_dance_actions[] = { // связка кнопок с функциями двойного нажатия
     [PER_LAY] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, ql_finished, ql_reset, 275), // Б/Ц
@@ -155,12 +152,27 @@ qk_tap_dance_action_t tap_dance_actions[] = { // связка кнопок с ф
     [KOPY] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, kop_finished, kop_reset) // Р/А
 };
 
-layer_state_t layer_state_set_user(layer_state_t state) { //цветовая индикация переключения раскладок
-    switch (get_highest_layer(state)) {
-    case L_SERV:
-        rgblight_setrgb (0xFF,  0x00, 0x00);  break;
-    case L_OSNOVA:
-        rgblight_setrgb (0x00,  0x00, 0xFF);  break;
-    }
-  return state;
-};
+void eeconfig_init_user(void) {  // EEPROM is getting reset! use the non noeeprom versions, to write these values to EEPROM too https://www.reddit.com/r/olkb/comments/e0hurb/trying_to_set_color_based_on_active_layer_in_qmk/
+  rgblight_enable(); // включить подсветку по-умолчанию
+  rgblight_sethsv_white();  // установить белый цвет
+  rgblight_mode(RGBLIGHT_MODE_BREATHING); // установить режим Дыхание
+}
+
+layer_state_t layer_state_set_user(layer_state_t state) {
+  rgblight_config_t rgblight_config;
+  switch(biton32(state)) {
+  case L_SERV: //если сервисный слой
+    rgblight_enable_noeeprom(); //включаем подсветку
+    rgblight_sethsv_noeeprom(HSV_GREEN); //зажигаем зеленым
+    break;
+  default:
+    rgblight_config.raw = eeconfig_read_rgblight(); //читаем статус подсветки
+    if (rgblight_config.enable) { //если включена, 
+		rgblight_sethsv_noeeprom(HSV_WHITE); //то устанавливаем белую
+	} else { //иначе
+		rgblight_disable_noeeprom(); // отключаем
+	}
+    break;
+}
+return state;
+}
