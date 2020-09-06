@@ -154,31 +154,31 @@ qk_tap_dance_action_t tap_dance_actions[] = { // связка кнопок с ф
 
 void led_set_keymap(uint8_t usb_led) { //постоянная активация NUMLOCK
   if (!(usb_led & (1<<USB_LED_NUM_LOCK))) {
-    register_code(KC_NUMLOCK);
-    unregister_code(KC_NUMLOCK);
+    register_code(KC_NLCK);
+    unregister_code(KC_NLCK);
   }
 };
 
-void eeconfig_init_user(void) {  // EEPROM is getting reset! use the non noeeprom versions, to write these values to EEPROM too https://www.reddit.com/r/olkb/comments/e0hurb/trying_to_set_color_based_on_active_layer_in_qmk/
-  rgblight_enable(); // включить подсветку по-умолчанию
-  rgblight_sethsv_white();  // установить белый цвет
-  rgblight_mode(RGBLIGHT_MODE_BREATHING); // установить режим Дыхание
-};
+//void eeconfig_init_user(void) {  // EEPROM is getting reset! use the non noeeprom versions, to write these values to EEPROM too https://www.reddit.com/r/olkb/comments/e0hurb/trying_to_set_color_based_on_active_layer_in_qmk/
+//  rgblight_enable(); // включить подсветку по-умолчанию
+//  rgblight_sethsv_white();  // установить белый цвет
+//  rgblight_mode(RGBLIGHT_MODE_BREATHING); // установить режим Дыхание
+//};
 
 layer_state_t layer_state_set_user(layer_state_t state) {
   rgblight_config_t rgblight_config;
   switch(biton32(state)) {
   case L_SERV: //если сервисный слой
     rgblight_enable_noeeprom(); //включаем подсветку
-    rgblight_sethsv_noeeprom(HSV_GREEN); //зажигаем зеленым
+    rgblight_sethsv_noeeprom(HSV_RED); //зажигаем красный
     break;
   default:
     rgblight_config.raw = eeconfig_read_rgblight(); //читаем статус подсветки
     if (rgblight_config.enable) { //если включена, 
-		rgblight_sethsv_noeeprom(HSV_WHITE); //то устанавливаем белую
-	} else { //иначе
-		rgblight_disable_noeeprom(); // отключаем
-	}
+        rgblight_sethsv_noeeprom(HSV_WHITE); //то устанавливаем белую
+    } else { //иначе
+        rgblight_disable_noeeprom(); // отключаем
+    }
     break;
 }
 return state;
