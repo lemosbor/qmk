@@ -4,6 +4,7 @@
 //#include "action_layer.h"
 //#include "process_unicode.h" // для юникода
 // #include "keymap_russian.h" // подгрузка русских букв  qmk compile -kb preonic/rev3 -km pri
+// UNICODEMAP_ENABLE = yes in rules.mk
 
 #define L_OSNOVA 0 // слой 0 (основной)
 #define L_SERV 1 // слой 1 (сервисный)
@@ -55,7 +56,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
 ),
 /* сервисная
  * ,-----------------------------------------------------------------------------------.
- * | ярче |темнее|      |      | вверх|  Ф10 |  Ф11 |  Ф12 |   *  |   /  |   -  |  ВШ  |
+ * | ярче |темнее|      |  ж   | вверх|  Ф10 |  Ф11 |  Ф12 |   *  |   /  |   -  |  ВШ  |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |сл.пес|      |      |      | вниз |  Ф7  |  Ф8  |  Ф9  |   7  |   8  |   9  |  +   |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
@@ -67,7 +68,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
  * `-----------------------------------------------------------------------------------'
  */
 [L_SERV] = LAYOUT_preonic_grid( \
-  KC_BRIU, KC_BRID, KC_NO, KC_NO, KC_PGUP, KC_F10, KC_F11, KC_F12, KC_PAST, KC_PSLS, KC_PMNS, KC_BSPC, \
+  KC_BRIU, KC_BRID, KC_NO, XP(ж, Ж), KC_PGUP, KC_F10, KC_F11, KC_F12, KC_PAST, KC_PSLS, KC_PMNS, KC_BSPC, \
   KC_MNXT, KC_NO, KC_NO, KC_NO, KC_PGDN, KC_F7 , KC_F8, KC_F9, KC_P7, KC_P8, KC_P9, KC_PPLS,\ 
   RGB_MOD, RGB_TOG, KC_QUOT , KC_PSCREEN , KC_HOME, KC_F4, KC_F5, KC_F6, KC_P4, KC_P5, KC_P6, KC_EQL,\
   KC_BTN1, KC_MS_U, KC_BTN2 , KC_SLSH, KC_END, KC_F1, KC_F32, KC_F3, KC_P1, KC_P2, KC_P3, KC_ENT,\
