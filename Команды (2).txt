@@ -46,3 +46,40 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {  // макро
     }
     return true;
 }
+
+
+
+
+ю	q
+п	p
+у	u
+я	y
+х	h
+б	b
+г	g
+л	l
+м	m
+с	s
+а	a
+е	e
+о	o
+и	i
+к	k
+н	n
+р	r
+т	t
+в	w
+э	x
+ц	c
+ь	v
+з	z
+д	d
+й	j
+ф	f
+ч	,
+ш	]
+ы	[
+ж	;
+щ	.
+ё	"
+ъ	/
