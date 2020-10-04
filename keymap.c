@@ -135,9 +135,9 @@ void kop_finished(qk_tap_dance_state_t *state, void *user_data) { // функц�
 };
 void kop_reset(qk_tap_dance_state_t *state, void *user_data) { // Действие при отпускании (то отключить слой)
     switch (ql_tap_state.state) {
-        case SINGLE_TAP: unregister_code16(LCTL(KC_C)); break;
+        case SINGLE_TAP: unregister_code16(LCTL(KC_V)); break;
         case SINGLE_HOLD: unregister_code16(LCTL(KC_X)); break;
-        case DOUBLE_TAP: unregister_code16(LCTL(KC_V)); break;
+        case DOUBLE_TAP: unregister_code16(LCTL(KC_C)); break;
     }
     ql_tap_state.state = 0; // обнуление состояния
 };
