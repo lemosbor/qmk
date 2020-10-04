@@ -50,7 +50,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
 [L_OSNOVA] = LAYOUT_preonic_grid( \
   KC_MINS,  KC_1,    KC_2,  KC_5,   KC_4,   KC_3,    KC_6,   KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC, \
   TD(TABB),  KC_X,    KC_Q,    KC_U,    KC_SCLN ,    KC_F,    KC_H,    KC_G,    KC_L,    KC_M,    KC_J,    KC_COMM,  \
-  TD(VYH),  KC_I,    KC_E,    KC_O,    KC_A,    KC_S,   KC_D,    KC_W,    KC_T,    KC_N,    KC_R, KC_Z, \  
+  TD(VYH),  KC_I,    KC_E,    KC_O,    KC_A,    KC_S,   KC_D,    KC_W,    KC_T,    KC_N,    KC_R, KC_Z, \
   KC_LSFT, KC_Y,    KC_C,    KC_V,    KC_LBRC ,    KC_RBRC,    KC_P,    KC_K,    KC_B, KC_DOT,  KC_UP, KC_ENT,  \
   KC_LCTL, TD(WEMO), KC_LALT, TD(KOPY), TD(RU_AN), KC_SPC,  KC_SPC, TD(PER_LAY), KC_DEL, KC_LEFT, KC_DOWN,   KC_RGHT  \
 ),
@@ -68,11 +68,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
  * `-----------------------------------------------------------------------------------'
  */
 [L_SERV] = LAYOUT_preonic_grid( \
-  KC_BRIU, KC_BRID, KC_NO, XP(ж, Ж), KC_PGUP, KC_F10, KC_F11, KC_F12, KC_PAST, KC_PSLS, KC_PMNS, KC_BSPC, \
-  KC_MNXT, KC_NO, KC_NO, KC_NO, KC_PGDN, KC_F7 , KC_F8, KC_F9, KC_P7, KC_P8, KC_P9, KC_PPLS,\ 
-  RGB_MOD, RGB_TOG, KC_QUOT , KC_PSCREEN , KC_HOME, KC_F4, KC_F5, KC_F6, KC_P4, KC_P5, KC_P6, KC_EQL,\
-  KC_BTN1, KC_MS_U, KC_BTN2 , KC_SLSH, KC_END, KC_F1, KC_F32, KC_F3, KC_P1, KC_P2, KC_P3, KC_ENT,\
-  KC_MS_L, KC_MS_D, KC_MS_R , KC_INS, KC_NLCK, KC_SPC, KC_SPC, TD(PER_LAY), KC_5, KC_BSLS, KC_PDOT, KC_TAB \
+  KC_BRIU, KC_BRID, KC_NO, KC_NO, KC_PGUP, KC_F10, KC_F11, KC_F12, KC_PAST, KC_PSLS, KC_PMNS, KC_BSPC, \
+  KC_MNXT, KC_NO, KC_NO, KC_NO, KC_PGDN, KC_F7, KC_F8, KC_F9, KC_P7, KC_P8, KC_P9, KC_PPLS, \
+  RGB_MOD, RGB_TOG, KC_QUOT, KC_PSCREEN, KC_HOME, KC_F4, KC_F5, KC_F6, KC_P4, KC_P5, KC_P6, KC_EQL, \
+  KC_BTN1, KC_MS_U, KC_BTN2, KC_SLSH, KC_END, KC_F1, KC_F2, KC_F3, KC_P1, KC_P2, KC_P3, KC_ENT, \
+  KC_MS_L, KC_MS_D, KC_MS_R, KC_INS, KC_NLCK, KC_SPC, KC_SPC, TD(PER_LAY), KC_5, KC_BSLS, KC_PDOT, KC_TAB \
 )
 };
 
@@ -128,9 +128,9 @@ void x_reset(qk_tap_dance_state_t *state, void *user_data) { // Действие
 void kop_finished(qk_tap_dance_state_t *state, void *user_data) { // функция реакции двойного нажатия к/в. Действие при нажатии
     ql_tap_state.state = cur_dance(state);
     switch (ql_tap_state.state) {
-        case SINGLE_TAP: register_code16(LCTL(KC_C)); break; // нажатие. Копировать
+        case SINGLE_TAP: register_code16(LCTL(KC_V)); break; // нажатие.  Вставить
         case SINGLE_HOLD: register_code16(LCTL(KC_X)); break; // удержание. Вырезать
-        case DOUBLE_TAP: register_code16(LCTL(KC_V)); break; // двойное нажатие. Вставить
+        case DOUBLE_TAP: register_code16(LCTL(KC_C)); break; // двойное нажатие.  Копировать
     }
 };
 void kop_reset(qk_tap_dance_state_t *state, void *user_data) { // Действие при отпускании (то отключить слой)
@@ -153,12 +153,12 @@ qk_tap_dance_action_t tap_dance_actions[] = { // связка кнопок с ф
     [KOPY] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, kop_finished, kop_reset) // Р/А
 };
 
-void led_set_keymap(uint8_t usb_led) { //постоянная активация NUMLOCK
-  if (!(usb_led & (1<<USB_LED_NUM_LOCK))) {
-    register_code(KC_NLCK);
-    unregister_code(KC_NLCK);
-  }
-};
+//void led_set_keymap(uint8_t usb_led) { //постоянная активация NUMLOCK
+//  if (!(usb_led & (1<<USB_LED_NUM_LOCK))) {
+//    register_code(KC_NLCK);
+//    unregister_code(KC_NLCK);
+//  }
+//};
 
 //void eeconfig_init_user(void) {  // EEPROM is getting reset! use the non noeeprom versions, to write these values to EEPROM too https://www.reddit.com/r/olkb/comments/e0hurb/trying_to_set_color_based_on_active_layer_in_qmk/
 //  rgblight_enable(); // включить подсветку по-умолчанию
