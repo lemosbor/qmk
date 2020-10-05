@@ -76,10 +76,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {  // макро
 д	d
 й	j
 ф	f
-ч	,
-ш	]
-ы	[
-ж	;
+ч	, ch
+ш	] sh
+ы	[ th
+ж	; zh
 щ	.
 ё	"
 ъ	/
