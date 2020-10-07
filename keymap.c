@@ -8,6 +8,8 @@
 
 #define L_OSNOVA 0 // слой 0 (основной)
 #define L_SERV 1 // слой 1 (сервисный)
+bool bnumlock = false;
+bool numlock_changed = false;
 
 typedef struct { //назначение структуры нажатий https://docs.qmk.fm/#/feature_tap_dance?id=how-to-use
     bool is_press_action;
@@ -153,6 +155,14 @@ qk_tap_dance_action_t tap_dance_actions[] = { // связка кнопок с ф
     [KOPY] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, kop_finished, kop_reset) // Р/А
 };
 
+void led_set_kb(uint8_t usb_led) { //постоянная активация NUMLOCK https://www.reddit.com/r/olkb/comments/5mxtfp/qmk_num_lock/
+    if (usb_led & (1<<USB_LED_NUM_LOCK)) {
+        bnumlock = true;
+    } else {
+        bnumlock = false;
+    }
+};
+
 //void led_set_keymap(uint8_t usb_led) { //постоянная активация NUMLOCK
 //  if (!(usb_led & (1<<USB_LED_NUM_LOCK))) {
 //    register_code(KC_NLCK);
@@ -181,6 +191,22 @@ layer_state_t layer_state_set_user(layer_state_t state) {
         rgblight_disable_noeeprom(); // отключаем
     }
     break;
+    case 3: // для NUMLOCK
+     if (record->event.pressed) {
+       if(!bnumlock) {
+           numlock_changed = true;
+           register_code(KC_NLCK);
+           unregister_code(KC_NLCK);
+       }
+       layer_on(3);
+     } else {
+       if(bnumlock && numlock_changed) {
+           numlock_changed = false;
+           register_code(KC_NLCK);
+           unregister_code(KC_NLCK);
+       }
+       layer_off(3);
+     }; // для NUMLOCK
 }
 return state;
 }
