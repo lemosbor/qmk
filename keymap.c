@@ -114,13 +114,13 @@ void x_finished(qk_tap_dance_state_t *state, void *user_data) { // функци�
     ql_tap_state.state = cur_dance(state);
     switch (ql_tap_state.state) {
         case SINGLE_TAP: register_code(KC_CAPS); break;
-        case SINGLE_HOLD: register_code(KC_RALT); break;
+        case SINGLE_HOLD: register_code(KC_CAPS); break;
     }
 }
 void x_reset(qk_tap_dance_state_t *state, void *user_data) { // Действие при отпускании (то отключить слой)
     switch (ql_tap_state.state) {
         case SINGLE_TAP: unregister_code(KC_CAPS); break;
-        case SINGLE_HOLD: unregister_code(KC_RALT); break;
+        case SINGLE_HOLD: unregister_code(KC_CAPS); break;
     }
     ql_tap_state.state = 0; // обнуление состояния
 };
@@ -150,7 +150,7 @@ qk_tap_dance_action_t tap_dance_actions[] = { // связка кнопок с ф
     [TABB] = ACTION_TAP_DANCE_DOUBLE(KC_TAB, LALT(KC_TAB)), // таб или альт+таб https://docs.qmk.fm/#/feature_macros?id=super-alt%e2%86%aftab
     [WEMO] = ACTION_TAP_DANCE_DOUBLE(KC_LGUI, LGUI(KC_DOT)), // вин или эмодзи
     [RU_AN] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, x_finished, x_reset), // Р/А
-    [KOPY] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, kop_finished, kop_reset) // Р/А
+    [KOPY] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, kop_finished, kop_reset) // к/в
 };
 
 void matrix_init_user (void) { //постоянная активация NUMLOCK https://www.reddit.com/r/olkb/comments/5mxtfp/qmk_num_lock/
