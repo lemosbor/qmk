@@ -15,6 +15,9 @@
 
 #define TAPPING_TERM 200 // задержка для клавиш двойного назначения
 
+#define AUTO_SHIFT_MODIFIERS // автоматический шифт
+#define AUTO_SHIFT_TIMEOUT 150 // время необходимого удержания для авто-шифта
+
 //#define UNICODE_KEY_WINC KC_LALT
 //#define UNICODE_KEY_WIN KC_LALT
 //#define UNICODE_SELECTED_MODES UC_WIN
