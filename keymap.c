@@ -16,7 +16,8 @@ typedef struct { //назначение структуры нажатий https:
 enum {  // сопоставляем типы нажатий
     SINGLE_TAP = 1,
     SINGLE_HOLD,
-    DOUBLE_TAP
+    DOUBLE_TAP,
+    WD_ENT
 };
 
 enum {
@@ -75,6 +76,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
   KC_MS_L, KC_MS_D, KC_MS_R, KC_INS, KC_NLCK, KC_SPC, KC_SPC, TD(PER_LAY), KC_BSLS, KC_P0, KC_PDOT, KC_TAB \
 )
 }; //beta.docs.qmk.fm/using-qmk/advanced-keycodes/keycodes_us_ansi_shifted
+
+const uint16_t PROGMEM wd_combo[] = {KC_W, KC_D, COMBO_END}; // задаем сочитание клавиш для комбо
+
+combo_t key_combos[COMBO_COUNT] = {
+  [WD_ENT] = COMBO(wd_combo, KC_ENT) // определяем действие для комбо
+};
 
 uint8_t cur_dance(qk_tap_dance_state_t *state) { // определение состояния двойного нажатия
     if (state->count == 1) { //если нажата один раз
