@@ -18,6 +18,8 @@
 #define AUTO_SHIFT_MODIFIERS // автоматический шифт
 #define AUTO_SHIFT_TIMEOUT 150 // время необходимого удержания для авто-шифта
 
+#define COMBO_COUNT 1 // количество спец. комбинаций с клавишами
+
 //#define UNICODE_KEY_WINC KC_LALT
 //#define UNICODE_KEY_WIN KC_LALT
 //#define UNICODE_SELECTED_MODES UC_WIN
