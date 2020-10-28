@@ -6,6 +6,7 @@ TAP_DANCE_ENABLE = yes    # поддержка двойных нажатий
 VELOCIKEY_ENABLE = yes    # подстройка подсветки под скорость печати
 EXTRAKEY_ENABLE = yes     # аудиоконтроль и системный контроль
 AUTO_SHIFT_ENABLE = yes   # автоматический Шифт (при лёгком удержании)
+COMBO_ENABLE = yes        # спец. комбинации из букв
 
 #отключить:
 BLUETOOTH_ENABLE = no     # поддержка блютуза
