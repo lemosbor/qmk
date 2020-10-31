@@ -13,14 +13,11 @@ typedef struct { //назначение структуры нажатий https:
     bool is_press_action;
     uint8_t state;
 } tap;
-enum {  // сопоставляем типы нажатий
-    SINGLE_TAP = 1,
-    SINGLE_HOLD,
-    DOUBLE_TAP,
-    WD_ENT
-};
 
 enum {
+    SINGLE_TAP = 1,
+    SINGLE_HOLD,
+    DOUBLE_TAP,    
     PER_LAY, // кнопка преключения раскладки
     VVERH, // кнопка вверх
     VNIZ, // кнопка вниз
@@ -30,6 +27,11 @@ enum {
     RU_AN, // кнопка Р/А
     KOPY
 };
+
+enum combos {
+  WD_ENT
+};
+
 uint8_t cur_dance(qk_tap_dance_state_t *state); // общая функция нажатий
 void ql_finished(qk_tap_dance_state_t *state, void *user_data); //индивидуальные функции двойных нажатий
 void ql_reset(qk_tap_dance_state_t *state, void *user_data);
@@ -37,43 +39,43 @@ void ql_reset(qk_tap_dance_state_t *state, void *user_data);
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определение матриц
 /* Основа
  * ,-----------------------------------------------------------------------------------.
- * | !/\| | "@′² | ,%×³ | ;$₽§ | -—_− |  УД  | :+^÷ | ?&<° | .*>  | («[{ | )»]} | =#№~ |
+ * | !/\| | "@′² | ,%×³ | ;$₽§ | -—_− |  УД  | =#№~ | :+^÷ | ?&<° | .*>  | («[{ | )»]} |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |   X  |   Q  |   U  |   ,  |   F  |  ТАБ |   /  |   J  |   G  |   W  |   M  |   C  |
  * |------+------+------+------+------+-------------+------+------+------+------+------|
  * |   I  |   E  |   O  |   A  |   S  |  ВЫХ |   D  |   K  |   N  |   L  |   T  |   R  |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
- * |   "  |   .  |   Y  |   V  |   [  |  РЕГ |   ]  |   Z  |   P  |   B  |   H  |   ;  |
+ * |   "  |   .  |   Y  |   V  |   [  |  ВШ  |   ]  |   Z  |   P  |   B  |   H  |   ;  |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | УПР  | Окно | ДОП  |  Б/Ц |пробел| ВВОД |  ВШ  |пробел|  Р/А |  к/в |  НАЧ | КОН  |
+ * | УПР  | Окно | ДОП  |  Б/Ц |пробел|  РЕГ | ВВОД |пробел|  Р/А |  к/в |  НАЧ | КОН  |
  * `-----------------------------------------------------------------------------------'
  */
 [L_OSNOVA] = LAYOUT_preonic_grid( \
-  KC_EQL,   KC_1,    KC_2,    KC_3,   KC_4,      KC_5,     KC_6,     KC_7,    KC_8,    KC_9,    KC_0,   KC_BSPC, \
-  TD(TABB), KC_Q,    KC_DOT,  KC_U,   KC_COMM,   KC_H,     KC_SCLN,  KC_G,    KC_M,    KC_D,    KC_Z,   KC_J,  \
-  TD(VYH),  KC_I,    KC_E,    KC_O,   KC_A,      KC_S,     KC_W,     KC_N,    KC_L,    KC_T,    KC_R,   KC_K, \
-  KC_LSFT,  KC_Y,    KC_X,    KC_C,   KC_V ,     KC_LBRC,  KC_RBRC,  KC_P,    KC_B,    KC_F,    KC_UP,  KC_ENT,  \
-  KC_LCTL, TD(WEMO), KC_RALT, TD(KOPY), TD(RU_AN), KC_SPC,  KC_SPC, TD(PER_LAY), KC_DEL, KC_LEFT, KC_DOWN,   KC_RGHT  \
+  KC_1,    KC_2,     KC_3,   KC_4,        KC_5,    KC_DEL,   KC_EQL,  KC_6,    KC_7,   KC_8,     KC_9,     KC_0, \
+  KC_X,    KC_Q,     KC_U,   KC_COMM,     KC_F,    TD(TABB), KC_SLSH, KC_J,   KC_G,     KC_W,     KC_M,    KC_C,  \
+  KC_I,    KC_E,     KC_O,   KC_A,        KC_S,    TD(VYH),  KC_D,    KC_K,   KC_N,     KC_L,     KC_T,    KC_R, \
+  KC_QUOT, KC_DOT,   KC_Y,   KC_V,        KC_LBRC, KC_BSPC,  KC_RBRC, KC_Z,   KC_P,     KC_B,     KC_H,    KC_SCLN, \
+  KC_LCTL, TD(WEMO), KC_RALT,TD(PER_LAY), KC_SPC,  KC_LSFT,  KC_ENT,  KC_SPC, TD(RU_AN),TD(KOPY), KC_HOME, KC_END  \
 ),
-/* сервисная
+/* сервисная.
  * ,-----------------------------------------------------------------------------------.
- * | ярче |темнее| тихо |   Ш1 | вверх|  Ф10 |  Ф11 |  Ф12 |   *  |   /  |   -  |  ВШ  |
+ * | ярче |темнее| тихо |сл.пес| вверх|  УД  |  Ф10 |  Ф11 |  Ф12 |   *  |   /  |   -  |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |сл.пес|   {  |   Ш3 |   Ш2 | вниз |  Ф7  |  Ф8  |  Ф9  |   7  |   8  |   9  |  +   |
+ * |      |      |   ↑  |      | вниз |  ТАБ |  Ф7  |  Ф8  |  Ф9  |   7  |   8  |   9  |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |цвет р|цвет в|  Ё " |  нач |  кон |  Ф4  |  Ф5  |  Ф6  |   4  |   5  |   6  |  =   |
+ * |      |  ←   |   ↓  |   →  |цвет в|  ВЫХ |  Ф4  |  Ф5  |  Ф6  |   4  |   5  |   6  |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | М.ЛК |М.верх| М.ПК |  печ |  Ъ/  |  Ф1  |  Ф2  |  Ф3  |   1  |   2  |   3  | ВВОД |
+ * | М.ЛК |  м↑  | М.ПК |  ПЕЧ |цвет р|  ВШ  |  Ф1  |  Ф2  |  Ф3  |   1  |   2  |   3  |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |М.лево|М.вниз|М.прав|  вст |  ЦИФ |    пробел   |  Б/Ц |   \  |   0  |   .  | ТАБ  |
+ * |  м←  |  м↓  |  м→  |  Б/Ц |пробел|  РЕГ | ВВОД | ВСТ  |  ЦИФ |   \  |   0  |   .  |
  * `-----------------------------------------------------------------------------------'
  */ 
 [L_SERV] = LAYOUT_preonic_grid( \
-  KC_BRIU, KC_BRID, KC_MUTE, KC_ASUP, KC_PGUP, KC_F10, KC_F11, KC_F12, KC_PAST, KC_PSLS, KC_PMNS, KC_BSPC, \
-  KC_MNXT, KC_LBRACKET, KC_ASRP, KC_ASDN, KC_PGDN, KC_F7, KC_F8, KC_F9, KC_P7, KC_P8, KC_P9, KC_PPLS, \
-  RGB_MOD, RGB_TOG, KC_QUOT, KC_HOME, KC_END, KC_F4, KC_F5, KC_F6, KC_P4, KC_P5, KC_P6, KC_EQL, \
-  KC_BTN1, KC_MS_U, KC_BTN2, KC_PSCREEN, KC_SLSH, KC_F1, KC_F2, KC_F3, KC_P1, KC_P2, KC_P3, KC_ENT, \
-  KC_MS_L, KC_MS_D, KC_MS_R, KC_INS, KC_NLCK, KC_SPC, KC_SPC, TD(PER_LAY), KC_BSLS, KC_P0, KC_PDOT, KC_TAB \
+  KC_BRIU,  KC_BRID,  KC_MUTE, KC_MNXT,    KC_PGUP, KC_DEL,  KC_F10, KC_F11, KC_F12, KC_PAST, KC_PSLS, KC_PMNS, \
+  C(KC_INS),S(KC_INS),KC_UP,   KC_NO,      KC_PGDN, TD(TABB),KC_F7,  KC_F8,  KC_F9,  KC_P7,   KC_P8,   KC_P9, \
+  KC_NO,    KC_LEFT,  KC_DOWN, KC_RGHT,    RGB_TOG, TD(VYH), KC_F4,  KC_F5,  KC_F6,  KC_P4,   KC_P5,   KC_P6, \
+  KC_BTN1,  KC_MS_U,  KC_BTN2, KC_PSCR,    RGB_MOD, KC_BSPC, KC_F1,  KC_F2,  KC_F3,  KC_P1,   KC_P2,   KC_P3, \
+  KC_MS_L,  KC_MS_D,  KC_MS_R, TD(PER_LAY),KC_SPC,  KC_LSFT, KC_ENT, KC_INS, KC_NLCK,KC_BSLS, KC_P0,   KC_PDOT \
 )
 }; //beta.docs.qmk.fm/using-qmk/advanced-keycodes/keycodes_us_ansi_shifted
 
@@ -127,7 +129,7 @@ void x_finished(qk_tap_dance_state_t *state, void *user_data) { // функци�
 void x_reset(qk_tap_dance_state_t *state, void *user_data) { // Действие при отпускании (то отключить слой)
     switch (ql_tap_state.state) {
         case SINGLE_TAP: unregister_code(KC_CAPS); break;
-        case SINGLE_HOLD: unregister_code(KC_CAPS); break;
+        case SINGLE_HOLD: register_code(KC_CAPS); break;
     }
     ql_tap_state.state = 0; // обнуление состояния
 };
