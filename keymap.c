@@ -27,12 +27,20 @@ enum {
 };
 
 enum combos {
-   AU_REG,
-   NW_REG,
+    EU_REG, // РЕГ
+    NW_REG, // РЕГ
+    AE_VVOD,
+    NT_VVOD,
+    IO_VSH,
+    LR_UDL,
+    IN_NACH,
+    ER_KON,
+  
+   
 };
 enum combo_events {
-   AO_ZAP,
-   NL_TOCH,
+    EO_ZAP, // запятая
+    NL_TOCH,// точка
 };
 
 uint8_t cur_dance(qk_tap_dance_state_t *state); // общая функция нажатий
@@ -50,7 +58,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
  * |------+------+------+------+------+------|------+------+------+------+------+------|
  * |   "  |   /  |   .  |   V  |   Y  |  ВШ  |   C  |   P  |   M  |   B  |   H  |   ;  |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | УПР  | Окно | ДОП  |  Б/Ц |пробел|  РЕГ | ВВОД |пробел|  Р/А | БЛОК |  НАЧ | КОН  |
+ * | Окно | ДОП  |  УПР |  Б/Ц |пробел|  РЕГ | ВВОД |пробел|  Р/А | БЛОК |  НАЧ | КОН  |
  * `-----------------------------------------------------------------------------------'
 ъ	ы	у	з	ф	щ	й	г	в	д	ч
 и	а	о	е	с	ш	к	н	л	т	р
@@ -61,7 +69,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
   KC_X,    KC_Q,     KC_U,   KC_Z,        KC_F,    TD(TABB), KC_RBRC, KC_J,        KC_G,     KC_W,     KC_D,    KC_COMM,  \
   KC_I,    KC_A,     KC_O,   KC_E,        KC_S,    TD(VYH),  KC_LBRC, KC_K,        KC_N,     KC_L,     KC_T,    KC_R, \
   KC_QUOT, KC_SLSH,  KC_DOT, KC_V,        KC_Y,    KC_BSPC,  KC_C,    KC_P,        KC_M,     KC_B,     KC_H,    KC_SCLN, \
-  KC_LCTL, TD(WEMO), KC_RALT,TD(PER_LAY), KC_SPC,  KC_LSFT,  KC_ENT,  TD(PROB_REG),TD(RU_AN),KC_LOCK, KC_HOME, KC_END  \
+  TD(WEMO), KC_RALT, KC_LCTL, TD(PER_LAY), KC_SPC,  KC_LSFT,  KC_ENT,  TD(PROB_REG),TD(RU_AN),KC_LOCK, KC_HOME, KC_END  \
 ),
 /* сервисная.
  * ,-----------------------------------------------------------------------------------.
@@ -84,31 +92,43 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
   KC_MS_L,  KC_MS_D,  KC_MS_R,  TD(PER_LAY),KC_SPC,  KC_LSFT, KC_ENT, TD(PROB_REG),KC_NLCK,KC_BSLS, KC_P0,   KC_PDOT \
 )
 }; //beta.docs.qmk.fm/using-qmk/advanced-keycodes/keycodes_us_ansi_shifted
-
-const uint16_t PROGMEM ZAP_combo[] = {KC_A, KC_O, COMBO_END};
-const uint16_t PROGMEM TOCH_combo[] = {KC_N, KC_L, COMBO_END};
-const uint16_t PROGMEM REG1_combo[] = {KC_A, KC_U, COMBO_END};
-const uint16_t PROGMEM REG2_combo[] = {KC_N, KC_W, COMBO_END}; // задаем сочитание клавиш для комбо
+// задаем сочитание клавиш для комбо
+const uint16_t PROGMEM ZAP_combo[] = {KC_E, KC_O, COMBO_END}; // 1 запятая
+const uint16_t PROGMEM TOCH_combo[] = {KC_N, KC_L, COMBO_END}; // 2 точка
+const uint16_t PROGMEM REG1_combo[] = {KC_E, KC_U, COMBO_END}; // 3 РЕГ
+const uint16_t PROGMEM REG2_combo[] = {KC_N, KC_W, COMBO_END}; // 4 РЕГ
+const uint16_t PROGMEM VVOD1_combo[] = {KC_A, KC_E, COMBO_END}; // 3 РЕГ
+const uint16_t PROGMEM VVOD2_combo[] = {KC_N, KC_T, COMBO_END}; // 4 РЕГ
+const uint16_t PROGMEM VSH_combo[] = {KC_I, KC_O, COMBO_END}; // 3 РЕГ
+const uint16_t PROGMEM UDL_combo[] = {KC_L, KC_R, COMBO_END}; // 4 РЕГ
+const uint16_t PROGMEM NACH_combo[] = {KC_I, KC_N, COMBO_END}; // 3 РЕГ
+const uint16_t PROGMEM KON_combo[] = {KC_E, KC_R, COMBO_END}; // 4 РЕГ
 
 combo_t key_combos[COMBO_COUNT] = {
-  [AO_ZAP] = COMBO_ACTION(ZAP_combo),
-  [NL_TOCH] = COMBO_ACTION(paste_combo),
-  [AU_REG] = COMBO(REG1_combo, KC_LSFT),
-  [NW_REG] = COMBO(REG2_combo, KC_RSFT),
+  [EO_ZAP] = COMBO_ACTION(ZAP_combo), // запятая
+  [NL_TOCH] = COMBO_ACTION(paste_combo),// точка
+  [EU_REG] = COMBO(REG1_combo, KC_LSFT),// РЕГ
+  [NW_REG] = COMBO(REG2_combo, KC_RSFT),// РЕГ
+  [AE_VVOD] = COMBO(VVOD1_combo, KC_ENT),// РЕГ
+  [NT_VVOD] = COMBO(VVOD2_combo, KC_ENT),// РЕГ
+  [IO_VSH] = COMBO(VSH_combo, KC_BSPC),// РЕГ
+  [LR_UDL] = COMBO(UDL_combo, KC_DEL),// РЕГ
+  [IN_NACH] = COMBO(NACH_combo, KC_HOME),// РЕГ
+  [ER_KON] = COMBO(KON_combo, KC_END),// РЕГ
 };
 
 void process_combo_event(uint16_t combo_index, bool pressed) {
   switch(combo_index) {
-    case AO_ZAP:
+    case EO_ZAP: // запятая
       if (pressed) {
         tap_code16(KC_3);
-		tap_code16(KC_SPC);
+	tap_code16(KC_SPC);
       }
       break;
-    case NL_TOCH:
+    case NL_TOCH: // точка
       if (pressed) {
         tap_code16(KC_8);
-		tap_code16(KC_SPC);
+	tap_code16(KC_SPC);
       }
       break;
   }
