@@ -27,7 +27,12 @@ enum {
 };
 
 enum combos {
-  WD_ENT
+   AU_REG,
+   NW_REG,
+};
+enum combo_events {
+   AO_ZAP,
+   NL_TOCH,
 };
 
 uint8_t cur_dance(qk_tap_dance_state_t *state); // общая функция нажатий
@@ -80,11 +85,34 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
 )
 }; //beta.docs.qmk.fm/using-qmk/advanced-keycodes/keycodes_us_ansi_shifted
 
-const uint16_t PROGMEM wd_combo[] = {KC_W, KC_D, COMBO_END}; // задаем сочитание клавиш для комбо
+const uint16_t PROGMEM ZAP_combo[] = {KC_A, KC_O, COMBO_END};
+const uint16_t PROGMEM TOCH_combo[] = {KC_N, KC_L, COMBO_END};
+const uint16_t PROGMEM REG1_combo[] = {KC_A, KC_U, COMBO_END};
+const uint16_t PROGMEM REG2_combo[] = {KC_N, KC_W, COMBO_END}; // задаем сочитание клавиш для комбо
 
 combo_t key_combos[COMBO_COUNT] = {
-  [WD_ENT] = COMBO(wd_combo, KC_ENT) // определяем действие для комбо
+  [AO_ZAP] = COMBO_ACTION(ZAP_combo),
+  [NL_TOCH] = COMBO_ACTION(paste_combo),
+  [AU_REG] = COMBO(REG1_combo, KC_LSFT),
+  [NW_REG] = COMBO(REG2_combo, KC_RSFT),
 };
+
+void process_combo_event(uint16_t combo_index, bool pressed) {
+  switch(combo_index) {
+    case AO_ZAP:
+      if (pressed) {
+        tap_code16(KC_3);
+		tap_code16(KC_SPC);
+      }
+      break;
+    case NL_TOCH:
+      if (pressed) {
+        tap_code16(KC_8);
+		tap_code16(KC_SPC);
+      }
+      break;
+  }
+}
 
 uint8_t cur_dance(qk_tap_dance_state_t *state) { // определение состояния двойного нажатия
     if (state->count == 1) { //если нажата один раз
