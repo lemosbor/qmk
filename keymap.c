@@ -29,8 +29,6 @@ enum {
 enum combos {
     EU_REG, // РЕГ
     NW_REG, // РЕГ
-    AE_VVOD,
-    NT_VVOD,
     IO_VSH,
     LR_UDL,
     IN_NACH,
@@ -42,17 +40,21 @@ enum combos {
     IU_TAB,
     QD_VIH,
     QE_UPR,
-    ND_UPR,   
+    ND_UPR
 };
 enum combo_events {
     EO_ZAP, // запятая
     NL_TOCH,// точка
-    IAO_VZAT,
     IAOE_VSE,
     AU_KOP,
     WT_KOP,
     QO_VST,
     LD_VST,
+    OZ_OTM,
+    AE_VVOD,
+    NT_VVOD,
+    AO_PROB,
+    LT_PROB
 };
 
 uint8_t cur_dance(qk_tap_dance_state_t *state); // общая функция нажатий
@@ -105,100 +107,128 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
 )
 }; //beta.docs.qmk.fm/using-qmk/advanced-keycodes/keycodes_us_ansi_shifted
 // задаем сочитание клавиш для комбо
-const uint16_t PROGMEM ZAP_combo[] = {KC_E, KC_O, COMBO_END}; // 1 запятая
+
+const uint16_t PROGMEM ZAP_combo[] = {KC_E, KC_O, COMBO_END}; // 1 запятаяlt
 const uint16_t PROGMEM TOCH_combo[] = {KC_N, KC_L, COMBO_END}; // 2 точка
-const uint16_t PROGMEM REG1_combo[] = {KC_E, KC_U, COMBO_END}; // 3 РЕГ
-const uint16_t PROGMEM REG2_combo[] = {KC_N, KC_W, COMBO_END}; // 4 РЕГ
-const uint16_t PROGMEM VVOD1_combo[] = {KC_A, KC_E, COMBO_END}; // 5 РЕГ
-const uint16_t PROGMEM VVOD2_combo[] = {KC_N, KC_T, COMBO_END}; // 6 РЕГ
+const uint16_t PROGMEM REG1_combo[] = {KC_E, KC_U, COMBO_END}; // 3 РЕГaenteanteantioiolrlr
+const uint16_t PROGMEM REG2_combo[] = {KC_N, KC_W, COMBO_END}; // 4 РЕГao
 const uint16_t PROGMEM VSH_combo[] = {KC_I, KC_O, COMBO_END}; // 7 РЕГ
-const uint16_t PROGMEM UDL_combo[] = {KC_L, KC_R, COMBO_END}; // 8 РЕГ
+const uint16_t PROGMEM UDL_combo[] = {KC_L, KC_R, COMBO_END}; // 8 РЕГrllrlriooiiooi
+
+const uint16_t PROGMEM VVOD1_combo[] = {KC_A, KC_E, COMBO_END}; // 5 РЕГ
+const uint16_t PROGMEM VVOD2_combo[] = {KC_N, KC_T, COMBO_END}; // 6 РЕГ, . euleulnwoao
+const uint16_t PROGMEM PROB1_combo[] = {KC_A, KC_O, COMBO_END}; // 1 запятая, kn. eoueeuluellwnoea. tnnttnnt, 
+const uint16_t PROGMEM PROB2_combo[] = {KC_L, KC_T, COMBO_END}; // 2 точкаaoaoeueuwnownnwo. 
+
 const uint16_t PROGMEM NACH_combo[] = {KC_I, KC_N, COMBO_END}; // 9 РЕГ
 const uint16_t PROGMEM KON_combo[] = {KC_E, KC_R, COMBO_END}; // 10 РЕГ
 const uint16_t PROGMEM LEV_combo[] = {KC_I, KC_A, COMBO_END}; // 11 РЕГ
 const uint16_t PROGMEM PRAV_combo[] = {KC_T, KC_R, COMBO_END}; // 12 РЕГ
 const uint16_t PROGMEM VERH_combo[] = {KC_W, KC_D, COMBO_END}; // 13 запятая
-const uint16_t PROGMEM VNIZ_combo[] = {KC_L, KC_T, COMBO_END}; // 14 точка
-const uint16_t PROGMEM TAB_combo[] = {KC_I, KC_U, COMBO_END}; // 15 РЕГ
+const uint16_t PROGMEM VNIZ_combo[] = {KC_B, KC_H, COMBO_END}; // 14 точка
+const uint16_t PROGMEM TAB_combo[] = {KC_I, KC_U, COMBO_END}; // 15 РЕ,Г
 const uint16_t PROGMEM VIH_combo[] = {KC_Q, KC_D, COMBO_END}; // 16 РЕГ
-const uint16_t PROGMEM UPR1_combo[] = {KC_Q, KC_E, COMBO_END}; // 17 РЕГ
-const uint16_t PROGMEM UPR2_combo[] = {KC_N, KC_D, COMBO_END}; // 18 РЕГ
-const uint16_t PROGMEM VZAT_combo[] = {KC_I, KC_A, KC_O, COMBO_END}; // 19 РЕГ
-const uint16_t PROGMEM VSE_combo[] = {KC_I, KC_A, KC_O, KC_E, COMBO_END}; // 20 РЕГ
+const uint16_t PROGMEM UPR1_combo[] = {KC_Q, KC_E, COMBO_END}; // 17 РЕГ, , , ,РЕГCOMBO_END
+const uint16_t PROGMEM UPR2_combo[] = {KC_N, KC_D, COMBO_END}; // 18 РЕГCOMBO_END
 const uint16_t PROGMEM KOP1_combo[] = {KC_A, KC_U, COMBO_END}; // 21 РЕГ
 const uint16_t PROGMEM KOP2_combo[] = {KC_W, KC_T, COMBO_END}; // 22 РЕГ
 const uint16_t PROGMEM VST1_combo[] = {KC_Q, KC_O, COMBO_END}; // 23 РЕГ
-const uint16_t PROGMEM VST2_combo[] = {KC_L, KC_D, COMBO_END}; // 24 РЕГ
+const uint16_t PROGMEM VST2_combo[] = {KC_L, KC_D, COMBO_END}; // 24 РЕ
+const uint16_t PROGMEM OTM_combo[] = {KC_O, KC_Z, COMBO_END}; // 24 РЕГ
 
 combo_t key_combos[COMBO_COUNT] = {
-  [EO_ZAP] = COMBO_ACTION(ZAP_combo), // запятая
-  [NL_TOCH] = COMBO_ACTION(paste_combo),// точка
-  [EU_REG] = COMBO(REG1_combo, KC_LSFT),// РЕГ
-  [NW_REG] = COMBO(REG2_combo, KC_RSFT),// РЕГ
-  [AE_VVOD] = COMBO(VVOD1_combo, KC_ENT),// РЕГ
-  [NT_VVOD] = COMBO(VVOD2_combo, KC_ENT),// РЕГ
-  [IO_VSH] = COMBO(VSH_combo, KC_BSPC),// РЕГ
-  [LR_UDL] = COMBO(UDL_combo, KC_DEL),// РЕГ
-  [IN_NACH] = COMBO(NACH_combo, KC_HOME),// РЕГ
-  [ER_KON] = COMBO(KON_combo, KC_END),// РЕ
-  [IA_LEV] = COMBO(LEV_combo, KC_LEFT),// РЕГ
-  [TR_PRAV] = COMBO(PRAV_combo, KC_RGHT),// РЕГ	
-  [WD_VERH] = COMBO(VERH_combo, KC_UP), // запятая
-  [LT_VNIZ] = COMBO(VNIZ_combo, KC_DOWN),// точка
-  [IU_TAB] = COMBO(TAB_combo, KC_TAB),// РЕГ
-  [QD_VIH] = COMBO(VIH_combo, KC_ESC),// РЕГ
-  [QE_UPR] = COMBO(UPR1_combo, KC_LCTL),// РЕГ
-  [ND_UPR] = COMBO(UPR2_combo, KC_RCTL),// РЕГ
-  [IAO_VZAT] = COMBO_ACTION(VZAT_combo, KC_BSPC),// РЕГ
-  [IAOE_VSE] = COMBO_ACTION(VSE_combo, KC_DEL),// РЕГ
-  [AU_KOP] = COMBO_ACTION(KOP1_combo, KC_HOME),// РЕГ
-  [WT_KOP] = COMBO_ACTION(KOP2_combo, KC_END),// РЕ
-  [QO_VST] = COMBO_ACTION(VST1_combo, KC_LEFT),// РЕГ
-  [LD_VST] = COMBO_ACTION(VST2_combo, KC_RGHT),// РЕГ
+  [EU_REG] = COMBO(REG1_combo, KC_LSFT), 
+  [NW_REG] = COMBO(REG2_combo, KC_RSFT),
+  [AE_VVOD] = COMBO_ACTION(VVOD1_combo),
+  [NT_VVOD] = COMBO_ACTION(VVOD2_combo),
+  [IO_VSH] = COMBO(VSH_combo, KC_BSPC),
+  [LR_UDL] = COMBO(UDL_combo, KC_DEL),
+  [IN_NACH] = COMBO(NACH_combo, KC_HOME),
+  [ER_KON] = COMBO(KON_combo, KC_END),
+  [IA_LEV] = COMBO(LEV_combo, KC_LEFT),
+  [TR_PRAV] = COMBO(PRAV_combo, KC_RGHT),
+  [WD_VERH] = COMBO(VERH_combo, KC_UP),
+  [LT_VNIZ] = COMBO(VNIZ_combo, KC_DOWN),
+  [AO_PROB] = COMBO_ACTION(PROB1_combo),
+  [LT_PROB] = COMBO_ACTION(PROB2_combo),
+  [IU_TAB] = COMBO(TAB_combo, KC_TAB),
+  [QD_VIH] = COMBO(VIH_combo, KC_ESC),
+  [QE_UPR] = COMBO(UPR1_combo, KC_LCTL),
+  [ND_UPR] = COMBO(UPR2_combo, KC_RCTL),
+  [EO_ZAP] = COMBO_ACTION(ZAP_combo),
+  [NL_TOCH] = COMBO_ACTION(TOCH_combo),
+  [AU_KOP] = COMBO_ACTION(KOP1_combo),
+  [WT_KOP] = COMBO_ACTION(KOP2_combo),
+  [QO_VST] = COMBO_ACTION(VST1_combo),
+  [LD_VST] = COMBO_ACTION(VST2_combo),
+  [OZ_OTM] = COMBO_ACTION(OTM_combo)
 };
 
 void process_combo_event(uint16_t combo_index, bool pressed) {
   switch(combo_index) {
     case EO_ZAP: // запятая
       if (pressed) {
-        tap_code16(KC_3);
-	tap_code16(KC_SPC);
+        register_code(KC_3);
+        unregister_code(KC_3);
+        register_code(KC_SPC);
+        unregister_code(KC_SPC);
       }
       break;
     case NL_TOCH: // точка
       if (pressed) {
-        tap_code16(KC_8);
-	tap_code16(KC_SPC);
+        register_code(KC_8);
+        unregister_code(KC_8);
+        register_code(KC_SPC);
+        unregister_code(KC_SPC);
       }
       break;
-    case IAO_VZAT: // точка
+    case OZ_OTM: // точка
       if (pressed) {
-        tap_code16(LSFT(KC_LEFT));
-      }
-      break;
-    case IAOE_VSE: // точка
-      if (pressed) {
-        tap_code16(LCTL(KC_A));
+        tap_code16(LCTL(KC_Z));
       }
       break;
     case AU_KOP: // точка
       if (pressed) {
-        tap_code16(LCTL(KC_C));
+        tap_code16(LCTL(KC_INS));
       }
       break;
     case WT_KOP: // точка
       if (pressed) {
-        tap_code16(LCTL(KC_C));
+        tap_code16(LCTL(KC_INS));
       }
       break;
     case QO_VST: // точка
       if (pressed) {
-        tap_code16(LCTL(KC_V));
+        tap_code16(LSFT(KC_INS));
       }
       break;
     case LD_VST: // точка
       if (pressed) {
-        tap_code16(LCTL(KC_V));
+        tap_code16(LSFT(KC_INS));
+      }
+      break;
+    case AE_VVOD: // точка
+      if (pressed) {
+        register_code(KC_ENT);
+        unregister_code(KC_ENT);
+      }
+      break;
+    case NT_VVOD: // точка
+      if (pressed) {
+        register_code(KC_ENT);
+        unregister_code(KC_ENT);
+      }
+      break;
+    case AO_PROB: // точка
+      if (pressed) {
+        register_code(KC_SPC);
+        unregister_code(KC_SPC);
+      }
+      break;
+    case LT_PROB: // точка
+      if (pressed) {
+        register_code(KC_SPC);
+        unregister_code(KC_SPC);
       }
       break;
   }
