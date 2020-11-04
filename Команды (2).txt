@@ -3,11 +3,16 @@ pacman -S python3
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 python get-pip.py
 python3 -m pip install qmk
-
 qmk compile -kb preonic/rev3 -km default
-
 qmk compile -kb preonic/rev3 -km pri
 
+запустить 
+mingw64.exe
+pacman --needed --noconfirm --disable-download-timeout -S git mingw-w64-x86_64-toolchain mingw-w64-x86_64-python3-pip
+python3 -m pip install qmk
+установочный файл должен быть в папке ‪C:\msys64\mingw64\bin\qmk.exe, а не ‪C:\Users\Илья\.local\bin\qmk.exe
+qmk setup
+qmk compile -kb keyboards/preonic/rev3 -km default
 
 Установка слоя 0 как основного:
 void matrix_init_user(void) {
