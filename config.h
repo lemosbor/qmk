@@ -26,6 +26,8 @@
 
 #define TAPPING_TERM 200 // задержка для клавиш двойного назначения
 
+// #define IGNORE_MOD_TAP_INTERRUPT
+// #define PERMISSIVE_HOLD
 #define COMBO_TERM 25 // задержка для комбо
 #define COMBO_COUNT 25 // количество спец. комбинаций с клавишами
 
