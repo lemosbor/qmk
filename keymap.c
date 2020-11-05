@@ -26,7 +26,7 @@ enum {
     PROB_REG // пробел / регистр
 };
 
-enum combos {
+enum combo_events {
     EU_REG, // РЕГ
     NW_REG, // РЕГ
     IO_VSH,
@@ -40,12 +40,9 @@ enum combos {
     IU_TAB,
     QD_VIH,
     QE_UPR,
-    ND_UPR
-};
-enum combo_events {
+    ND_UPR,
     EO_ZAP, // запятая
     NL_TOCH,// точка
-    IAOE_VSE,
     AU_KOP,
     WT_KOP,
     QO_VST,
@@ -54,7 +51,7 @@ enum combo_events {
     AE_VVOD,
     NT_VVOD,
     AO_PROB,
-    LT_PROB
+    LT_PROB,
 };
 
 uint8_t cur_dance(qk_tap_dance_state_t *state); // общая функция нажатий
@@ -114,12 +111,10 @@ const uint16_t PROGMEM REG1_combo[] = {KC_E, KC_U, COMBO_END}; // 3 РЕГaentea
 const uint16_t PROGMEM REG2_combo[] = {KC_N, KC_W, COMBO_END}; // 4 РЕГao
 const uint16_t PROGMEM VSH_combo[] = {KC_I, KC_O, COMBO_END}; // 7 РЕГ
 const uint16_t PROGMEM UDL_combo[] = {KC_L, KC_R, COMBO_END}; // 8 РЕГrllrlriooiiooi
-
 const uint16_t PROGMEM VVOD1_combo[] = {KC_A, KC_E, COMBO_END}; // 5 РЕГ
 const uint16_t PROGMEM VVOD2_combo[] = {KC_N, KC_T, COMBO_END}; // 6 РЕГ, . euleulnwoao
 const uint16_t PROGMEM PROB1_combo[] = {KC_A, KC_O, COMBO_END}; // 1 запятая, kn. eoueeuluellwnoea. tnnttnnt, 
 const uint16_t PROGMEM PROB2_combo[] = {KC_L, KC_T, COMBO_END}; // 2 точкаaoaoeueuwnownnwo. 
-
 const uint16_t PROGMEM NACH_combo[] = {KC_I, KC_N, COMBO_END}; // 9 РЕГ
 const uint16_t PROGMEM KON_combo[] = {KC_E, KC_R, COMBO_END}; // 10 РЕГ
 const uint16_t PROGMEM LEV_combo[] = {KC_I, KC_A, COMBO_END}; // 11 РЕГ
@@ -161,7 +156,7 @@ combo_t key_combos[COMBO_COUNT] = {
   [WT_KOP] = COMBO_ACTION(KOP2_combo),
   [QO_VST] = COMBO_ACTION(VST1_combo),
   [LD_VST] = COMBO_ACTION(VST2_combo),
-  [OZ_OTM] = COMBO_ACTION(OTM_combo)
+  [OZ_OTM] = COMBO_ACTION(OTM_combo),
 };
 
 void process_combo_event(uint16_t combo_index, bool pressed) {
