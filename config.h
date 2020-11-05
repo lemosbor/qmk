@@ -26,8 +26,8 @@
 
 #define TAPPING_TERM 200 // задержка для клавиш двойного назначения
 
-#define COMBO_TERM 25
-#define COMBO_COUNT 26 // количество спец. комбинаций с клавишами
+#define COMBO_TERM 25 // задержка для комбо
+#define COMBO_COUNT 25 // количество спец. комбинаций с клавишами
 
 //#define AUTO_SHIFT_MODIFIERS // автоматический шифт
 //#define AUTO_SHIFT_TIMEOUT 150 // время необходимого удержания для авто-шифта
