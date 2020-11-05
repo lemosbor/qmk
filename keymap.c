@@ -131,7 +131,7 @@ const uint16_t PROGMEM VST1_combo[] = {KC_Q, KC_O, COMBO_END}; // 23 РЕГ
 const uint16_t PROGMEM VST2_combo[] = {KC_L, KC_D, COMBO_END}; // 24 РЕ
 const uint16_t PROGMEM OTM_combo[] = {KC_O, KC_Z, COMBO_END}; // 24 РЕГ
 
-combo_t key_combos[COMBO_COUNT] = {
+combo_t key_combos[COMBO_COUNT] = { //попробовать не писать для обычных комбинаций [EU_REG] = , а просто COMBO(REG1_combo, KC_LSFT), )
   [EU_REG] = COMBO(REG1_combo, KC_LSFT), 
   [NW_REG] = COMBO(REG2_combo, KC_RSFT),
   [AE_VVOD] = COMBO_ACTION(VVOD1_combo),
