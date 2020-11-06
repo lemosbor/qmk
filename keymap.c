@@ -25,14 +25,15 @@ enum {
     RU_AN, // кнопка Р/А
 };
 
-enum combo_events {
-    EO_ZAP, // запятая
-    NL_TOCH,// точка
-    AU_KOP,
-    WT_KOP,
-    QO_VST,
-    LD_VST,
-    OZ_OTM,
+enum combo_events { // обозначение комбо-команд
+    comb_ZAP,
+    comb_TOCH,
+    comb_KOP1,
+    comb_KOP2,
+    comb_VST1,
+    comb_VST2,
+    comb_OTM,
+    comb_VYR,
 };
 
 uint8_t cur_dance(qk_tap_dance_state_t *state); // общая функция нажатий
@@ -85,38 +86,37 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
 )
 }; 
 // задаем сочитание клавиш (комбо). Прописать их количество в файле config
-const uint16_t PROGMEM ZAP_combo[] = {KC_E, KC_O, COMBO_END}; // запятая
-const uint16_t PROGMEM TOCH_combo[] = {KC_N, KC_L, COMBO_END}; // точка
+const uint16_t PROGMEM ZAP_combo[] = {KC_O, KC_L, COMBO_END}; // запятая
+const uint16_t PROGMEM TOCH_combo[] = {KC_E, KC_N, COMBO_END}; // точка
 const uint16_t PROGMEM REG1_combo[] = {KC_E, KC_U, COMBO_END}; // РЕГ
 const uint16_t PROGMEM REG2_combo[] = {KC_N, KC_W, COMBO_END}; // РЕГ
-const uint16_t PROGMEM VSH_combo[] = {KC_I, KC_O, COMBO_END}; // ВШ
-const uint16_t PROGMEM UDL_combo[] = {KC_L, KC_R, COMBO_END}; // УД
-const uint16_t PROGMEM VVOD1_combo[] = {KC_A, KC_E, COMBO_END}; // ВВОД
-const uint16_t PROGMEM VVOD2_combo[] = {KC_N, KC_T, COMBO_END}; // ВВОД
+const uint16_t PROGMEM VSH_combo[] = {KC_I, KC_A, COMBO_END}; // ВШ
+const uint16_t PROGMEM UDL_combo[] = {KC_Z, KC_F, COMBO_END}; // УД
+const uint16_t PROGMEM VVOD_combo[] = {KC_O, KC_E, COMBO_END}; // ВВОД
 const uint16_t PROGMEM PROB1_combo[] = {KC_A, KC_O, COMBO_END}; // пробел
 const uint16_t PROGMEM PROB2_combo[] = {KC_L, KC_T, COMBO_END}; // пробел
 const uint16_t PROGMEM NACH_combo[] = {KC_I, KC_N, COMBO_END}; // НАЧ
 const uint16_t PROGMEM KON_combo[] = {KC_E, KC_R, COMBO_END}; // КОН
-const uint16_t PROGMEM LEV_combo[] = {KC_I, KC_A, COMBO_END}; // ←
+const uint16_t PROGMEM LEV_combo[] = {KC_N, KC_L, COMBO_END}; // ←
 const uint16_t PROGMEM PRAV_combo[] = {KC_T, KC_R, COMBO_END}; // →
 const uint16_t PROGMEM VERH_combo[] = {KC_W, KC_D, COMBO_END}; // ↑
 const uint16_t PROGMEM VNIZ_combo[] = {KC_B, KC_H, COMBO_END}; // ↓
-const uint16_t PROGMEM TAB_combo[] = {KC_I, KC_U, COMBO_END}; // ТАБ
-const uint16_t PROGMEM VIH_combo[] = {KC_Q, KC_D, COMBO_END}; // ВЫХ
-const uint16_t PROGMEM UPR1_combo[] = {KC_Q, KC_E, COMBO_END}; // УПР
-const uint16_t PROGMEM UPR2_combo[] = {KC_N, KC_D, COMBO_END}; // УПР
+const uint16_t PROGMEM TAB_combo[] = {KC_I, KC_E, COMBO_END}; // ТАБ
+const uint16_t PROGMEM VIH_combo[] = {KC_N, KC_R, COMBO_END}; // ВЫХ
+const uint16_t PROGMEM UPR1_combo[] = {KC_O, KC_Z, COMBO_END}; // УПР
+const uint16_t PROGMEM UPR2_combo[] = {KC_L, KC_G, COMBO_END}; // УПР
 const uint16_t PROGMEM KOP1_combo[] = {KC_A, KC_U, COMBO_END}; // скопировать
 const uint16_t PROGMEM KOP2_combo[] = {KC_W, KC_T, COMBO_END}; // скопировать
 const uint16_t PROGMEM VST1_combo[] = {KC_Q, KC_O, COMBO_END}; // вставить
 const uint16_t PROGMEM VST2_combo[] = {KC_L, KC_D, COMBO_END}; // вставить
-const uint16_t PROGMEM OTM_combo[] = {KC_O, KC_Z, COMBO_END}; // отмена
+const uint16_t PROGMEM OTM_combo[] = {KC_X, KC_Q, COMBO_END}; // отмена
+const uint16_t PROGMEM VYR_combo[] = {KC_O, KC_Z, KC_F, COMBO_END}; // вырезать
 
 //связываем комбо с функциональными клавишами и действиями
 combo_t key_combos[COMBO_COUNT] = { 
   COMBO(REG1_combo, KC_LSFT), 
   COMBO(REG2_combo, KC_RSFT),
-  COMBO(VVOD1_combo, KC_ENT),
-  COMBO(VVOD2_combo, KC_ENT),
+  COMBO(VVOD_combo, KC_ENT),
   COMBO(VSH_combo, KC_BSPC),
   COMBO(UDL_combo, KC_DEL),
   COMBO(NACH_combo, KC_HOME),
@@ -131,19 +131,20 @@ combo_t key_combos[COMBO_COUNT] = {
   COMBO(VIH_combo, KC_ESC),
   COMBO(UPR1_combo, KC_LCTL),
   COMBO(UPR2_combo, KC_RCTL),
-  [EO_ZAP] = COMBO_ACTION(ZAP_combo),
-  [NL_TOCH] = COMBO_ACTION(TOCH_combo),
-  [AU_KOP] = COMBO_ACTION(KOP1_combo),
-  [WT_KOP] = COMBO_ACTION(KOP2_combo),
-  [QO_VST] = COMBO_ACTION(VST1_combo),
-  [LD_VST] = COMBO_ACTION(VST2_combo),
-  [OZ_OTM] = COMBO_ACTION(OTM_combo),
+  [comb_ZAP] = COMBO_ACTION(ZAP_combo),
+  [comb_TOCH] = COMBO_ACTION(TOCH_combo),
+  [comb_KOP1] = COMBO_ACTION(KOP1_combo),
+  [comb_KOP2] = COMBO_ACTION(KOP2_combo),
+  [comb_VST1] = COMBO_ACTION(VST1_combo),
+  [comb_VST2] = COMBO_ACTION(VST2_combo),
+  [comb_OTM] = COMBO_ACTION(OTM_combo),
+  [comb_VYR] = COMBO_ACTION(VYR_combo),
 };
 
 // действия для комбо
 void process_combo_event(uint16_t combo_index, bool pressed) { 
   switch(combo_index) {
-    case EO_ZAP: // запятая
+    case comb_ZAP: // запятая
       if (pressed) {
         register_code(KC_3);
         unregister_code(KC_3);
@@ -151,7 +152,7 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         unregister_code(KC_SPC);
       }
       break;
-    case NL_TOCH: // точка
+    case comb_TOCH: // точка
       if (pressed) {
         register_code(KC_8);
         unregister_code(KC_8);
@@ -159,27 +160,32 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         unregister_code(KC_SPC);
       }
       break;
-    case OZ_OTM: // отмена
+    case comb_OTM: // отмена
       if (pressed) {
         tap_code16(LCTL(KC_Z));
       }
       break;
-    case AU_KOP: // скопировать
+    case comb_VYR: // вырезать
+      if (pressed) {
+        tap_code16(LCTL(KC_X));
+      }
+      break;
+    case comb_KOP1: // скопировать
       if (pressed) {
         tap_code16(LCTL(KC_INS));
       }
       break;
-    case WT_KOP: // скопировать
+    case comb_KOP2: // скопировать
       if (pressed) {
         tap_code16(LCTL(KC_INS));
       }
       break;
-    case QO_VST: // вставить
+    case comb_VST1: // вставить
       if (pressed) {
         tap_code16(LSFT(KC_INS));
       }
       break;
-    case LD_VST: // вставить
+    case comb_VST2: // вставить
       if (pressed) {
         tap_code16(LSFT(KC_INS));
       }
