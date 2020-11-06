@@ -50,7 +50,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
  * |------+------+------+------+------+------|------+------+------+------+------+------|
  * |   "  |   /  |   .  |   V  |   Y  |  ВШ  |   C  |   P  |   M  |   B  |   H  |   ;  |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Окно | ДОП  |  УПР |  Б/Ц |пробел|  РЕГ | ВВОД |пробел|  Р/А | БЛОК |  НАЧ | КОН  |
+ * | УПР  |Окно  | ДОП  |  Б/Ц |пробел|  РЕГ | ВВОД |пробел|  Р/А | БЛОК |  НАЧ | КОН  |
  * `-----------------------------------------------------------------------------------'
 ъ	ы	у	з	ф	щ	й	г	в	д	ч
 и	а	о	е	с	ш	к	н	л	т	р
@@ -61,7 +61,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
   KC_X,    KC_Q,     KC_U,   KC_Z,        KC_F,    TD(TABB), KC_RBRC, KC_J,   KC_G,     KC_W,     KC_D,    KC_COMM,  \
   KC_I,    KC_A,     KC_O,   KC_E,        KC_S,    TD(VYH),  KC_LBRC, KC_K,   KC_N,     KC_L,     KC_T,    KC_R, \
   KC_QUOT, KC_SLSH,  KC_DOT, KC_V,        KC_Y,    KC_BSPC,  KC_C,    KC_P,   KC_M,     KC_B,     KC_H,    KC_SCLN, \
-  TD(WEMO), KC_RALT, KC_LCTL,TD(PER_LAY), KC_SPC,  KC_LSFT,  KC_ENT,  KC_SPC, TD(RU_AN),KC_LOCK,  KC_HOME, KC_END  \
+  KC_LCTL, TD(WEMO), KC_RALT, TD(PER_LAY), KC_SPC,  KC_LSFT,  KC_ENT,  KC_SPC, TD(RU_AN),KC_LOCK,  KC_HOME, KC_END  \
 ),
 /* сервисная.
  * ,-----------------------------------------------------------------------------------.
