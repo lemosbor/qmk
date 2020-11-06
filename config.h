@@ -25,6 +25,7 @@
 #define NO_DEBUG // отключить отладку для экономии кода
 
 #define TAPPING_TERM 200 // задержка для клавиш двойного назначения
+#define PERMISSIVE_HOLD // стабилизация задержек
 
 // #define IGNORE_MOD_TAP_INTERRUPT
 // #define PERMISSIVE_HOLD
