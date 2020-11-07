@@ -26,6 +26,23 @@ enum {
 };
 
 enum combo_events { // обозначение комбо-команд
+    comb_REG1,
+    comb_REG2,
+    comb_VVOD,
+    comb_VSH,
+    comb_UDL,
+    comb_NACH,
+    comb_KON,
+    comb_LEV,
+    comb_PRAV,
+    comb_VERH,
+    comb_VNIZ,
+    comb_PROB1,
+    comb_PROB2,
+    comb_TAB,
+    comb_VIH,
+    comb_UPR1,
+    comb_UPR2,
     comb_ZAP,
     comb_TOCH,
     comb_KOP1,
@@ -86,12 +103,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
 )
 }; 
 // задаем сочитание клавиш (комбо). Прописать их количество в файле config
+const uint16_t PROGMEM VYR_combo[] = {KC_A, KC_U, KC_Z, COMBO_END}; // вырезать
 const uint16_t PROGMEM ZAP_combo[] = {KC_O, KC_L, COMBO_END}; // запятая
 const uint16_t PROGMEM TOCH_combo[] = {KC_E, KC_N, COMBO_END}; // точка
 const uint16_t PROGMEM REG1_combo[] = {KC_E, KC_U, COMBO_END}; // РЕГ
 const uint16_t PROGMEM REG2_combo[] = {KC_N, KC_W, COMBO_END}; // РЕГ
 const uint16_t PROGMEM VSH_combo[] = {KC_I, KC_A, COMBO_END}; // ВШ
-const uint16_t PROGMEM UDL_combo[] = {KC_Z, KC_F, COMBO_END}; // УД
+const uint16_t PROGMEM UDL_combo[] = {KC_U, KC_Z, COMBO_END}; // УД
 const uint16_t PROGMEM VVOD_combo[] = {KC_O, KC_E, COMBO_END}; // ВВОД
 const uint16_t PROGMEM PROB1_combo[] = {KC_A, KC_O, COMBO_END}; // пробел
 const uint16_t PROGMEM PROB2_combo[] = {KC_L, KC_T, COMBO_END}; // пробел
@@ -103,34 +121,35 @@ const uint16_t PROGMEM VERH_combo[] = {KC_W, KC_D, COMBO_END}; // ↑
 const uint16_t PROGMEM VNIZ_combo[] = {KC_B, KC_H, COMBO_END}; // ↓
 const uint16_t PROGMEM TAB_combo[] = {KC_I, KC_E, COMBO_END}; // ТАБ
 const uint16_t PROGMEM VIH_combo[] = {KC_N, KC_R, COMBO_END}; // ВЫХ
-const uint16_t PROGMEM UPR1_combo[] = {KC_O, KC_Z, COMBO_END}; // УПР
-const uint16_t PROGMEM UPR2_combo[] = {KC_L, KC_G, COMBO_END}; // УПР
+const uint16_t PROGMEM UPR1_combo[] = {KC_O, KC_V, COMBO_END}; // УПР
+const uint16_t PROGMEM UPR2_combo[] = {KC_L, KC_M, COMBO_END}; // УПР
 const uint16_t PROGMEM KOP1_combo[] = {KC_A, KC_U, COMBO_END}; // скопировать
 const uint16_t PROGMEM KOP2_combo[] = {KC_W, KC_T, COMBO_END}; // скопировать
 const uint16_t PROGMEM VST1_combo[] = {KC_Q, KC_O, COMBO_END}; // вставить
 const uint16_t PROGMEM VST2_combo[] = {KC_L, KC_D, COMBO_END}; // вставить
-const uint16_t PROGMEM OTM_combo[] = {KC_X, KC_Q, COMBO_END}; // отмена
-const uint16_t PROGMEM VYR_combo[] = {KC_O, KC_Z, KC_F, COMBO_END}; // вырезать
+const uint16_t PROGMEM OTM_combo[] = {KC_Q, KC_U, COMBO_END}; // отмена
+
 
 //связываем комбо с функциональными клавишами и действиями
 combo_t key_combos[COMBO_COUNT] = { 
-  COMBO(REG1_combo, KC_LSFT), 
-  COMBO(REG2_combo, KC_RSFT),
-  COMBO(VVOD_combo, KC_ENT),
-  COMBO(VSH_combo, KC_BSPC),
-  COMBO(UDL_combo, KC_DEL),
-  COMBO(NACH_combo, KC_HOME),
-  COMBO(KON_combo, KC_END),
-  COMBO(LEV_combo, KC_LEFT),
-  COMBO(PRAV_combo, KC_RGHT),
-  COMBO(VERH_combo, KC_UP),
-  COMBO(VNIZ_combo, KC_DOWN),
-  COMBO(PROB1_combo, KC_SPC),
-  COMBO(PROB2_combo, KC_SPC),
-  COMBO(TAB_combo, KC_TAB),
-  COMBO(VIH_combo, KC_ESC),
-  COMBO(UPR1_combo, KC_LCTL),
-  COMBO(UPR2_combo, KC_RCTL),
+  [comb_VYR] = COMBO_ACTION(VYR_combo),
+  [comb_REG1] = COMBO(REG1_combo, KC_LSFT), 
+  [comb_REG2] = COMBO(REG2_combo, KC_RSFT),
+  [comb_VVOD] = COMBO(VVOD_combo, KC_ENT),
+  [comb_VSH] = COMBO(VSH_combo, KC_BSPC),
+  [comb_UDL] = COMBO(UDL_combo, KC_DEL),
+  [comb_NACH] = COMBO(NACH_combo, KC_HOME),
+  [comb_KON] = COMBO(KON_combo, KC_END),
+  [comb_LEV] = COMBO(LEV_combo, KC_LEFT),
+  [comb_PRAV] = COMBO(PRAV_combo, KC_RGHT),
+  [comb_VERH] = COMBO(VERH_combo, KC_UP),
+  [comb_VNIZ] = COMBO(VNIZ_combo, KC_DOWN),
+  [comb_PROB1] = COMBO(PROB1_combo, KC_SPC),
+  [comb_PROB2] = COMBO(PROB2_combo, KC_SPC),
+  [comb_TAB] = COMBO(TAB_combo, KC_TAB),
+  [comb_VIH] = COMBO(VIH_combo, KC_ESC),
+  [comb_UPR1] = COMBO(UPR1_combo, KC_LCTL),
+  [comb_UPR2] = COMBO(UPR2_combo, KC_RCTL),
   [comb_ZAP] = COMBO_ACTION(ZAP_combo),
   [comb_TOCH] = COMBO_ACTION(TOCH_combo),
   [comb_KOP1] = COMBO_ACTION(KOP1_combo),
@@ -138,7 +157,6 @@ combo_t key_combos[COMBO_COUNT] = {
   [comb_VST1] = COMBO_ACTION(VST1_combo),
   [comb_VST2] = COMBO_ACTION(VST2_combo),
   [comb_OTM] = COMBO_ACTION(OTM_combo),
-  [comb_VYR] = COMBO_ACTION(VYR_combo),
 };
 
 // действия для комбо
