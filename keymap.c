@@ -51,6 +51,22 @@ enum combo_events { // обозначение комбо-команд
     comb_VST2,
     comb_OTM,
     comb_VYR,
+    comb_TZ,
+    comb_DT,
+    comb_DEF,
+    comb_TIRE,
+    comb_VOS,
+    comb_VOP,
+    comb_N1,
+    comb_N2,
+    comb_N3,
+    comb_N4,
+    comb_N5,
+    comb_N6,
+    comb_N7,
+    comb_N8,
+    comb_N9,
+    comb_N0,
 };
 
 uint8_t cur_dance(qk_tap_dance_state_t *state); // общая функция нажатий
@@ -103,60 +119,89 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
 )
 }; 
 // задаем сочитание клавиш (комбо). Прописать их количество в файле config
-const uint16_t PROGMEM VYR_combo[] = {KC_A, KC_U, KC_Z, COMBO_END}; // вырезать
-const uint16_t PROGMEM ZAP_combo[] = {KC_O, KC_L, COMBO_END}; // запятая
-const uint16_t PROGMEM TOCH_combo[] = {KC_E, KC_N, COMBO_END}; // точка
-const uint16_t PROGMEM REG1_combo[] = {KC_E, KC_U, COMBO_END}; // РЕГ
-const uint16_t PROGMEM REG2_combo[] = {KC_N, KC_W, COMBO_END}; // РЕГ
-const uint16_t PROGMEM VSH_combo[] = {KC_I, KC_A, COMBO_END}; // ВШ
-const uint16_t PROGMEM UDL_combo[] = {KC_U, KC_Z, COMBO_END}; // УД
-const uint16_t PROGMEM VVOD_combo[] = {KC_O, KC_E, COMBO_END}; // ВВОД
-const uint16_t PROGMEM PROB1_combo[] = {KC_A, KC_O, COMBO_END}; // пробел
-const uint16_t PROGMEM PROB2_combo[] = {KC_L, KC_T, COMBO_END}; // пробел
-const uint16_t PROGMEM NACH_combo[] = {KC_I, KC_N, COMBO_END}; // НАЧ
-const uint16_t PROGMEM KON_combo[] = {KC_E, KC_R, COMBO_END}; // КОН
-const uint16_t PROGMEM LEV_combo[] = {KC_N, KC_L, COMBO_END}; // ←
-const uint16_t PROGMEM PRAV_combo[] = {KC_T, KC_R, COMBO_END}; // →
-const uint16_t PROGMEM VERH_combo[] = {KC_W, KC_D, COMBO_END}; // ↑
-const uint16_t PROGMEM VNIZ_combo[] = {KC_B, KC_H, COMBO_END}; // ↓
-const uint16_t PROGMEM TAB_combo[] = {KC_I, KC_E, COMBO_END}; // ТАБ
-const uint16_t PROGMEM VIH_combo[] = {KC_N, KC_R, COMBO_END}; // ВЫХ
-const uint16_t PROGMEM UPR1_combo[] = {KC_O, KC_V, COMBO_END}; // УПР
-const uint16_t PROGMEM UPR2_combo[] = {KC_L, KC_M, COMBO_END}; // УПР
-const uint16_t PROGMEM KOP1_combo[] = {KC_A, KC_U, COMBO_END}; // скопировать
-const uint16_t PROGMEM KOP2_combo[] = {KC_W, KC_T, COMBO_END}; // скопировать
-const uint16_t PROGMEM VST1_combo[] = {KC_Q, KC_O, COMBO_END}; // вставить
-const uint16_t PROGMEM VST2_combo[] = {KC_L, KC_D, COMBO_END}; // вставить
-const uint16_t PROGMEM OTM_combo[] = {KC_Q, KC_U, COMBO_END}; // отмена
-
+const uint16_t PROGMEM TOCH_combo[] = {KC_O, KC_N, COMBO_END};
+const uint16_t PROGMEM ZAP_combo[] = {KC_E, KC_T, COMBO_END};
+const uint16_t PROGMEM TZ_combo[] = {KC_E, KC_N, COMBO_END};
+const uint16_t PROGMEM DT_combo[] = {KC_O, KC_T, COMBO_END};
+const uint16_t PROGMEM DEF_combo[] = {KC_A, KC_W, COMBO_END};
+const uint16_t PROGMEM TIRE_combo[] = {KC_I, KC_R, COMBO_END};
+const uint16_t PROGMEM VOS_combo[] = {KC_U, KC_L, COMBO_END};
+const uint16_t PROGMEM VOP_combo[] = {KC_V, KC_M, COMBO_END};
+const uint16_t PROGMEM REG1_combo[] = {KC_U, KC_O, COMBO_END};
+const uint16_t PROGMEM REG2_combo[] = {KC_N, KC_L, COMBO_END};
+const uint16_t PROGMEM PROB1_combo[] = {KC_A, KC_E, COMBO_END};
+const uint16_t PROGMEM PROB2_combo[] = {KC_T, KC_W, COMBO_END};
+const uint16_t PROGMEM NACH_combo[] = {KC_I, KC_N, COMBO_END};
+const uint16_t PROGMEM KON_combo[] = {KC_O, KC_R, COMBO_END};
+const uint16_t PROGMEM LEV_combo[] = {KC_N, KC_T, COMBO_END};
+const uint16_t PROGMEM PRAV_combo[] = {KC_W, KC_R, COMBO_END};
+const uint16_t PROGMEM VERH_combo[] = {KC_L, KC_M, COMBO_END};
+const uint16_t PROGMEM VNIZ_combo[] = {KC_B, KC_SCLN, COMBO_END};
+const uint16_t PROGMEM VSH_combo[] = {KC_I, KC_A, COMBO_END};
+const uint16_t PROGMEM VVOD_combo[] = {KC_E, KC_O, COMBO_END};
+const uint16_t PROGMEM UDL_combo[] = {KC_U, KC_COMM, COMBO_END};
+const uint16_t PROGMEM TAB_combo[] = {KC_I, KC_O, COMBO_END};
+const uint16_t PROGMEM VIH_combo[] = {KC_N, KC_R, COMBO_END};
+const uint16_t PROGMEM KOP1_combo[] = {KC_A, KC_U, COMBO_END};
+const uint16_t PROGMEM KOP2_combo[] = {KC_L, KC_W, COMBO_END};
+const uint16_t PROGMEM VST1_combo[] = {KC_V, KC_E, COMBO_END};
+const uint16_t PROGMEM VST2_combo[] = {KC_T, KC_M, COMBO_END};
+const uint16_t PROGMEM UPR1_combo[] = {KC_E, KC_Y, COMBO_END};
+const uint16_t PROGMEM UPR2_combo[] = {KC_D, KC_T, COMBO_END};
+const uint16_t PROGMEM OTM_combo[] = {KC_V, KC_U, COMBO_END};
+const uint16_t PROGMEM N1_combo[] = {KC_Y, KC_B, COMBO_END};
+const uint16_t PROGMEM N2_combo[] = {KC_Y, KC_SCLN, COMBO_END};
+const uint16_t PROGMEM N3_combo[] = {KC_Y, KC_Z, COMBO_END};
+const uint16_t PROGMEM N4_combo[] = {KC_Y, KC_T, COMBO_END};
+const uint16_t PROGMEM N5_combo[] = {KC_Y, KC_W, COMBO_END};
+const uint16_t PROGMEM N6_combo[] = {KC_Y, KC_R, COMBO_END};
+const uint16_t PROGMEM N7_combo[] = {KC_Y, KC_L, COMBO_END};
+const uint16_t PROGMEM N8_combo[] = {KC_Y, KC_M, COMBO_END};
+const uint16_t PROGMEM N9_combo[] = {KC_Y, KC_J, COMBO_END};
+const uint16_t PROGMEM N0_combo[] = {KC_Y, KC_HOME, COMBO_END};
 
 //связываем комбо с функциональными клавишами и действиями
 combo_t key_combos[COMBO_COUNT] = { 
-  [comb_VYR] = COMBO_ACTION(VYR_combo),
+[comb_TOCH] = COMBO_ACTION(TOCH_combo),
+[comb_ZAP] = COMBO_ACTION(ZAP_combo),
+[comb_TZ] = COMBO_ACTION(TZ_combo),
+[comb_DT] = COMBO_ACTION(DT_combo),
+[comb_DEF] = COMBO_ACTION(DEF_combo),
+[comb_TIRE] = COMBO_ACTION(TIRE_combo),
+[comb_VOS] = COMBO_ACTION(VOS_combo),
+[comb_VOP] = COMBO_ACTION(VOP_combo),
   [comb_REG1] = COMBO(REG1_combo, KC_LSFT), 
   [comb_REG2] = COMBO(REG2_combo, KC_RSFT),
-  [comb_VVOD] = COMBO(VVOD_combo, KC_ENT),
-  [comb_VSH] = COMBO(VSH_combo, KC_BSPC),
-  [comb_UDL] = COMBO(UDL_combo, KC_DEL),
+  [comb_PROB1] = COMBO(PROB1_combo, KC_SPC),
+  [comb_PROB2] = COMBO(PROB2_combo, KC_SPC),
   [comb_NACH] = COMBO(NACH_combo, KC_HOME),
   [comb_KON] = COMBO(KON_combo, KC_END),
   [comb_LEV] = COMBO(LEV_combo, KC_LEFT),
   [comb_PRAV] = COMBO(PRAV_combo, KC_RGHT),
   [comb_VERH] = COMBO(VERH_combo, KC_UP),
   [comb_VNIZ] = COMBO(VNIZ_combo, KC_DOWN),
-  [comb_PROB1] = COMBO(PROB1_combo, KC_SPC),
-  [comb_PROB2] = COMBO(PROB2_combo, KC_SPC),
+  [comb_VSH] = COMBO(VSH_combo, KC_BSPC),
+[comb_VVOD] = COMBO(VVOD_combo, KC_ENT),
+  [comb_UDL] = COMBO(UDL_combo, KC_DEL),
   [comb_TAB] = COMBO(TAB_combo, KC_TAB),
   [comb_VIH] = COMBO(VIH_combo, KC_ESC),
+[comb_KOP1] = COMBO_ACTION(KOP1_combo),
+[comb_KOP2] = COMBO_ACTION(KOP2_combo),
+[comb_VST1] = COMBO_ACTION(VST1_combo),
+[comb_VST2] = COMBO_ACTION(VST2_combo),
   [comb_UPR1] = COMBO(UPR1_combo, KC_LCTL),
   [comb_UPR2] = COMBO(UPR2_combo, KC_RCTL),
-  [comb_ZAP] = COMBO_ACTION(ZAP_combo),
-  [comb_TOCH] = COMBO_ACTION(TOCH_combo),
-  [comb_KOP1] = COMBO_ACTION(KOP1_combo),
-  [comb_KOP2] = COMBO_ACTION(KOP2_combo),
-  [comb_VST1] = COMBO_ACTION(VST1_combo),
-  [comb_VST2] = COMBO_ACTION(VST2_combo),
-  [comb_OTM] = COMBO_ACTION(OTM_combo),
+[comb_OTM] = COMBO_ACTION(OTM_combo),
+[comb_N1] = COMBO_ACTION(N1_combo),
+[comb_N2] = COMBO_ACTION(N2_combo),
+[comb_N3] = COMBO_ACTION(N3_combo),
+[comb_N4] = COMBO_ACTION(N4_combo),
+[comb_N5] = COMBO_ACTION(N5_combo),
+[comb_N6] = COMBO_ACTION(N6_combo),
+[comb_N7] = COMBO_ACTION(N7_combo),
+[comb_N8] = COMBO_ACTION(N8_combo),
+[comb_N9] = COMBO_ACTION(N9_combo),
+[comb_N0] = COMBO_ACTION(N0_combo),
 };
 
 // действия для комбо
