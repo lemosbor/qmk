@@ -26,47 +26,46 @@ enum {
 };
 
 enum combo_events { // обозначение комбо-команд
-    comb_REG1,
-    comb_REG2,
-    comb_VVOD,
-    comb_VSH,
-    comb_UDL,
-    comb_NACH,
-    comb_KON,
-    comb_LEV,
-    comb_PRAV,
-    comb_VERH,
-    comb_VNIZ,
-    comb_PROB1,
-    comb_PROB2,
-    comb_TAB,
-    comb_VIH,
-    comb_UPR1,
-    comb_UPR2,
-    comb_ZAP,
-    comb_TOCH,
-    comb_KOP1,
-    comb_KOP2,
-    comb_VST1,
-    comb_VST2,
-    comb_OTM,
-    comb_VYR,
-    comb_TZ,
-    comb_DT,
-    comb_DEF,
-    comb_TIRE,
-    comb_VOS,
-    comb_VOP,
-    comb_N1,
-    comb_N2,
-    comb_N3,
-    comb_N4,
-    comb_N5,
-    comb_N6,
-    comb_N7,
-    comb_N8,
-    comb_N9,
-    comb_N0,
+comb_TOCH,
+comb_ZAP,
+comb_TZ,
+comb_DT,
+comb_DEF,
+comb_TIRE,
+comb_VOS,
+comb_VOP,
+comb_REG1,
+comb_REG2,
+comb_PROB1,
+comb_PROB2,
+comb_NACH,
+comb_KON,
+comb_LEV,
+comb_PRAV,
+comb_VERH,
+comb_VNIZ,
+comb_VSH,
+comb_VVOD,
+comb_UDL,
+comb_TAB,
+comb_VIH,
+comb_KOP1,
+comb_KOP2,
+comb_VST1,
+comb_VST2,
+comb_UPR1,
+comb_UPR2,
+comb_OTM,
+comb_N1,
+comb_N2,
+comb_N3,
+comb_N4,
+comb_N5,
+comb_N6,
+comb_N7,
+comb_N8,
+comb_N9,
+comb_N0,
 };
 
 uint8_t cur_dance(qk_tap_dance_state_t *state); // общая функция нажатий
@@ -166,7 +165,7 @@ combo_t key_combos[COMBO_COUNT] = {
 [comb_ZAP] = COMBO_ACTION(ZAP_combo),
 [comb_TZ] = COMBO_ACTION(TZ_combo),
 [comb_DT] = COMBO_ACTION(DT_combo),
-[comb_DEF] = COMBO_ACTION(DEF_combo),
+[comb_DEF] = COMBO(DEF_combo, KC_PMNS),
 [comb_TIRE] = COMBO_ACTION(TIRE_combo),
 [comb_VOS] = COMBO_ACTION(VOS_combo),
 [comb_VOP] = COMBO_ACTION(VOP_combo),
@@ -219,6 +218,50 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
       if (pressed) {
         register_code(KC_8);
         unregister_code(KC_8);
+        register_code(KC_SPC);
+        unregister_code(KC_SPC);
+      }
+      break;
+    case comb_TZ: // точка c запятой
+      if (pressed) {
+        register_code(KC_4);
+        unregister_code(KC_4);
+        register_code(KC_SPC);
+        unregister_code(KC_SPC);
+      }
+      break;
+    case comb_DT: // двоеточие
+      if (pressed) {
+        register_code(KC_6);
+        unregister_code(KC_6);
+        register_code(KC_SPC);
+        unregister_code(KC_SPC);
+      }
+      break;
+    case comb_TIRE: // тире
+      if (pressed) {
+        register_code(KC_SPC);
+        unregister_code(KC_SPC);
+        register_code(KC_LSFT);
+        register_code(KC_5);
+        unregister_code(KC_5);
+        unregister_code(KC_LSFT);
+        register_code(KC_SPC);
+        unregister_code(KC_SPC);
+      }
+      break;
+    case comb_VOS: // !
+      if (pressed) {
+        register_code(KC_1);
+        unregister_code(KC_1);
+        register_code(KC_SPC);
+        unregister_code(KC_SPC);
+      }
+      break;
+     case comb_VOP: // ?
+      if (pressed) {
+        register_code(KC_7);
+        unregister_code(KC_7);
         register_code(KC_SPC);
         unregister_code(KC_SPC);
       }
