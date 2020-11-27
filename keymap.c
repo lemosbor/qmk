@@ -85,9 +85,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * | УПР  |Окно  | ДОП  |  Б/Ц |пробел|  РЕГ | ВВОД |пробел|  Р/А | БЛОК |  НАЧ | КОН  |
  * `-----------------------------------------------------------------------------------'
-ц	ь	у	ч	ш	ъ	х	п	л	м	й
-и	а	е	о	с	щ	к	н	т	в	р
-э	ё	ы	я	ю	ф	г	д	б	ж	з
+ц ь у ч ш ъ х п л м й
+и а е о с щ к н т в р
+э ё ы я ю ф г д б ж з
  */
 [L_OSNOVA] = LAYOUT_preonic_grid( \
   KC_1,    KC_2,     KC_3,   KC_4,       KC_5,    KC_DEL,  KC_EQL,  KC_6,   KC_7,     KC_8,    KC_9,    KC_0, \
@@ -269,11 +269,6 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
     case comb_OTM: // отмена
       if (pressed) {
         tap_code16(LCTL(KC_Z));
-      }
-      break;
-    case comb_VYR: // вырезать
-      if (pressed) {
-        tap_code16(LCTL(KC_X));
       }
       break;
     case comb_KOP1: // скопировать
