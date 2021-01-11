@@ -24,15 +24,15 @@
 #define RGBLIGHT_SLEEP // если ПК в спящем режиме, то подсветка отключается
 #define NO_DEBUG // отключить отладку для экономии кода
 
-#define TAPPING_TERM 130 // задержка для клавиш двойного назначения
+#define TAPPING_TERM 200 // задержка для клавиш двойного назначения
 
 // #define IGNORE_MOD_TAP_INTERRUPT
 // #define PERMISSIVE_HOLD
-#define COMBO_TERM 15 // задержка для комбо
+#define COMBO_TERM 20 // задержка для комбо
 #define COMBO_COUNT 41 // количество спец. комбинаций с клавишами
 
-#define ONESHOT_TAP_TOGGLE 3 // ожидающие кнопки. Повторные нажатия.
-#define ONESHOT_TIMEOUT 2000  // ожидающие кнопки. время ожидания (мс)
+#define ONESHOT_TAP_TOGGLE 2 // ожидающие кнопки. Количество нажатий для залипания. 
+#define ONESHOT_TIMEOUT 2500  // ожидающие кнопки. время ожидания (мс)
 
 //#define AUTO_SHIFT_MODIFIERS // автоматический шифт
 //#define AUTO_SHIFT_TIMEOUT 150 // время необходимого удержания для авто-шифта

@@ -93,11 +93,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
 э ё ы я ю ф г д б ж з
  */
 [L_OSNOVA] = LAYOUT_preonic_grid( \
-  KC_1,    KC_2,     KC_3,   KC_4,       KC_5,    KC_DEL,  KC_EQL,  KC_6,   KC_7,     KC_8,         KC_9,    KC_0, \
-  KC_C,    KC_V,     KC_U,   KC_COMM,    KC_LBRC, TD(TABB),KC_X ,   KC_H,   KC_P,     KC_L,         KC_M,    KC_J,  \
-  KC_I,    KC_A,     KC_E,   KC_O,       KC_S,    TD(VYH), KC_RBRC, KC_K,   KC_N,     KC_T,         KC_W,    KC_R, \
-  KC_QUOT, KC_SLSH,  KC_Q,   KC_Y,       KC_DOT,  KC_BSPC, KC_F,    KC_G,   KC_D,     KC_B,         KC_SCLN, KC_Z, \
-  KC_LCTL, TD(WEMO), KC_RALT,TD(PER_LAY),KC_SPC,  KC_LSFT, KC_ENT,  KC_SPC, TD(RU_AN),LCTL(KC_LSFT),TD(LEV), TD(PRAV)  \
+  KC_1,    KC_2,     KC_3,   KC_4,       KC_5,    KC_DEL,       KC_EQL,  KC_6,   KC_7,     KC_8,         KC_9,    KC_0, \
+  KC_C,    KC_V,     KC_U,   KC_COMM,    KC_LBRC, TD(TABB),     KC_X ,   KC_H,   KC_P,     KC_L,         KC_M,    KC_J,  \
+  KC_I,    KC_A,     KC_E,   KC_O,       KC_S,    TD(VYH),      KC_RBRC, KC_K,   KC_N,     KC_T,         KC_W,    KC_R, \
+  KC_QUOT, KC_SLSH,  KC_Q,   KC_Y,       KC_DOT,  KC_BSPC,      KC_F,    KC_G,   KC_D,     KC_B,         KC_SCLN, KC_Z, \
+  KC_LCTL, TD(WEMO), KC_RALT,TD(PER_LAY),KC_SPC,  OSM(MOD_LSFT),KC_ENT,  KC_SPC, TD(RU_AN),LCTL(KC_LSFT),TD(LEV), TD(PRAV)  \
 ),
 /* сервисная.
  * ,-----------------------------------------------------------------------------------.
@@ -225,7 +225,7 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         unregister_code(KC_8);
         register_code(KC_SPC);
         unregister_code(KC_SPC);
-        register_code16(OSM(MOD_LSFT));
+        set_oneshot_mods (MOD_LSFT);
       }
       break;
     case comb_TZ: // точка c запятой
@@ -262,6 +262,7 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         unregister_code(KC_1);
         register_code(KC_SPC);
         unregister_code(KC_SPC);
+        set_oneshot_mods (MOD_LSFT);
       }
       break;
      case comb_VOP: // ?
@@ -270,6 +271,7 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         unregister_code(KC_7);
         register_code(KC_SPC);
         unregister_code(KC_SPC);
+        set_oneshot_mods (MOD_LSFT);
       }
       break;
     case comb_OTM: // отмена
