@@ -32,6 +32,9 @@
 #define COMBO_TERM 25 // задержка для комбо
 #define COMBO_COUNT 40 // количество спец. комбинаций с клавишами
 
+#define ONESHOT_TAP_TOGGLE 5  // ожидающие кнопки. Повторные нажатия.
+#define ONESHOT_TIMEOUT 5000  // ожидающие кнопки. время ожидания (мс)
+
 //#define AUTO_SHIFT_MODIFIERS // автоматический шифт
 //#define AUTO_SHIFT_TIMEOUT 150 // время необходимого удержания для авто-шифта
 
