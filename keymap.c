@@ -150,16 +150,16 @@ const uint16_t PROGMEM VST2_combo[] = {KC_T, KC_M, COMBO_END};
 const uint16_t PROGMEM UPR1_combo[] = {KC_E, KC_Y, COMBO_END};
 const uint16_t PROGMEM UPR2_combo[] = {KC_D, KC_T, COMBO_END};
 const uint16_t PROGMEM OTM_combo[] = {KC_V, KC_U, COMBO_END};
-const uint16_t PROGMEM N1_combo[] = {KC_Y, KC_B, COMBO_END};
-const uint16_t PROGMEM N2_combo[] = {KC_Y, KC_SCLN, COMBO_END};
-const uint16_t PROGMEM N3_combo[] = {KC_Y, KC_Z, COMBO_END};
-const uint16_t PROGMEM N4_combo[] = {KC_Y, KC_T, COMBO_END};
-const uint16_t PROGMEM N5_combo[] = {KC_Y, KC_W, COMBO_END};
-const uint16_t PROGMEM N6_combo[] = {KC_Y, KC_R, COMBO_END};
+const uint16_t PROGMEM N1_combo[] = {KC_Y, KC_N, COMBO_END};
+const uint16_t PROGMEM N2_combo[] = {KC_Y, KC_T, COMBO_END};
+const uint16_t PROGMEM N3_combo[] = {KC_Y, KC_W, COMBO_END};
+const uint16_t PROGMEM N4_combo[] = {KC_Y, KC_R, COMBO_END};
+const uint16_t PROGMEM N5_combo[] = {KC_Y, KC_H, COMBO_END};
+const uint16_t PROGMEM N6_combo[] = {KC_Y, KC_P, COMBO_END};
 const uint16_t PROGMEM N7_combo[] = {KC_Y, KC_L, COMBO_END};
 const uint16_t PROGMEM N8_combo[] = {KC_Y, KC_M, COMBO_END};
 const uint16_t PROGMEM N9_combo[] = {KC_Y, KC_J, COMBO_END};
-const uint16_t PROGMEM N0_combo[] = {KC_Y, KC_HOME, COMBO_END};
+const uint16_t PROGMEM N0_combo[] = {KC_Y, KC_K, COMBO_END};
 
 //связываем комбо с функциональными клавишами и действиями
 combo_t key_combos[COMBO_COUNT] = { 
