@@ -68,6 +68,7 @@ comb_N7,
 comb_N8,
 comb_N9,
 comb_N0,
+comb_VSH2,
 };
 
 uint8_t cur_dance(qk_tap_dance_state_t *state); // общая функция нажатий
@@ -160,6 +161,7 @@ const uint16_t PROGMEM N7_combo[] = {KC_Y, KC_L, COMBO_END};
 const uint16_t PROGMEM N8_combo[] = {KC_Y, KC_M, COMBO_END};
 const uint16_t PROGMEM N9_combo[] = {KC_Y, KC_J, COMBO_END};
 const uint16_t PROGMEM N0_combo[] = {KC_Y, KC_K, COMBO_END};
+const uint16_t PROGMEM VSH2_combo[] = {KC_QUOT, KC_SLSH, COMBO_END};
 
 //связываем комбо с функциональными клавишами и действиями
 combo_t key_combos[COMBO_COUNT] = { 
@@ -203,6 +205,7 @@ combo_t key_combos[COMBO_COUNT] = {
 [comb_N8] = COMBO(N8_combo, KC_P8),
 [comb_N9] = COMBO(N9_combo, KC_P9),
 [comb_N0] = COMBO(N0_combo, KC_P0),
+[comb_VSH2] = COMBO_ACTION(VSH2_combo),
 };
 
 // действия для комбо
@@ -293,6 +296,16 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
     case comb_VST2: // вставить
       if (pressed) {
         tap_code16(LSFT(KC_INS));
+      }
+      break;
+    case comb_VSH2: // удалить целиком
+      if (pressed) {
+        register_code(LCTL(KC_LSFT));
+        register_code(KC_LEFT);
+        unregister_code(KC_LEFT);
+        unregister_code(LCTL(KC_LSFT));
+        register_code(KC_BSPC);
+        unregister_code(KC_BSPC);
       }
       break;
   }
