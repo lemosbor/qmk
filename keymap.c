@@ -225,8 +225,7 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         unregister_code(KC_8);
         register_code(KC_SPC);
         unregister_code(KC_SPC);
-        register_code(OSM(MOD_LSFT));
-        unregister_code(OSM(MOD_LSFT));
+        register_code16(OSM(MOD_LSFT));
       }
       break;
     case comb_TZ: // точка c запятой
@@ -300,10 +299,12 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
       break;
     case comb_VSH2: // удалить целиком
       if (pressed) {
-        register_code(LCTL(KC_LSFT));
+        register_code(KC_LCTL);
+        register_code(KC_LSFT);
         register_code(KC_LEFT);
         unregister_code(KC_LEFT);
-        unregister_code(LCTL(KC_LSFT));
+        unregister_code(KC_LSFT);
+        unregister_code(KC_LCTL);
         register_code(KC_BSPC);
         unregister_code(KC_BSPC);
       }
