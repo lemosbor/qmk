@@ -113,7 +113,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
  * `-----------------------------------------------------------------------------------'
  */ 
 [L_SERV] = LAYOUT_preonic_grid( \
-  KC_BRIU,  KC_BRID,  KC_MUTE,  KC_MNXT,    KC_PGUP, KC_NO,   KC_F10, KC_F11, KC_F12, KC_PAST, KC_PSLS, KC_PMNS, \
+  KC_BRIU,  KC_BRID,  KC_MUTE,  KC_MNXT,    KC_PGUP, M(MACRO1),  KC_F10, KC_F11, KC_F12, KC_PAST, KC_PSLS, KC_PMNS, \
   C(KC_INS),KC_UP,    S(KC_INS),C(KC_X),    KC_PGDN, TD(TABB),KC_F7,  KC_F8,  KC_F9,  KC_P7,   KC_P8,   KC_P9, \
   KC_LEFT,  KC_DOWN,  KC_RGHT,  C(KC_Z),    RGB_TOG, TD(VYH), KC_F4,  KC_F5,  KC_F6,  KC_P4,   KC_P5,   KC_P6, \
   KC_BTN1,  KC_MS_U,  KC_BTN2,  KC_PSCR,    RGB_MOD, TD(WEMO),KC_F1,  KC_F2,  KC_F3,  KC_P1,   KC_P2,   KC_P3, \
@@ -378,6 +378,20 @@ void matrix_init_user (void) { //постоянная активация NUMLOCK
       register_code(KC_NUMLOCK);
       unregister_code(KC_NUMLOCK);
   }
+};
+
+const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) { //Макрос на копирование+вставка https://beta.docs.qmk.fm/using-qmk/advanced-keycodes/feature_macros
+    switch(id) {
+        case MACRO1: {
+            if (record->event.pressed) {
+                return MACRO( D(LCTL), T(C), U(LCTL), END  );
+            } else {
+                return MACRO( D(LCTL), T(V), U(LCTL), END  );
+            }
+            break;
+        }
+    }
+    return MACRO_NONE;
 };
 
 //void eeconfig_init_user(void) {  // EEPROM is getting reset! use the non noeeprom versions, to write these values to EEPROM too https://www.reddit.com/r/olkb/comments/e0hurb/trying_to_set_color_based_on_active_layer_in_qmk/
