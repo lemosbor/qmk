@@ -27,6 +27,10 @@ enum {
     RU_AN, // кнопка Р/А
 };
 
+enum custom_keycodes {      
+  ALT_1,
+}; 
+
 enum combo_events { // обозначение комбо-команд
 comb_TOCH,
 comb_ZAP,
@@ -93,11 +97,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
 э ё ы я ю ф г д б ж з 
  */
 [L_OSNOVA] = LAYOUT_preonic_grid( \
-  XP(KC_1, KC_2),KC_2,         KC_3,   KC_4,        KC_5,   KC_BSLS, KC_6,    KC_7,   KC_8,     KC_9,         KC_0,    KC_EQL, \
+  KC_1,          KC_2,         KC_3,   KC_4,        KC_5,   KC_BSLS, KC_6,    KC_7,   KC_8,     KC_9,         KC_0,    KC_EQL, \
   KC_C,          KC_V,         KC_U,   KC_COMM,     KC_LBRC,TD(TABB),KC_X ,   KC_H,   KC_P,     KC_L,         KC_M,    KC_J,  \
   KC_I,          KC_A,         KC_E,   KC_O,        KC_S,   TD(VYH), KC_RBRC, KC_K,   KC_N,     KC_T,         KC_W,    KC_R, \
   KC_QUOT,       KC_SLSH,      KC_Q,   KC_Y,        KC_DOT, TD(WEMO),KC_F,    KC_G,   KC_D,     KC_B,         KC_SCLN, KC_Z, \
-  KC_LCTL,       OSM(MOD_LSFT),KC_RALT,TD(PER_LAY), KC_SPC, KC_DEL,  KC_BSPC, KC_ENT, TD(RU_AN),LCTL(KC_LSFT),TD(LEV), TD(PRAV)  \
+  KC_LCTL,       OSM(MOD_LSFT),KC_RALT,TD(PER_LAY), KC_SPC, KC_DEL,  KC_BSPC, KC_ENT, TD(RU_AN),LCTL(KC_LSFT),TD(LEV), TD(PRAV) \
 ),
 /* сервисная.
  * ,-----------------------------------------------------------------------------------.
@@ -113,7 +117,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
  * `-----------------------------------------------------------------------------------'
  */ 
 [L_SERV] = LAYOUT_preonic_grid( \
-  KC_BRIU,  KC_BRID,  KC_MUTE,  KC_MNXT,    KC_PGUP, M(MACRO1),  KC_F10, KC_F11, KC_F12, KC_PAST, KC_PSLS, KC_PMNS, \
+  KC_BRIU,  KC_BRID,  KC_MUTE,  KC_MNXT,    KC_PGUP, ALT_1,  KC_F10, KC_F11, KC_F12, KC_PAST, KC_PSLS, KC_PMNS, \
   C(KC_INS),KC_UP,    S(KC_INS),C(KC_X),    KC_PGDN, TD(TABB),KC_F7,  KC_F8,  KC_F9,  KC_P7,   KC_P8,   KC_P9, \
   KC_LEFT,  KC_DOWN,  KC_RGHT,  C(KC_Z),    RGB_TOG, TD(VYH), KC_F4,  KC_F5,  KC_F6,  KC_P4,   KC_P5,   KC_P6, \
   KC_BTN1,  KC_MS_U,  KC_BTN2,  KC_PSCR,    RGB_MOD, TD(WEMO),KC_F1,  KC_F2,  KC_F3,  KC_P1,   KC_P2,   KC_P3, \
@@ -380,18 +384,19 @@ void matrix_init_user (void) { //постоянная активация NUMLOCK
   }
 };
 
-const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) { //Макрос на копирование+вставка https://beta.docs.qmk.fm/using-qmk/advanced-keycodes/feature_macros
-    switch(id) {
-        case MACRO1: {
-            if (record->event.pressed) {
-                return MACRO( D(LCTL), T(C), U(LCTL), END  );
-            } else {
-                return MACRO( D(LCTL), T(V), U(LCTL), END  );
-            }
-            break;
-        }
-    }
-    return MACRO_NONE;
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {    
+    case ALT_1:
+      if (record->event.pressed) { //if (pressed) {
+        register_code(KC_LALT);
+        tap_code(KC_P1);
+        tap_code(KC_P2);
+        tap_code(KC_P1);
+        unregister_code(KC_LALT);
+      }
+      break;
+  }
+  return true;
 };
 
 //void eeconfig_init_user(void) {  // EEPROM is getting reset! use the non noeeprom versions, to write these values to EEPROM too https://www.reddit.com/r/olkb/comments/e0hurb/trying_to_set_color_based_on_active_layer_in_qmk/
