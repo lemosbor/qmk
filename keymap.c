@@ -390,8 +390,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (record->event.pressed) { //if (pressed) {
         register_code(KC_LALT);
         tap_code(KC_P1);
-        tap_code(KC_P2);
-        tap_code(KC_P1);
+        tap_code(KC_P3);
+        tap_code(KC_P4);
         unregister_code(KC_LALT);
       }
       break;
