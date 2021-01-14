@@ -389,7 +389,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
   switch (keycode) {    
     case ALT_1:
       if (record->event.pressed) { //if (pressed) {
-        register_code(KC_LALT);
+        register_code(KC_LALT); // SEND_STRING(SS_LALT("D83D+DC4D")); SEND_STRING(":yellow_yoshi:");
         tap_code(KC_P1);
         tap_code(KC_P3);
         tap_code(KC_P4);
