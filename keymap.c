@@ -29,6 +29,7 @@ enum {
 
 enum custom_keycodes {      
   ALT_1,
+  SL_1,
 }; 
 
 enum combo_events { // обозначение комбо-команд
@@ -97,7 +98,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
 э ё ы я ю ф г д б ж з 
  */
 [L_OSNOVA] = LAYOUT_preonic_grid( \
-  KC_1,          KC_2,         KC_3,   KC_4,        KC_5,   KC_BSLS, KC_6,    KC_7,   KC_8,     KC_9,         KC_0,    KC_EQL, \
+  KC_1,          KC_2,         KC_3,   KC_4,        KC_5,   SL_1,    KC_6,    KC_7,   KC_8,     KC_9,         KC_0,    KC_EQL, \
   KC_C,          KC_V,         KC_U,   KC_COMM,     KC_LBRC,TD(TABB),KC_X ,   KC_H,   KC_P,     KC_L,         KC_M,    KC_J,  \
   KC_I,          KC_A,         KC_E,   KC_O,        KC_S,   TD(VYH), KC_RBRC, KC_K,   KC_N,     KC_T,         KC_W,    KC_R, \
   KC_QUOT,       KC_SLSH,      KC_Q,   KC_Y,        KC_DOT, TD(WEMO),KC_F,    KC_G,   KC_D,     KC_B,         KC_SCLN, KC_Z, \
@@ -384,7 +385,7 @@ void matrix_init_user (void) { //постоянная активация NUMLOCK
   }
 };
 
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://beta.docs.qmk.fm/using-qmk/guides/custom_quantum_functions#programming-the-behavior-of-any-keycode-id-programming-the-behavior-of-any-keycode
   switch (keycode) {    
     case ALT_1:
       if (record->event.pressed) { //if (pressed) {
@@ -395,8 +396,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         unregister_code(KC_LALT);
       }
       break;
-  }
-  return true;
+    case SL_1:
+        send_modified_keypress(KC_BSLS, KC_SLSH, LSFT(KC_BSLS), KC_NO); //https://github.com/qmk/qmk_firmware/issues/1495
+        return true; // https://github.com/qmk/qmk_firmware/issues/7840
+     break; // https://github.com/qmk/qmk_firmware/blob/master/users/spacebarracecar/spacebarracecar.h
+  } // https://www.reddit.com/r/olkb/comments/4u36wk/qmk_question_how_do_i_make_backspace_send_delete/d5mh93e/
+  return true; // https://github.com/jeherve/qmk_firmware/blob/06206a9d5bfcbf96d65394b8bed495dc7b0ddf70/keyboards/redox/keymaps/jeherve/keymap.c#L64-L109
 };
 
 //void eeconfig_init_user(void) {  // EEPROM is getting reset! use the non noeeprom versions, to write these values to EEPROM too https://www.reddit.com/r/olkb/comments/e0hurb/trying_to_set_color_based_on_active_layer_in_qmk/
