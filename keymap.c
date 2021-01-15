@@ -102,8 +102,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
   KC_C,          KC_V,         KC_U,   KC_COMM,     KC_LBRC,TD(TABB),KC_X ,   KC_H,   KC_P,     KC_L,         KC_M,    KC_J,  \
   KC_I,          KC_A,         KC_E,   KC_O,        KC_S,   TD(VYH), KC_RBRC, KC_K,   KC_N,     KC_T,         KC_W,    KC_R, \
   KC_QUOT,       KC_SLSH,      KC_Q,   KC_Y,        KC_DOT, TD(WEMO),KC_F,    KC_G,   KC_D,     KC_B,         KC_SCLN, KC_Z, \
-  KC_LCTL,       OSM(MOD_LSFT),KC_RALT,TD(PER_LAY), KC_SPC, KC_DEL,  KC_BSPC, KC_ENT, TD(RU_AN),LCTL(KC_LSFT),TD(LEV), TD(PRAV) \
-),
+  KC_LCTL,       KC_LSFT,      KC_RALT,TD(PER_LAY), KC_SPC, KC_DEL,  KC_BSPC, KC_ENT, TD(RU_AN),LCTL(KC_LSFT),TD(LEV), TD(PRAV) \
+), // OSM(MOD_LSFT) - модифицированный РЕГ
 /* сервисная.
  * ,-----------------------------------------------------------------------------------.
  * | ярче |темнее| тихо |сл.пес| вверх|      |  Ф10 |  Ф11 |  Ф12 |   *  |   /  |   -  |
@@ -396,13 +396,32 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
         unregister_code(KC_LALT);
       }
       break;
-    case SL_1:
-        send_modified_keypress(KC_BSLS, KC_SLSH, LSFT(KC_BSLS), KC_NO); //https://github.com/qmk/qmk_firmware/issues/1495
-        return true; // https://github.com/qmk/qmk_firmware/issues/7840
-     break; // https://github.com/qmk/qmk_firmware/blob/master/users/spacebarracecar/spacebarracecar.h
-  } // https://www.reddit.com/r/olkb/comments/4u36wk/qmk_question_how_do_i_make_backspace_send_delete/d5mh93e/
-  return true; // https://github.com/jeherve/qmk_firmware/blob/06206a9d5bfcbf96d65394b8bed495dc7b0ddf70/keyboards/redox/keymaps/jeherve/keymap.c#L64-L109
+    case KC_LSFT:
+        shift_held = record->event.pressed;
+		return true;
+		break;
+		case SL_1: {
+            if (record->event.pressed) {
+				if (shift_held) {
+                    unregister_code(KC_LSFT);
+                    register_code(KC_PSLS);
+                } else {
+					register_code(KC_BSLS);
+				}
+              } else { // Release the key // https://www.reddit.com/r/olkb/comments/4u36wk/qmk_question_how_do_i_make_backspace_send_delete/d5mh93e/
+			    unregister_code(KC_LSFT); // https://github.com/qmk/qmk_firmware/issues/7840
+			    unregister_code(KC_PSLS); // https://github.com/qmk/qmk_firmware/blob/master/users/spacebarracecar/spacebarracecar.h
+			    unregister_code(KC_BSLS); // https://github.com/jeherve/qmk_firmware/blob/06206a9d5bfcbf96d65394b8bed495dc7b0ddf70/keyboards/redox/keymaps/jeherve/keymap.c#L64-L109
+		      }
+		      return false;
+		      break;
+  }
+  return true;
 };
+
+
+
+
 
 //void eeconfig_init_user(void) {  // EEPROM is getting reset! use the non noeeprom versions, to write these values to EEPROM too https://www.reddit.com/r/olkb/comments/e0hurb/trying_to_set_color_based_on_active_layer_in_qmk/
 //  rgblight_enable(); // включить подсветку по-умолчанию
