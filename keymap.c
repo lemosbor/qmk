@@ -5,9 +5,11 @@
 //#include "process_unicode.h" // для юникода
 // #include "keymap_russian.h" // подгрузка русских букв  qmk compile -kb preonic/rev3 -km pri
 // UNICODEMAP_ENABLE = yes in rules.mk
-
+/////////Ж./
 #define L_OSNOVA 0 // слой 0 (основной)
 #define L_SERV 1 // слой 1 (сервисный)
+
+static bool shift_held = false;
 
 typedef struct { //назначение структуры нажатий https://docs.qmk.fm/#/feature_tap_dance?id=how-to-use
     bool is_press_action;
@@ -102,11 +104,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
   KC_C,          KC_V,         KC_U,   KC_COMM,     KC_LBRC,TD(TABB),KC_X ,   KC_H,   KC_P,     KC_L,         KC_M,    KC_J,  \
   KC_I,          KC_A,         KC_E,   KC_O,        KC_S,   TD(VYH), KC_RBRC, KC_K,   KC_N,     KC_T,         KC_W,    KC_R, \
   KC_QUOT,       KC_SLSH,      KC_Q,   KC_Y,        KC_DOT, TD(WEMO),KC_F,    KC_G,   KC_D,     KC_B,         KC_SCLN, KC_Z, \
-  KC_LCTL,       KC_LSFT,      KC_RALT,TD(PER_LAY), KC_SPC, KC_DEL,  KC_BSPC, KC_ENT, TD(RU_AN),LCTL(KC_LSFT),TD(LEV), TD(PRAV) \
+  KC_RCTL,       KC_LSFT,      KC_RALT,TD(PER_LAY), KC_SPC, KC_DEL,  KC_BSPC, KC_ENT, TD(RU_AN),LCTL(KC_LSFT),TD(LEV), TD(PRAV) \
 ), // OSM(MOD_LSFT) - модифицированный РЕГ
-/* сервисная.
+/* сервисная
  * ,-----------------------------------------------------------------------------------.
- * | ярче |темнее| тихо |сл.пес| вверх|      |  Ф10 |  Ф11 |  Ф12 |   *  |   /  |   -  |
+ * | ярче |темнее| тихо |сл.пес| вверх|      |  Ф10 |  Ф11 |  Ф12 |   *  |   -  |   +  |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |  коп |   ↑  |  вст | вырез| вниз |  ТАБ |  Ф7  |  Ф8  |  Ф9  |   7  |   8  |   9  |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
@@ -114,15 +116,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * | М.ЛК |  м↑  | М.ПК |  ПЕЧ |цвет р|  ОКНО|  Ф1  |  Ф2  |  Ф3  |   1  |   2  |   3  |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |  м←  |  м↓  |  м→  |  Б/Ц |пробел|  УД  | ВШ   | ВВОД |  ЦИФ |   \  |   0  |   .  |
+ * | УПР  | РЕГ  | ДОП  |  Б/Ц |пробел|  УД  | ВШ   | ВВОД |  ЦИФ |  ВСТ |   0  |   .  |
  * `-----------------------------------------------------------------------------------'
  */ 
 [L_SERV] = LAYOUT_preonic_grid( \
-  KC_BRIU,  KC_BRID,  KC_MUTE,  KC_MNXT,    KC_PGUP, ALT_1,  KC_F10, KC_F11, KC_F12, KC_PAST, KC_PSLS, KC_PMNS, \
+  KC_BRIU,  KC_BRID,  KC_MUTE,  KC_MNXT,    KC_PGUP, ALT_1,   KC_F10, KC_F11, KC_F12, KC_PAST, KC_PMNS, KC_PPLS, \
   C(KC_INS),KC_UP,    S(KC_INS),C(KC_X),    KC_PGDN, TD(TABB),KC_F7,  KC_F8,  KC_F9,  KC_P7,   KC_P8,   KC_P9, \
   KC_LEFT,  KC_DOWN,  KC_RGHT,  C(KC_Z),    RGB_TOG, TD(VYH), KC_F4,  KC_F5,  KC_F6,  KC_P4,   KC_P5,   KC_P6, \
   KC_BTN1,  KC_MS_U,  KC_BTN2,  KC_PSCR,    RGB_MOD, TD(WEMO),KC_F1,  KC_F2,  KC_F3,  KC_P1,   KC_P2,   KC_P3, \
-  KC_MS_L,  KC_MS_D,  KC_MS_R,  TD(PER_LAY),KC_SPC,  KC_DEL,  KC_BSPC,KC_ENT, KC_NLCK,KC_BSLS, KC_P0,   KC_PDOT \
+  KC_LCTL,  KC_LSFT,  KC_LALT,  TD(PER_LAY),KC_SPC,  KC_DEL,  KC_BSPC,KC_ENT, KC_NLCK,KC_INS,  KC_P0,   KC_PDOT \
 )
 }; 
 // задаем сочитание клавиш (комбо). Прописать их количество в файле config
@@ -398,30 +400,28 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
       break;
     case KC_LSFT:
         shift_held = record->event.pressed;
-		return true;
-		break;
-		case SL_1: {
+    return true;
+    break;
+    case SL_1: {
             if (record->event.pressed) {
-				if (shift_held) {
+        if (shift_held) {
                     unregister_code(KC_LSFT);
                     register_code(KC_PSLS);
                 } else {
-					register_code(KC_BSLS);
-				}
+          register_code(KC_LSFT);
+          register_code(KC_BSLS);
+        }
               } else { // Release the key // https://www.reddit.com/r/olkb/comments/4u36wk/qmk_question_how_do_i_make_backspace_send_delete/d5mh93e/
-			    unregister_code(KC_LSFT); // https://github.com/qmk/qmk_firmware/issues/7840
-			    unregister_code(KC_PSLS); // https://github.com/qmk/qmk_firmware/blob/master/users/spacebarracecar/spacebarracecar.h
-			    unregister_code(KC_BSLS); // https://github.com/jeherve/qmk_firmware/blob/06206a9d5bfcbf96d65394b8bed495dc7b0ddf70/keyboards/redox/keymaps/jeherve/keymap.c#L64-L109
-		      }
-		      return false;
-		      break;
+          unregister_code(KC_LSFT); // https://github.com/qmk/qmk_firmware/issues/7840
+          unregister_code(KC_PSLS); // https://github.com/qmk/qmk_firmware/blob/master/users/spacebarracecar/spacebarracecar.h
+          unregister_code(KC_BSLS); // https://github.com/jeherve/qmk_firmware/blob/06206a9d5bfcbf96d65394b8bed495dc7b0ddf70/keyboards/redox/keymaps/jeherve/keymap.c#L64-L109
+          }
+          return false;
+          break;
+    }
   }
   return true;
 };
-
-
-
-
 
 //void eeconfig_init_user(void) {  // EEPROM is getting reset! use the non noeeprom versions, to write these values to EEPROM too https://www.reddit.com/r/olkb/comments/e0hurb/trying_to_set_color_based_on_active_layer_in_qmk/
 //  rgblight_enable(); // включить подсветку по-умолчанию
