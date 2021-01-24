@@ -29,10 +29,10 @@
 // #define IGNORE_MOD_TAP_INTERRUPT
 // #define PERMISSIVE_HOLD
 #define COMBO_TERM 20 // задержка для комбо
-#define COMBO_COUNT 41 // количество спец. комбинаций с клавишами
+#define COMBO_COUNT 45 // количество спец. комбинаций с клавишами
 
-#define ONESHOT_TAP_TOGGLE 2 // ожидающие кнопки. Количество нажатий для залипания. 
-#define ONESHOT_TIMEOUT 2500  // ожидающие кнопки. время ожидания (мс)
+#define ONESHOT_TAP_TOGGLE 2 // ожидающие кнопки. Количество нажатий для залипания.
+#define ONESHOT_TIMEOUT 2000  // ожидающие кнопки. время ожидания (мс)
 
 //#define AUTO_SHIFT_MODIFIERS // автоматический шифт
 //#define AUTO_SHIFT_TIMEOUT 150 // время необходимого удержания для авто-шифта
