@@ -310,16 +310,12 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         tap_code16(LSFT(KC_INS));
       }
       break;
-    case comb_VSH2: // удалить целиком
+    case comb_VSH2: // удалить слово слева
       if (pressed) {
         register_code(KC_LCTL);
-        register_code(KC_LSFT);
-        register_code(KC_LEFT);
-        unregister_code(KC_LEFT);
-        unregister_code(KC_LSFT);
-        unregister_code(KC_LCTL);
         register_code(KC_BSPC);
         unregister_code(KC_BSPC);
+        unregister_code(KC_LCTL);
       }
       break;
     case comb_VYR: // вырезать
