@@ -32,6 +32,8 @@ enum {
 enum custom_keycodes {      
   ALT_1,
   SL_1,
+  KOP1,
+  VST1,
 }; 
 
 enum combo_events { // обозначение комбо-команд
@@ -80,6 +82,8 @@ comb_PER2,
 comb_OCH,
 comb_VVOD2,
 comb_PER3,
+comb_SOYI,
+comb_BUKTZ,
 };
 
 uint8_t cur_dance(qk_tap_dance_state_t *state); // общая функция нажатий
@@ -104,7 +108,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
 э ё ы я ю ф г д б ж з 
  */
 [L_OSNOVA] = LAYOUT_preonic_grid( \
-  KC_1,          KC_2,         KC_3,   KC_4,        KC_5,   SL_1,    KC_6,    KC_7,   KC_8,     KC_9,         KC_0,    KC_EQL, \
+  KOP1,          VST1,         KC_1,   KC_2,        KC_3,   KC_4,    KC_5,    KC_6,   KC_7,     KC_8,         KC_9,    KC_0, \
   KC_C,          KC_V,         KC_U,   KC_COMM,     KC_LBRC,TD(TABB),KC_X ,   KC_H,   KC_P,     KC_L,         KC_M,    KC_J,  \
   KC_I,          KC_A,         KC_E,   KC_O,        KC_S,   TD(VYH), KC_RBRC, KC_K,   KC_N,     KC_T,         KC_W,    KC_R, \
   KC_QUOT,       KC_SLSH,      KC_Q,   KC_Y,        KC_DOT, TD(WEMO),KC_F,    KC_G,   KC_D,     KC_B,         KC_SCLN, KC_Z, \
@@ -177,7 +181,8 @@ const uint16_t PROGMEM PER2_combo[] = {KC_D, KC_W, COMBO_END};
 const uint16_t PROGMEM OCH_combo[] = {KC_Q, KC_Y, COMBO_END};
 const uint16_t PROGMEM VVOD2_combo[] = {KC_O, KC_S, COMBO_END};
 const uint16_t PROGMEM PER3_combo[] = {KC_N, KC_SCLN, COMBO_END};
-
+const uint16_t PROGMEM SOYI_combo[] = {KC_I, KC_N, COMBO_END};
+const uint16_t PROGMEM BUKTZ_combo[] = {KC_V, KC_I, COMBO_END};
 
 //связываем комбо с функциональными клавишами и действиями
 combo_t key_combos[COMBO_COUNT] = { 
@@ -226,6 +231,8 @@ combo_t key_combos[COMBO_COUNT] = {
 [comb_OCH] = COMBO_ACTION(OCH_combo),
 [comb_VVOD2] = COMBO_ACTION(VVOD2_combo),
 [comb_PER3] = COMBO_ACTION(PER3_combo),
+[comb_SOYI] = COMBO_ACTION(SOYI_combo),
+[comb_BUKTZ] = COMBO_ACTION(BUKTZ_combo),
 
 };
 
@@ -310,7 +317,7 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         tap_code16(LSFT(KC_INS));
       }
       break;
-    case comb_VSH2: // удалить слово слева
+    case comb_VSH2: // удалить целиком
       if (pressed) {
         register_code(KC_LCTL);
         register_code(KC_BSPC);
@@ -381,6 +388,22 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         register_code(KC_PGUP);
         unregister_code(KC_PGUP);
         unregister_code(KC_LCTL);
+      }
+      break;
+    case comb_SOYI: // ctr PGDN
+      if (pressed) {
+        tap_code(KC_SPC);
+        tap_code(KC_I);
+        tap_code(KC_SPC);
+      }
+      break;
+    case comb_BUKTZ: // ctr PGDN
+      if (pressed) {
+        register_code(KC_LALT);
+        tap_code(KC_P2);
+        tap_code(KC_P3);
+        tap_code(KC_P4);
+        unregister_code(KC_LALT);
       }
       break;
   }
@@ -483,9 +506,38 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
           }
           return false;
           break;
-    }
+              }
+    case KOP1:
+            if (record->event.pressed) {
+        if (shift_held) {
+                    //unregister_code(KC_LSFT);
+                    tap_code(KC_DEL);
+                } else {
+          tap_code16(LCTL(KC_INS));
+        }
+        }
+          break;
+    case VST1:
+            if (record->event.pressed) {
+        if (shift_held) {
+                    unregister_code(KC_LSFT);
+                    tap_code(KC_INS);
+                } else {
+          tap_code16(LSFT(KC_INS));
+        }
+        }
+          break;
   }
   return true;
+};
+
+
+void encoder_update_user(uint8_t index, bool clockwise) {
+        if (clockwise) {
+            tap_code(KC_MS_WH_DOWN);
+        } else {
+            tap_code(KC_MS_WH_UP);
+        }
 };
 
 //void eeconfig_init_user(void) {  // EEPROM is getting reset! use the non noeeprom versions, to write these values to EEPROM too https://www.reddit.com/r/olkb/comments/e0hurb/trying_to_set_color_based_on_active_layer_in_qmk/
