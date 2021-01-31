@@ -7,6 +7,7 @@ VELOCIKEY_ENABLE = no    # подстройка подсветки под ско
 EXTRAKEY_ENABLE = yes     # аудиоконтроль и системный контроль
 COMBO_ENABLE = yes        # спец. комбинации из букв
 KEY_LOCK_ENABLE = yes
+ENCODER_ENABLE = yes
 
 #отключить:
 BLUETOOTH_ENABLE = no     # поддержка блютуза
