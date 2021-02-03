@@ -105,19 +105,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
  * `-----------------------------------------------------------------------------------'
 ц ь у ч ш ъ х п л м й
 и а е о с щ к н т в р
-э ё ы я ю ф г д б ж з 
+э ё ы я ю ф г д б ж з
 УПР	←	НАЧ
 УПР	→	КОН
-УПР	↑	ВЕРХ
+УПР	↑	ВЕРХ        KC_SLSH (без регистра) KC_8(с регистром) — ё
 УПР	↓	НИЗ
 РЕГ	ВШ	Отмена
  */
 [L_OSNOVA] = LAYOUT_preonic_grid( \
-  KOP1,          VST1,         KC_1,   KC_2,        KC_3,   KC_4,    KC_5,    KC_6,   KC_7,     KC_8,         KC_9,    KC_0, \
-  KC_C,          KC_V,         KC_U,   KC_COMM,     KC_LBRC,TD(TABB),KC_X ,   KC_H,   KC_P,     KC_L,         KC_M,    KC_J,  \
-  KC_I,          KC_A,         KC_E,   KC_O,        KC_S,   TD(VYH), KC_RBRC, KC_K,   KC_N,     KC_T,         KC_W,    KC_R, \
-  KC_QUOT,       KC_SLSH,      KC_Q,   KC_Y,        KC_DOT, TD(WEMO),KC_F,    KC_G,   KC_D,     KC_B,         KC_SCLN, KC_Z, \
-  KC_RCTL,       KC_LSFT,      KC_RALT,TD(PER_LAY), KC_SPC, KC_DEL,  KC_BSPC, KC_ENT, TD(RU_AN),LCTL(KC_LSFT),TD(LEV), TD(PRAV) \
+  KOP1,          VST1,         KCC_1,  KCC_2,    KСC_3,  KСC_4,   KСC_5,   KСC_6,  KСC_7,    KCC_8,   KСC_9,   KСC_10, \
+  KC_C,          KC_X,         KC_U,   KC_GRV,   KC_LBRC,TD(VYH), KСC_11,  KC_H,   KC_P,     KC_L,    KC_M,    KC_J,  \
+  KC_I,          KC_A,         KC_E,   KC_O,     KC_S,   TD(TABB),KC_RBRC, KC_K,   KC_N,     KC_T,    KC_W,    KC_R, \
+  KC_EQL,        KCC_YO,       KC_Q,   KC_Y,     KC_BSLS,TD(PER_LAY),KC_F, KC_G,   KC_D,     KC_B,    KC_SCLN, KC_Z, \
+  KC_LCTL,       KC_LSFT,      KC_LALT,TD(WEMO), KC_ENT, KC_DEL,  KC_BSPC, KC_SPC, TD(RU_AN),KCC_OTM, KC_LEFT, KC_RGHT \
 ), // OSM(MOD_LSFT) - модифицированный РЕГ
 /* сервисная
  * ,-----------------------------------------------------------------------------------.
@@ -141,16 +141,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
 )
 }; 
 // задаем сочитание клавиш (комбо). Прописать их количество в файле config
-const uint16_t PROGMEM TOCH_combo[] = {KC_O, KC_N, COMBO_END};
-const uint16_t PROGMEM ZAP_combo[] = {KC_E, KC_T, COMBO_END};
+const uint16_t PROGMEM TOCH_combo[] = {KC_P, KC_L, COMBO_END};
+const uint16_t PROGMEM ZAP_combo[] = {KC_U, KC_GRV, COMBO_END};
 const uint16_t PROGMEM TZ_combo[] = {KC_E, KC_N, COMBO_END};
 const uint16_t PROGMEM DT_combo[] = {KC_O, KC_T, COMBO_END};
 const uint16_t PROGMEM DEF_combo[] = {KC_A, KC_W, COMBO_END};
 const uint16_t PROGMEM TIRE_combo[] = {KC_I, KC_R, COMBO_END};
 const uint16_t PROGMEM VOS_combo[] = {KC_U, KC_L, COMBO_END};
-const uint16_t PROGMEM VOP_combo[] = {KC_V, KC_M, COMBO_END};
+const uint16_t PROGMEM VOP_combo[] = {KC_X, KC_M, COMBO_END};
 const uint16_t PROGMEM REG1_combo[] = {KC_U, KC_O, COMBO_END};
-const uint16_t PROGMEM REG2_combo[] = {KC_N, KC_L, COMBO_END};
+const uint16_t PROGMEM REG2_combo[] = {KC_GRV, KC_S, COMBO_END};
 const uint16_t PROGMEM PROB1_combo[] = {KC_A, KC_E, COMBO_END};
 const uint16_t PROGMEM PROB2_combo[] = {KC_T, KC_N, COMBO_END};
 const uint16_t PROGMEM NACH_combo[] = {KC_D, KC_B, COMBO_END};
@@ -161,13 +161,13 @@ const uint16_t PROGMEM VERH_combo[] = {KC_L, KC_M, COMBO_END};
 const uint16_t PROGMEM VNIZ_combo[] = {KC_B, KC_SCLN, COMBO_END};
 const uint16_t PROGMEM VSH_combo[] = {KC_I, KC_A, COMBO_END};
 const uint16_t PROGMEM VVOD_combo[] = {KC_E, KC_O, COMBO_END};
-const uint16_t PROGMEM UDL_combo[] = {KC_U, KC_COMM, COMBO_END};
+const uint16_t PROGMEM UDL_combo[] = {KC_C, KC_X, COMBO_END};
 const uint16_t PROGMEM TAB_combo[] = {KC_N, KC_R, COMBO_END};
 const uint16_t PROGMEM VIH_combo[] = {KC_I, KC_O, COMBO_END};
-const uint16_t PROGMEM KOP1_combo[] = {KC_V, KC_O, COMBO_END};
+const uint16_t PROGMEM KOP1_combo[] = {KC_X, KC_O, COMBO_END};
 const uint16_t PROGMEM VST1_combo[] = {KC_A, KC_O, COMBO_END};
 const uint16_t PROGMEM UPR1_combo[] = {KC_E, KC_Y, COMBO_END};
-const uint16_t PROGMEM OTM_combo[] = {KC_V, KC_U, COMBO_END};
+const uint16_t PROGMEM OTM_combo[] = {KC_X, KC_U, COMBO_END};
 const uint16_t PROGMEM N1_combo[] = {KC_Y, KC_N, COMBO_END};
 const uint16_t PROGMEM N2_combo[] = {KC_Y, KC_T, COMBO_END};
 const uint16_t PROGMEM N3_combo[] = {KC_Y, KC_W, COMBO_END};
@@ -178,16 +178,19 @@ const uint16_t PROGMEM N7_combo[] = {KC_Y, KC_L, COMBO_END};
 const uint16_t PROGMEM N8_combo[] = {KC_Y, KC_M, COMBO_END};
 const uint16_t PROGMEM N9_combo[] = {KC_Y, KC_J, COMBO_END};
 const uint16_t PROGMEM N0_combo[] = {KC_Y, KC_K, COMBO_END};
-const uint16_t PROGMEM VSH2_combo[] = {KC_QUOT, KC_SLSH, COMBO_END};
-const uint16_t PROGMEM INS_combo[] = {KC_V, KC_E, COMBO_END};
-const uint16_t PROGMEM VYR_combo[] = {KC_SLSH, KC_O, COMBO_END};
+const uint16_t PROGMEM VSH2_combo[] = {KC_EQL, KCC_YO, COMBO_END};
+const uint16_t PROGMEM INS_combo[] = {KC_X, KC_E, COMBO_END};
+const uint16_t PROGMEM VYR_combo[] = {KCC_YO, KC_O, COMBO_END};
 const uint16_t PROGMEM PER1_combo[] = {KC_N, KC_M, COMBO_END};
 const uint16_t PROGMEM PER2_combo[] = {KC_D, KC_W, COMBO_END};
 const uint16_t PROGMEM OCH_combo[] = {KC_Q, KC_Y, COMBO_END};
 const uint16_t PROGMEM VVOD2_combo[] = {KC_O, KC_S, COMBO_END};
 const uint16_t PROGMEM PER3_combo[] = {KC_N, KC_SCLN, COMBO_END};
 const uint16_t PROGMEM SOYI_combo[] = {KC_I, KC_N, COMBO_END};
-const uint16_t PROGMEM BUKTZ_combo[] = {KC_V, KC_I, COMBO_END};
+const uint16_t PROGMEM BUKTZ_combo[] = {KC_I, KC_X, COMBO_END};
+const uint16_t PROGMEM DOP_combo[] = {KC_D, KC_T, COMBO_END};  // АЛЬТ
+
+
 
 //связываем комбо с функциональными клавишами и действиями
 combo_t key_combos[COMBO_COUNT] = { 
