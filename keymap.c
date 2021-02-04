@@ -116,7 +116,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
   KOP1,          VST1,         KCC_1,  KCC_2,    KСC_3,  KСC_4,   KСC_5,   KСC_6,  KСC_7,    KCC_8,   KСC_9,   KСC_10, \
   KC_C,          KC_X,         KC_U,   KC_GRV,   KC_LBRC,TD(VYH), KСC_11,  KC_H,   KC_P,     KC_L,    KC_M,    KC_J,  \
   KC_I,          KC_A,         KC_E,   KC_O,     KC_S,   TD(TABB),KC_RBRC, KC_K,   KC_N,     KC_T,    KC_W,    KC_R, \
-  KC_EQL,        KCC_YO,       KC_Q,   KC_Y,     KC_BSLS,TD(PER_LAY),KC_F, KC_G,   KC_D,     KC_B,    KC_SCLN, KC_Z, \
+  KC_EQL,        KCC_YO,       KC_Q,   KC_Y,     KC_NUBS,TD(PER_LAY),KC_F, KC_G,   KC_D,     KC_B,    KC_SCLN, KC_Z, \
   KC_LCTL,       KC_LSFT,      KC_LALT,TD(WEMO), KC_ENT, KC_DEL,  KC_BSPC, KC_SPC, TD(RU_AN),KCC_OTM, KC_LEFT, KC_RGHT \
 ), // OSM(MOD_LSFT) - модифицированный РЕГ
 /* сервисная
@@ -133,8 +133,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
  * `-----------------------------------------------------------------------------------'
  */ 
 [L_SERV] = LAYOUT_preonic_grid( \
+  KC_F1,   KC_F2,   KC_F3,  KC_F4,  KC_F5,  KC_F6,  KC_F7,  KC_F8,  KC_F9,  KC_F10, KC_F11, KC_F12, \
+  RGB_TOG, RGB_MOD, KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_PSCR,KC_7,   KC_8,   KC_9, \
+  RGB_TOG, RGB_MOD, KC_MUTE,KC_TRNS,KC_MNXT,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_4,   KC_5,   KC_6, \
+  KC_BRIU, KC_BRID, KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_1,   KC_2,   KC_3, \
+  RGB_TOG, RGB_MOD, KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_0,KC_TRNS \
+                               
   KC_BRIU,  KC_BRID,  KC_MUTE,  KC_MNXT,    KC_PGUP, ALT_1,   KC_F10, KC_F11, KC_F12, KC_PAST, KC_PMNS, KC_PPLS, \
-  C(KC_INS),KC_UP,    S(KC_INS),C(KC_X),    KC_PGDN, TD(TABB),KC_F7,  KC_F8,  KC_F9,  KC_7,   KC_8,   KC_9, \
+  C(KC_INS),KC_UP,    S(KC_INS),C(KC_X),    KC_TRNS, TD(TABB),KC_F7,  KC_F8,  KC_F9,  KC_7,   KC_8,   KC_9, \
   KC_LEFT,  KC_DOWN,  KC_RGHT,  C(KC_Z),    RGB_TOG, TD(VYH), KC_F4,  KC_F5,  KC_F6,  KC_4,   KC_5,   KC_6, \
   KC_BTN1,  KC_MS_U,  KC_BTN2,  KC_PSCR,    RGB_MOD, TD(WEMO),KC_F1,  KC_F2,  KC_F3,  KC_1,   KC_2,   KC_3, \
   KC_LCTL,  KC_LSFT,  KC_LALT,  TD(PER_LAY),KC_SPC,  KC_DEL,  KC_BSPC,KC_ENT, KC_NLCK,KC_INS,  KC_0,   KC_PDOT \
