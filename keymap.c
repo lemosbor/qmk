@@ -8,8 +8,50 @@
 /////////Ж./
 #define L_OSNOVA 0 // слой 0 (основной)
 #define L_SERV 1 // слой 1 (сервисный)
+#define SWITCH(kc1, s1, kc2, s2, ks3, s3, ks4, s4)\
+    if (record->event.pressed) {\
+        if (shift_held) { 		\		//зажатый РЕГ
+            if (alt_held) { 	\		//зажатый УПР
+                unregister_code(KC_LALT);\
+                if (s4 == 0) {\
+                    unregister_code(KC_LSFT);\
+                    tap_code(kc4);\
+                } else {\
+                    tap_code(kc4);\
+                    unregister_code(KC_LSFT);\
+            } else {			\		//не зажатый УПР
+                if (s2 == 0) {\
+                    unregister_code(KC_LSFT);\
+                    tap_code(kc2);\
+                } else {\
+                    tap_code(kc2);\
+                    unregister_code(KC_LSFT);\
+                }\
+            }\
+        } else { 		\				//не зажатый РЕГ
+            if (alt_held) { \			//зажатый УПР
+                unregister_code(KC_LALT);\
+                if (s3 == 0) {\
+                    tap_code(kc3);\
+                } else {\
+                    register_code(KC_LSFT);\
+                    tap_code(kc3);\
+                    unregister_code(KC_LSFT);\
+                }\
+            } else {			\		//не зажатый УПР
+                if (s1 == 0) {\
+                    tap_code(kc2);\
+                } else {\
+                    register_code(KC_LSFT);\
+                    tap_code(kc2);\
+                    unregister_code(KC_LSFT);\
+                }\
+            }\
+    } \
+return false;
 
 static bool shift_held = false;
+static bool alt_held = false;
 
 typedef struct { //назначение структуры нажатий https://docs.qmk.fm/#/feature_tap_dance?id=how-to-use
     bool is_press_action;
@@ -34,6 +76,7 @@ enum custom_keycodes {
   SL_1,
   KOP1,
   VST1,
+  KCC_YO,
 }; 
 
 enum combo_events { // обозначение комбо-команд
@@ -135,15 +178,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
 [L_SERV] = LAYOUT_preonic_grid( \
   KC_F1,   KC_F2,   KC_F3,  KC_F4,  KC_F5,  KC_F6,  KC_F7,  KC_F8,  KC_F9,  KC_F10, KC_F11, KC_F12, \
   RGB_TOG, RGB_MOD, KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_PSCR,KC_7,   KC_8,   KC_9, \
-  RGB_TOG, RGB_MOD, KC_MUTE,KC_TRNS,KC_MNXT,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_4,   KC_5,   KC_6, \
-  KC_BRIU, KC_BRID, KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_1,   KC_2,   KC_3, \
-  RGB_TOG, RGB_MOD, KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_0,KC_TRNS \
-                               
-  KC_BRIU,  KC_BRID,  KC_MUTE,  KC_MNXT,    KC_PGUP, ALT_1,   KC_F10, KC_F11, KC_F12, KC_PAST, KC_PMNS, KC_PPLS, \
-  C(KC_INS),KC_UP,    S(KC_INS),C(KC_X),    KC_TRNS, TD(TABB),KC_F7,  KC_F8,  KC_F9,  KC_7,   KC_8,   KC_9, \
-  KC_LEFT,  KC_DOWN,  KC_RGHT,  C(KC_Z),    RGB_TOG, TD(VYH), KC_F4,  KC_F5,  KC_F6,  KC_4,   KC_5,   KC_6, \
-  KC_BTN1,  KC_MS_U,  KC_BTN2,  KC_PSCR,    RGB_MOD, TD(WEMO),KC_F1,  KC_F2,  KC_F3,  KC_1,   KC_2,   KC_3, \
-  KC_LCTL,  KC_LSFT,  KC_LALT,  TD(PER_LAY),KC_SPC,  KC_DEL,  KC_BSPC,KC_ENT, KC_NLCK,KC_INS,  KC_0,   KC_PDOT \
+  KC_VOLD, KC_VOLU, KC_MUTE,KC_MSTP,KC_MNXT,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_4,   KC_5,   KC_6, \
+  KC_BRID, KC_BRIU, KC_TRNS,KC_TRNS,KC_TRNS,TD(PER_LAY),KC_TRNS,KC_TRNS,KC_TRNS,KC_1,   KC_2,   KC_3, \
+  RGB_TOG, RGB_MOD, KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_0,   KC_TRNS \
 )
 }; 
 // задаем сочитание клавиш (комбо). Прописать их количество в файле config
@@ -194,7 +231,7 @@ const uint16_t PROGMEM VVOD2_combo[] = {KC_O, KC_S, COMBO_END};
 const uint16_t PROGMEM PER3_combo[] = {KC_N, KC_SCLN, COMBO_END};
 const uint16_t PROGMEM SOYI_combo[] = {KC_I, KC_N, COMBO_END};
 const uint16_t PROGMEM BUKTZ_combo[] = {KC_I, KC_X, COMBO_END};
-const uint16_t PROGMEM DOP_combo[] = {KC_D, KC_T, COMBO_END};  // АЛЬТ
+//const uint16_t PROGMEM DOP_combo[] = {KC_D, KC_T, COMBO_END};  // АЛЬТ
 
 
 
@@ -504,6 +541,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
         shift_held = record->event.pressed;
     return true;
     break;
+	case KC_LALT:
+        alt_held = record->event.pressed;	// записать, что УПР нажат
+	return true;
+    break;
+    case KCC_YO: // ё (/ *) и ><
+	    SWITCH(KC_SLSH, 0, KC_8, 1,  KC_COMM, 1, KC_DOT, 1)
+    return true;
+	break;
     case SL_1: {
             if (record->event.pressed) {
         if (shift_held) {
