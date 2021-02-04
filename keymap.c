@@ -8,46 +8,49 @@
 /////////Ж./
 #define L_OSNOVA 0 // слой 0 (основной)
 #define L_SERV 1 // слой 1 (сервисный)
-#define SWITCH(kc1, s1, kc2, s2, ks3, s3, ks4, s4)\
-    if (record->event.pressed) {\
-        if (shift_held) { 		\		//зажатый РЕГ
-            if (alt_held) { 	\		//зажатый УПР
-                unregister_code(KC_LALT);\
-                if (s4 == 0) {\
-                    unregister_code(KC_LSFT);\
-                    tap_code(kc4);\
-                } else {\
-                    tap_code(kc4);\
-                    unregister_code(KC_LSFT);\
-            } else {			\		//не зажатый УПР
-                if (s2 == 0) {\
-                    unregister_code(KC_LSFT);\
-                    tap_code(kc2);\
-                } else {\
-                    tap_code(kc2);\
-                    unregister_code(KC_LSFT);\
-                }\
-            }\
-        } else { 		\				//не зажатый РЕГ
-            if (alt_held) { \			//зажатый УПР
-                unregister_code(KC_LALT);\
-                if (s3 == 0) {\
-                    tap_code(kc3);\
-                } else {\
-                    register_code(KC_LSFT);\
-                    tap_code(kc3);\
-                    unregister_code(KC_LSFT);\
-                }\
-            } else {			\		//не зажатый УПР
-                if (s1 == 0) {\
-                    tap_code(kc2);\
-                } else {\
-                    register_code(KC_LSFT);\
-                    tap_code(kc2);\
-                    unregister_code(KC_LSFT);\
-                }\
-            }\
+
+#define SVIT(bt1, s1, bt2, s2, bt3, s3, bt4, s4) \
+if (record->event.pressed) { \
+  if (shift_held) { \
+     if (alt_held) { \
+      unregister_code(KC_F15); \
+      if (s4 == 0) { \
+        unregister_code(KC_LSFT); \
+        tap_code(bt4); \
+      } else { \
+        tap_code(bt4); \
+        unregister_code(KC_LSFT); \
+       } \
+    } else { \
+      if (s2 == 0) { \
+        unregister_code(KC_LSFT); \
+        tap_code(bt2); \
+      } else { \
+        tap_code(bt2); \
+        unregister_code(KC_LSFT); \
+      } \
     } \
+  } else { \
+    if (alt_held) { \
+      if (s3 == 0) { \
+        tap_code(bt3); \
+      } else { \
+        register_code(KC_LSFT); \
+        tap_code(bt3); \
+        unregister_code(KC_LSFT); \
+      } \
+      unregister_code(KC_F15); \
+    } else { \
+      if (s1 == 0) { \
+        tap_code(bt1); \
+      } else { \
+        register_code(KC_LSFT); \
+        tap_code(bt1); \
+        unregister_code(KC_LSFT); \
+      } \
+    } \
+  } \
+} \
 return false;
 
 static bool shift_held = false;
@@ -76,7 +79,8 @@ enum custom_keycodes {
   SL_1,
   KOP1,
   VST1,
-  KCC_YO,
+  KCC_1,
+  KCC_2,
 }; 
 
 enum combo_events { // обозначение комбо-команд
@@ -149,18 +153,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
 ц ь у ч ш ъ х п л м й
 и а е о с щ к н т в р
 э ё ы я ю ф г д б ж з
-УПР	←	НАЧ
-УПР	→	КОН
-УПР	↑	ВЕРХ        KC_SLSH (без регистра) KC_8(с регистром) — ё
-УПР	↓	НИЗ
-РЕГ	ВШ	Отмена
+УПР ← НАЧ
+УПР → КОН
+УПР ↑ ВЕРХ      
+УПР ↓ НИЗ
+РЕГ ВШ  Отмена
  */
 [L_OSNOVA] = LAYOUT_preonic_grid( \
-  KOP1,          VST1,         KCC_1,  KCC_2,    KСC_3,  KСC_4,   KСC_5,   KСC_6,  KСC_7,    KCC_8,   KСC_9,   KСC_10, \
-  KC_C,          KC_X,         KC_U,   KC_GRV,   KC_LBRC,TD(VYH), KСC_11,  KC_H,   KC_P,     KC_L,    KC_M,    KC_J,  \
+  KOP1,          VST1,         KCC_2,   KC_2,    KC_3,  KC_4,   KC_5,   KC_6,  KC_7,    KC_8,   KC_9,   KC_0, \
+  KC_C,          KC_X,         KC_U,   KC_GRV,   KC_LBRC,TD(VYH), KC_F11,  KC_H,   KC_P,     KC_L,    KC_M,    KC_J, \
   KC_I,          KC_A,         KC_E,   KC_O,     KC_S,   TD(TABB),KC_RBRC, KC_K,   KC_N,     KC_T,    KC_W,    KC_R, \
-  KC_EQL,        KCC_YO,       KC_Q,   KC_Y,     KC_NUBS,TD(PER_LAY),KC_F, KC_G,   KC_D,     KC_B,    KC_SCLN, KC_Z, \
-  KC_LCTL,       KC_LSFT,      KC_LALT,TD(WEMO), KC_ENT, KC_DEL,  KC_BSPC, KC_SPC, TD(RU_AN),KCC_OTM, KC_LEFT, KC_RGHT \
+  KC_EQL,        KCC_1,       KC_Q,   KC_Y,     KC_NUBS,TD(PER_LAY),KC_F, KC_G,   KC_D,     KC_B,    KC_V, KC_Z, \
+  KC_LCTL,       KC_LSFT,      KC_F15, TD(WEMO), KC_ENT, KC_DEL,  KC_BSPC, KC_SPC, TD(RU_AN),KC_F11, KC_LEFT, KC_RGHT \
 ), // OSM(MOD_LSFT) - модифицированный РЕГ
 /* сервисная
  * ,-----------------------------------------------------------------------------------.
@@ -168,7 +172,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |цвет в|цвет р|пр-кру| —    | —    |  —   |  —   |  —   |  печ |   7  |   8  |   9  |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | тише |громче| тихо | стоп |след  |  —   |  —   |  —   |  —   |   4  |   5  |   6  | KC_MSTP  KC_MNXT
+ * | тише |громче| тихо | стоп |след  |  —   |  —   |  —   |  —   |   4  |   5  |   6  |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * | ярче |темнее| —    |  —   |—     |  —   |  —   |  —   |  —   |   1  |   2  |   3  |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
@@ -221,9 +225,9 @@ const uint16_t PROGMEM N7_combo[] = {KC_Y, KC_L, COMBO_END};
 const uint16_t PROGMEM N8_combo[] = {KC_Y, KC_M, COMBO_END};
 const uint16_t PROGMEM N9_combo[] = {KC_Y, KC_J, COMBO_END};
 const uint16_t PROGMEM N0_combo[] = {KC_Y, KC_K, COMBO_END};
-const uint16_t PROGMEM VSH2_combo[] = {KC_EQL, KCC_YO, COMBO_END};
+const uint16_t PROGMEM VSH2_combo[] = {KC_EQL, KC_SLSH, COMBO_END};
 const uint16_t PROGMEM INS_combo[] = {KC_X, KC_E, COMBO_END};
-const uint16_t PROGMEM VYR_combo[] = {KCC_YO, KC_O, COMBO_END};
+const uint16_t PROGMEM VYR_combo[] = {KC_SCLN, KC_O, COMBO_END};
 const uint16_t PROGMEM PER1_combo[] = {KC_N, KC_M, COMBO_END};
 const uint16_t PROGMEM PER2_combo[] = {KC_D, KC_W, COMBO_END};
 const uint16_t PROGMEM OCH_combo[] = {KC_Q, KC_Y, COMBO_END};
@@ -541,14 +545,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
         shift_held = record->event.pressed;
     return true;
     break;
-	case KC_LALT:
-        alt_held = record->event.pressed;	// записать, что УПР нажат
-	return true;
-    break;
-    case KCC_YO: // ё (/ *) и ><
-	    SWITCH(KC_SLSH, 0, KC_8, 1,  KC_COMM, 1, KC_DOT, 1)
+    case KC_F15:
+        alt_held = record->event.pressed; // записать, что УПР нажат
     return true;
-	break;
+    break;
+    case KCC_1:
+      SVIT(KC_COMM, 0, KC_5, 1,  KC_3, 1, KC_3, 1);
+    case KCC_2:
+      SVIT(KC_SLSH, 0, KC_8, 1,  KC_COMM, 1, KC_DOT, 1);
     case SL_1: {
             if (record->event.pressed) {
         if (shift_held) {
