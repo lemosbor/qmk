@@ -30,6 +30,7 @@
 // #define PERMISSIVE_HOLD
 #define COMBO_TERM 20 // задержка для комбо
 #define COMBO_COUNT 47 // количество спец. комбинаций с клавишами
+#define COMBO_ALLOW_ACTION_KEY
 
 #define ONESHOT_TAP_TOGGLE 2 // ожидающие кнопки. Количество нажатий для залипания.
 #define ONESHOT_TIMEOUT 2000  // ожидающие кнопки. время ожидания (мс)

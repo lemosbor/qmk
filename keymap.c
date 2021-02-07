@@ -1,5 +1,5 @@
 #include QMK_KEYBOARD_H // компиляция по QMK
-#include "keymap.h"
+//#include "keymap.h"
 //#include "eeconfig.h"
 //#include "preonic.h"
 //#include "action_layer.h"
@@ -10,34 +10,58 @@
 #define L_OSNOVA 0 // слой 0 (основной)
 #define L_SERV 1 // слой 1 (сервисный)
 
-void add_to_prev(uint16_t kc){
-  for (int i=0; i<prev_indx; i++){
-    if (kc == prev_kcs[i])
-      return;
-  }
-  if (prev_indx == 6){
-    for (int i=5; i>0; i--){
-      prev_kcs[i] = prev_kcs[i-1];
-    }
-    prev_kcs[0] = kc;
-  } else {
-    prev_kcs[prev_indx] = kc;
-    prev_indx++;
-  }
-}
+#define SVIT(bt1, s1, bt2, s2, bt3, s3, bt4, s4) \
+if (record->event.pressed) { \
+  if (shift_held) { \
+     if (alt_held) { \
+      unregister_code(KC_F15); \
+      if (s4 == 0) { \
+        unregister_code(KC_LSFT); \
+        tap_code(bt4); \
+      } else { \
+        tap_code(bt4); \
+        unregister_code(KC_LSFT); \
+       } \
+    } else { \
+      if (s2 == 0) { \
+        unregister_code(KC_LSFT); \
+        tap_code(bt2); \
+      } else { \
+        tap_code(bt2); \
+        unregister_code(KC_LSFT); \
+      } \
+    } \
+  } else { \
+    if (alt_held) { \
+      if (s3 == 0) { \
+        tap_code(bt3); \
+      } else { \
+        register_code(KC_LSFT); \
+        tap_code(bt3); \
+        unregister_code(KC_LSFT); \
+      } \
+      unregister_code(KC_F15); \
+    } else { \
+      if (s1 == 0) { \
+        tap_code(bt1); \
+      } else { \
+        register_code(KC_LSFT); \
+        tap_code(bt1); \
+        unregister_code(KC_LSFT); \
+      } \
+    } \
+  } \
+} \
+return false;
 
-void unreg_prev(void){
-  if (prev_indx == 0)
-    return;
-  for (int i=0; i<prev_indx; i++){
-    unregister_code(prev_kcs[i]);
-  }
-  prev_indx = 0;
-}
-#endif
+#define CTRINS LCTL(KC_INS)
+#define ALTBS LALT(KC_BSPC)
+#define ALTYY LALT(KC_P2)
+#define SFTINS LSFT(KC_INS)
+#define KYO ALT_1
 
-static bool shift_held = false;
-static bool alt_held = false;
+bool shift_held = false;
+bool alt_held = false;
 
 typedef struct { //назначение структуры нажатий https://docs.qmk.fm/#/feature_tap_dance?id=how-to-use
     bool is_press_action;
@@ -58,12 +82,23 @@ enum {
 };
 
 enum custom_keycodes {      
-  ALT_1,
+  ALT_1 = SAFE_RANGE,
   SL_1,
   KOP1,
   VST1,
+  ALT_3,
+  ALT_2,
   KCC_1,
   KCC_2,
+  KCC_3,
+  KCC_4,
+  KCC_5,
+  KCC_6,
+  KCC_7,
+  KCC_8,
+  KCC_9,
+  KCC_0,
+  KCC_10,
 }; 
 
 enum combo_events { // обозначение комбо-команд
@@ -129,7 +164,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
  * |------+------+------+------+------+-------------+------+------+------+------+------|
  * |   I  |   A  |   E  |   O  |   S  |  ТАБ |   ]  |   K  |   N  |   T  |   W  |   R  |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
- * |   =  |   /  |   Q  |   Y  |   \  |  Б/Ц |   F  |   G  |   D  |   B  |   V  |   Z  |
+ * |   /  |      |   Q  |   Y  |   \  |  Б/Ц |   F  |   G  |   D  |   B  |   V  |   Z  |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * | УПР  | РЕГ  | ДОП  |  ГИП | ВВОД |  УД  |  ВШ  |пробел|  Р/А |  ОТМ |  ←   |   →  |
  * `-----------------------------------------------------------------------------------'
@@ -143,11 +178,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
 РЕГ ВШ  Отмена
  */
 [L_OSNOVA] = LAYOUT_preonic_grid( \
-  KOP1,          VST1,         KCC_2,   KC_2,    KC_3,  KC_4,   KC_5,   KC_6,  KC_7,    KC_8,   KC_9,   KC_0, \
-  KC_C,          KC_X,         KC_U,   KC_GRV,   KC_LBRC,TD(VYH), KC_F11,  KC_H,   KC_P,     KC_L,    KC_M,    KC_J, \
+  KOP1,          VST1,         KCC_1,  KCC_2,    KCC_3,  KCC_4,   KCC_5,   KCC_6,  KCC_7,    KCC_8,   KCC_9,   KCC_0, \
+  KC_C,          KC_X,         KC_U,   KC_GRV,   KC_LBRC,TD(VYH), KCC_10,  KC_H,   KC_P,     KC_L,    KC_M,    KC_J, \
   KC_I,          KC_A,         KC_E,   KC_O,     KC_S,   TD(TABB),KC_RBRC, KC_K,   KC_N,     KC_T,    KC_W,    KC_R, \
-  KC_EQL,        KCC_1,       KC_Q,   KC_Y,     KC_NUBS,TD(PER_LAY),KC_F, KC_G,   KC_D,     KC_B,    KC_V, KC_Z, \
-  KC_LCTL,       KC_LSFT,      KC_F15, TD(WEMO), KC_ENT, KC_DEL,  KC_BSPC, KC_SPC, TD(RU_AN),KC_F11, KC_LEFT, KC_RGHT \
+  KC_BSLS,        KYO,       KC_Q,   KC_Y,     KC_NUBS,TD(PER_LAY),KC_F, KC_G,   KC_D,     KC_B,    KC_V, KC_Z, \
+  KC_LCTL,       KC_LSFT,      KC_F15, TD(WEMO), KC_ENT, KC_DEL,  KC_BSPC, KC_SPC, TD(RU_AN),ALTBS, KC_LEFT, KC_RGHT \
 ), // OSM(MOD_LSFT) - модифицированный РЕГ
 /* сервисная
  * ,-----------------------------------------------------------------------------------.
@@ -167,7 +202,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
   RGB_TOG, RGB_MOD, KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_PSCR,KC_7,   KC_8,   KC_9, \
   KC_VOLD, KC_VOLU, KC_MUTE,KC_MSTP,KC_MNXT,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_4,   KC_5,   KC_6, \
   KC_BRID, KC_BRIU, KC_TRNS,KC_TRNS,KC_TRNS,TD(PER_LAY),KC_TRNS,KC_TRNS,KC_TRNS,KC_1,   KC_2,   KC_3, \
-  RGB_TOG, RGB_MOD, KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_0,   KC_TRNS \
+  KC_TRNS, KC_TRNS, KC_TRNS,KC_TRNS,KC_TRNS,ALTYY,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_0,   KC_TRNS \
 )
 }; 
 // задаем сочитание клавиш (комбо). Прописать их количество в файле config
@@ -184,11 +219,11 @@ const uint16_t PROGMEM REG2_combo[] = {KC_GRV, KC_S, COMBO_END};
 const uint16_t PROGMEM PROB1_combo[] = {KC_A, KC_E, COMBO_END};
 const uint16_t PROGMEM PROB2_combo[] = {KC_T, KC_N, COMBO_END};
 const uint16_t PROGMEM NACH_combo[] = {KC_D, KC_B, COMBO_END};
-const uint16_t PROGMEM KON_combo[] = {KC_SCLN, KC_Z, COMBO_END};
+const uint16_t PROGMEM KON_combo[] = {KC_V, KC_Z, COMBO_END};
 const uint16_t PROGMEM LEV_combo[] = {KC_W, KC_T, COMBO_END};
 const uint16_t PROGMEM PRAV_combo[] = {KC_W, KC_R, COMBO_END};
 const uint16_t PROGMEM VERH_combo[] = {KC_L, KC_M, COMBO_END};
-const uint16_t PROGMEM VNIZ_combo[] = {KC_B, KC_SCLN, COMBO_END};
+const uint16_t PROGMEM VNIZ_combo[] = {KC_B, KC_V, COMBO_END};
 const uint16_t PROGMEM VSH_combo[] = {KC_I, KC_A, COMBO_END};
 const uint16_t PROGMEM VVOD_combo[] = {KC_E, KC_O, COMBO_END};
 const uint16_t PROGMEM UDL_combo[] = {KC_C, KC_X, COMBO_END};
@@ -208,14 +243,14 @@ const uint16_t PROGMEM N7_combo[] = {KC_Y, KC_L, COMBO_END};
 const uint16_t PROGMEM N8_combo[] = {KC_Y, KC_M, COMBO_END};
 const uint16_t PROGMEM N9_combo[] = {KC_Y, KC_J, COMBO_END};
 const uint16_t PROGMEM N0_combo[] = {KC_Y, KC_K, COMBO_END};
-const uint16_t PROGMEM VSH2_combo[] = {KC_EQL, KC_SLSH, COMBO_END};
+const uint16_t PROGMEM VSH2_combo[] = {KC_EQL, KYO, COMBO_END};
 const uint16_t PROGMEM INS_combo[] = {KC_X, KC_E, COMBO_END};
-const uint16_t PROGMEM VYR_combo[] = {KC_SCLN, KC_O, COMBO_END};
+const uint16_t PROGMEM VYR_combo[] = {KYO, KC_O, COMBO_END};
 const uint16_t PROGMEM PER1_combo[] = {KC_N, KC_M, COMBO_END};
 const uint16_t PROGMEM PER2_combo[] = {KC_D, KC_W, COMBO_END};
 const uint16_t PROGMEM OCH_combo[] = {KC_Q, KC_Y, COMBO_END};
 const uint16_t PROGMEM VVOD2_combo[] = {KC_O, KC_S, COMBO_END};
-const uint16_t PROGMEM PER3_combo[] = {KC_N, KC_SCLN, COMBO_END};
+const uint16_t PROGMEM PER3_combo[] = {KC_N, KC_V, COMBO_END};
 const uint16_t PROGMEM SOYI_combo[] = {KC_I, KC_N, COMBO_END};
 const uint16_t PROGMEM BUKTZ_combo[] = {KC_I, KC_X, COMBO_END};
 //const uint16_t PROGMEM DOP_combo[] = {KC_D, KC_T, COMBO_END};  // АЛЬТ
@@ -247,10 +282,10 @@ combo_t key_combos[COMBO_COUNT] = {
   [comb_UDL] = COMBO(UDL_combo, KC_DEL),
   [comb_TAB] = COMBO(TAB_combo, KC_TAB),
   [comb_VIH] = COMBO(VIH_combo, KC_ESC),
-[comb_KOP1] = COMBO_ACTION(KOP1_combo),
-[comb_VST1] = COMBO_ACTION(VST1_combo),
+[comb_KOP1] = COMBO(KOP1_combo, CTRINS),
+[comb_VST1] = COMBO(VST1_combo, SFTINS),
   [comb_UPR1] = COMBO_ACTION(UPR1_combo),
-[comb_OTM] = COMBO_ACTION(OTM_combo),
+[comb_OTM] = COMBO(OTM_combo, ALTBS),
 [comb_N1] = COMBO(N1_combo, KC_P1),
 [comb_N2] = COMBO(N2_combo, KC_P2),
 [comb_N3] = COMBO(N3_combo, KC_P3),
@@ -338,21 +373,6 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         register_code(KC_SPC);
         unregister_code(KC_SPC);
         set_oneshot_mods (MOD_LSFT);
-      }
-      break;
-    case comb_OTM: // отмена
-      if (pressed) {
-        tap_code16(LCTL(KC_Z));
-      }
-      break;
-    case comb_KOP1: // скопировать
-      if (pressed) {
-        tap_code16(LCTL(KC_INS));
-      }
-      break;
-    case comb_VST1: // вставить
-      if (pressed) {
-        tap_code16(LSFT(KC_INS));
       }
       break;
     case comb_VSH2: // удалить целиком
@@ -506,15 +526,8 @@ qk_tap_dance_action_t tap_dance_actions[] = { // связка кнопок с ф
     [RU_AN] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, x_finished, x_reset), // Р/А
 };
 
-void matrix_init_user (void) { //постоянная активация NUMLOCK https://www.reddit.com/r/olkb/comments/5mxtfp/qmk_num_lock/
-  if (!(host_keyboard_leds() & (1<<USB_LED_NUM_LOCK))) { // или https://github.com/qmk/qmk_firmware/issues/2164
-      register_code(KC_NUMLOCK);
-      unregister_code(KC_NUMLOCK);
-  }
-};
-
 bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://beta.docs.qmk.fm/using-qmk/guides/custom_quantum_functions#programming-the-behavior-of-any-keycode-id-programming-the-behavior-of-any-keycode
-  switch (keycode) {    
+  switch (keycode) { 
     case ALT_1:
       if (record->event.pressed) { //if (pressed) {
         register_code(KC_LALT); // SEND_STRING(SS_LALT("D83D+DC4D")); SEND_STRING(":yellow_yoshi:");
@@ -533,9 +546,29 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
     return true;
     break;
     case KCC_1:
-      SVIT(KC_COMM, 0, KC_5, 1,  KC_3, 1, KC_3, 1);
+      SVIT(KC_COMM, 0, KC_5, 1,  KC_3, 1, KC_INT1, 0)
     case KCC_2:
-      SVIT(KC_SLSH, 0, KC_8, 1,  KC_COMM, 1, KC_DOT, 1);
+      SVIT(KC_SCLN, 1, KC_SCLN, 0,  KC_PDOT, 0, KC_3, 1)
+    case KCC_3:
+      SVIT(KC_SLSH, 1, KC_1, 1,  KC_7, 1, KC_3, 1)
+    case KCC_4:
+      SVIT(KC_QUOT, 1, KC_QUOT, 0,  KC_NUHS, 0, KC_NUHS, 1) //KC_NUHS, 0,
+    case KCC_5:
+      SVIT(KC_PSLS, 0, KC_BSLS, 0,  KC_BSLS, 1, KC_GRV, 1)
+    case KCC_6:
+      SVIT(KC_EQL, 1, KC_EQL, 0,  KC_INT4, 0, KC_ZKHK, 1)
+    case KCC_7:
+      SVIT(KC_PMNS, 0, KC_MINS, 1,  KC_INT5, 0, KC_3, 1)
+    case KCC_8:
+      SVIT(KC_DOT, 0, KC_4, 1,  KC_3, 1, KC_3, 1)
+    case KCC_9:
+      SVIT(KC_9, 1, KC_5, 1,  KC_3, 1, KC_3, 1)
+    case KCC_0:
+      SVIT(KC_0, 1, KC_5, 1,  KC_3, 1, KC_3, 1)
+    case KCC_10:
+      SVIT(KC_PAST, 0, KC_2, 1,  KC_6, 1, KC_3, 1)
+    case ALT_3:
+      SVIT(KC_SLSH, 0, KC_8, 1,  KC_COMM, 1, KC_DOT, 1)
     case SL_1: {
             if (record->event.pressed) {
         if (shift_held) {
@@ -556,8 +589,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
     case KOP1:
             if (record->event.pressed) {
         if (shift_held) {
-                    //unregister_code(KC_LSFT);
-                    tap_code(KC_DEL);
+          unregister_code(KC_LSFT);
+          tap_code16(LCTL(KC_DEL));
                 } else {
           tap_code16(LCTL(KC_INS));
         }
@@ -579,11 +612,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
 
 
 void encoder_update_user(uint8_t index, bool clockwise) {
-        if (clockwise) {
-            tap_code(KC_MS_WH_DOWN);
-        } else {
-            tap_code(KC_MS_WH_UP);
-        }
+        switch(biton32(layer_state)){
+          case 0:
+            if (clockwise) {
+                tap_code(KC_MS_WH_DOWN);
+            } else {
+                tap_code(KC_MS_WH_UP);
+            }
+            break;
+            case 1:
+                if (clockwise){
+                    tap_code(KC_RGHT);
+                } else{
+                    tap_code(KC_LEFT);
+                }
+                break;
+          }
 };
 
 //void eeconfig_init_user(void) {  // EEPROM is getting reset! use the non noeeprom versions, to write these values to EEPROM too https://www.reddit.com/r/olkb/comments/e0hurb/trying_to_set_color_based_on_active_layer_in_qmk/
