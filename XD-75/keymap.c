@@ -50,6 +50,7 @@ return false;
 #define ALTBS LALT(KC_BSPC)
 #define ALTYY LALT(KC_P2)
 #define SFTINS LSFT(KC_INS)
+#define REV_EQL LSFT(KC_EQL)
 #define KYO ALT_1
 
 bool shift_held = false;
@@ -167,11 +168,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
 РЕГ ВШ  Отмена
  */
 [L_OSNOVA] = LAYOUT_ortho_5x15( \
-  KOP1,          VST1,         KCC_1,  KCC_2,    KCC_3,   KCC_4,    KC_F2,   KC_F4,  KC_F9,   KCC_5,   KCC_6,  KCC_7,    KCC_8,   KCC_9,   KCC_0, \
-  KC_C,          KC_X,         KC_U,   KC_GRV,   KC_LBRC, TD(VYH),  KC_7,    KC_8,   KC_9,    KCC_10,  KC_H,   KC_P,     KC_L,    KC_M,    KC_J, \
-  KC_I,          KC_A,         KC_E,   KC_O,     KC_S,    TD(TABB), KC_4,    KC_5,   KC_6,    KC_RBRC, KC_K,   KC_N,     KC_T,    KC_W,    KC_R, \
-  KC_BSLS,       KYO,          KC_Q,   KC_Y,     KC_NUBS, KC_UP,    KC_1,    KC_2,   KC_3,    KC_F,    KC_G,   KC_D,     KC_B,    KC_V,    KC_Z, \
-  KC_LCTL,       KC_LSFT,      KC_F15, KC_ENT,   KC_LEFT, KC_DOWN,  KC_RGHT, KC_0,   TD(WEMO),KC_SPC,  KC_SPC, TD(RU_AN),ALTBS,   KC_DEL,  KC_BSPC \
+  KOP1,          VST1,         KCC_1,  KCC_2,    KCC_3,   KCC_4,    KC_F2,   KC_F4,  KC_F9,   KCC_5,   REV_EQL, KCC_7,    KCC_8,   KCC_9,   KCC_0, \
+  KC_C,          KC_X,         KC_U,   KC_GRV,   KC_LBRC, TD(VYH),  KC_7,    KC_8,   KC_9,    KCC_10,  KC_H,    KC_P,     KC_L,    KC_M,    KC_J, \
+  KC_I,          KC_A,         KC_E,   KC_O,     KC_S,    TD(TABB), KC_4,    KC_5,   KC_6,    KC_RBRC, KC_K,    KC_N,     KC_T,    KC_W,    KC_R, \
+  KC_BSLS,       KYO,          KC_Q,   KC_Y,     KC_NUBS, KC_UP,    KC_1,    KC_2,   KC_3,    KC_F,    KC_G,    KC_D,     KC_B,    KC_V,    KC_Z, \
+  KC_LCTL,       KC_LSFT,      KC_F15, KC_ENT,   KC_LEFT, KC_DOWN,  KC_RGHT, KC_0,   TD(WEMO),KC_SPC,  KC_SPC,  TD(RU_AN),ALTBS,   KC_DEL,  KC_BSPC \
 )
 }; 
 
