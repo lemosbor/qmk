@@ -92,6 +92,8 @@ enum custom_keycodes {
   KCC_10,
 }; 
 
+#define COMBO_COUNT 47 // кол-во комобо-команд
+
 enum combo_events { // обозначение комбо-команд
 comb_TOCH,
 comb_ZAP,
