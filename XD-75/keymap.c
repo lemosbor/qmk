@@ -147,14 +147,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
 э ё ы я ю ф г д б ж з
  */
 [L_OSNOVA] = LAYOUT_ortho_5x15( \
-  KOP1,          VST1,         KCC_1,  KC_SCLN,  KCC_3,   KCC_4,    KC_F2,   KC_F4,  KC_F9,   KCC_5,   REV_EQL, KC_MINS,  KCC_8,   KCC_9,   KCC_0, \
-  KC_C,          KC_X,         KC_U,   KC_GRV,   KC_LBRC, TD(VYH),  KC_7,    KC_8,   KC_9,    KCC_10,  KC_H,    KC_P,     KC_L,    KC_M,    KC_J, \
-  KC_I,          KC_A,         KC_E,   KC_O,     KC_S,    TD(TABB), KC_4,    KC_5,   KC_6,    KC_RBRC, KC_K,    KC_N,     KC_T,    KC_W,    KC_R, \
-  KC_BSLS,       KYO,          KC_Q,   KC_Y,     KC_NUBS, KC_UP,    KC_1,    KC_2,   KC_3,    KC_F,    KC_G,    KC_D,     KC_B,    KC_V,    KC_Z, \
-  KC_LCTL,       KC_LSFT,      KC_F15, KC_ENT,   KC_LEFT, KC_DOWN,  KC_RGHT, KC_0,   TD(WEMO),KC_SPC,  KC_SPC,  TD(RU_AN),ALTBS,   KC_DEL,  KC_BSPC \
+  KOP1,          VST1,         KCC_1,      KC_SCLN,  KCC_3,   KCC_4,    KC_F2,   KC_F4,  KC_F9,   KCC_5,   REV_EQL, KC_MINS,  KCC_8,   KCC_9,   KCC_0, \
+  KC_C,          KC_X,         KC_U,       KC_GRV,   KC_LBRC, TD(VYH),  KC_7,    KC_8,   KC_9,    KCC_10,  KC_H,    KC_P,     KC_L,    KC_M,    KC_J, \
+  KC_I,          KC_A,         KC_E,       KC_O,     KC_S,    TD(TABB), KC_4,    KC_5,   KC_6,    KC_RBRC, KC_K,    KC_N,     KC_T,    KC_W,    KC_R, \
+  KC_BSLS,       KYO,          KC_Q,       KC_Y,     KC_NUBS, KC_UP,    KC_1,    KC_2,   KC_3,    KC_F,    KC_G,    KC_D,     KC_B,    KC_V,    KC_Z, \
+  KC_LCTL,       KC_LSFT,      OSL(L_DOP), KC_ENT,   KC_LEFT, KC_DOWN,  KC_RGHT, KC_0,   TD(WEMO),KC_SPC,  KC_SPC,  TD(RU_AN),ALTBS,   KC_DEL,  KC_BSPC \
 ),
 [L_DOP] = LAYOUT_ortho_5x15( \
-  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
+  KC_TRNS,  KC_TRNS,  DCC_1,  DCC_2,  UC(L'—'),  UC(0x003D),  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
   KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
   KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
   KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
@@ -169,6 +169,11 @@ bool led_update_user(led_t led_state) { // зажечь светодиод ес�
         capslock_led_on();
     }
     return false;
+};
+
+void matrix_init_user(void){   // возможно убрать void из скобок  (eeconfig_init_user)
+	 _delay_ms(20); // Gets rid of tick
+   set_unicode_input_mode(UC_WINC);
 };
 
 // задаем сочитание клавиш (комбо)
@@ -427,6 +432,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
         unregister_code(KC_LALT);
       }
       break;
+    case ALT_2:
+      if (record->event.pressed) { //if (pressed) {
+        SEND_STRING(SS_LALT("D83D+DC4D"));
+      }
+      break;
     case KC_LSFT: // записать, что РЕГ нажат
         shift_held = record->event.pressed;
     return true;
@@ -435,6 +445,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
         alt_held = record->event.pressed; // записать, что Ф15 (УПР) нажат
     return true;
     break;
+    
     case KCC_1:
       REG_R(KC_COMM, 0, KC_5, 1)
     case KCC_3:
@@ -453,8 +464,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
       REG_R(KC_0, 1, KC_5, 1)
     case KCC_10:
       REG_R(KC_PAST, 0, KC_2, 1)
+    case DCC_1:
+      REG_R(KC_3, 1, KC_INT1, 0)
+    case DCC_2:
+      REG_R(ALT_1, 1, ALT_2, 0)     
     case ALT_3:
-      REG_R(KC_SLSH, 0, KC_8, 1) // поменять на ё
+      REG_R(KC_2, 0, KC_8, 1) // поменять на ё
     
     case KOP1: // Кнопка КОП
             if (record->event.pressed) {
