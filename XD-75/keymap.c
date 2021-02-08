@@ -142,10 +142,6 @@ comb_SOYI,
 comb_BUKTZ,
 };
 
-uint8_t cur_dance(qk_tap_dance_state_t *state); // общая функция нажатий
-void ql_finished(qk_tap_dance_state_t *state, void *user_data); //индивидуальные функции двойных нажатий
-void ql_reset(qk_tap_dance_state_t *state, void *user_data);
-
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определение матриц
 /* Основа
  * ,-----------------------------------------------------------------------------------.
