@@ -2,6 +2,7 @@
 
 #define L_OSNOVA 0 // слой 0 (основной)
 
+// функция подмены вернего регистра
 #define SVIT(bt1, s1, bt2, s2, bt3, s3, bt4, s4) \
 if (record->event.pressed) { \
   if (shift_held) { \
@@ -46,20 +47,22 @@ if (record->event.pressed) { \
 } \
 return false;
 
+// горячие клавиши в одну
 #define CTRINS C(KC_INS)
 #define ALTBS A(KC_BSPC)
 #define ALTYY A(KC_P2)
 #define SFTINS S(KC_INS)
 #define REV_EQL S(KC_EQL)
 #define KYO ALT_1
+#define KYO C(KC_PGDN)
 
-bool shift_held = false;
-bool alt_held = false;
+bool shift_held = false; // обнуляем индикатор зажатого РЕГ
+bool alt_held = false; // обнуляем индикатор зажатого ДОП
 
-typedef struct { //назначение структуры нажатий https://docs.qmk.fm/#/feature_tap_dance?id=how-to-use
-    bool is_press_action;
-    uint8_t state;
-} tap;
+//typedef struct { //назначение структуры нажатий https://docs.qmk.fm/#/feature_tap_dance?id=how-to-use
+//    bool is_press_action;
+//    uint8_t state;
+//} tap;
 
 enum {
     SINGLE_TAP = 1,
@@ -94,7 +97,6 @@ enum custom_keycodes {
 }; 
 
 #define COMBO_COUNT 47 // кол-во комобо-команд
-
 enum combo_events { // обозначение комбо-команд
 comb_TOCH,
 comb_ZAP,
@@ -146,8 +148,7 @@ comb_BUKTZ,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определение матриц
-/* Основа
- * ,-----------------------------------------------------------------------------------.
+/* ,-----------------------------------------------------------------------------------.
  * | КОП  | ВСТ  |  ,%# |  ;:₽ |  ?!& |  "'  |        /\| |  +=  | -_—  | .$   | («[{ | )»]} | 
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |   C  |   X  |   U  |   ~  |   [  |  ВЫХ |        *@^  |   H  |   P  |   L  |   M  |   J  |счгчгшфуiaeiae
@@ -161,11 +162,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
 ц ь у ч ш ъ х п л м й
 и а е о с щ к н т в р
 э ё ы я ю ф г д б ж з
-УПР ← НАЧ
-УПР → КОН
-УПР ↑ ВЕРХ      TD(WEMO),
-УПР ↓ НИЗ
-РЕГ ВШ  Отмена
  */
 [L_OSNOVA] = LAYOUT_ortho_5x15( \
   KOP1,          VST1,         KCC_1,  KCC_2,    KCC_3,   KCC_4,    KC_F2,   KC_F4,  KC_F9,   KCC_5,   REV_EQL, KCC_7,    KCC_8,   KCC_9,   KCC_0, \
@@ -176,18 +172,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
 )
 }; 
 
-bool led_update_user(led_t led_state) {
+bool led_update_user(led_t led_state) { // зажечь светодиод если в положении НЕ КапсЛок
     if (led_state.caps_lock) {
         capslock_led_off();
     } else {
         capslock_led_on();
     }
-
     return false;
 };
 
-
-// задаем сочитание клавиш (комбо). Прописать их количество в файле config
+// задаем сочитание клавиш (комбо)
 const uint16_t PROGMEM TOCH_combo[] = {KC_P, KC_L, COMBO_END};
 const uint16_t PROGMEM ZAP_combo[] = {KC_U, KC_GRV, COMBO_END};
 const uint16_t PROGMEM TZ_combo[] = {KC_E, KC_N, COMBO_END};
@@ -235,9 +229,7 @@ const uint16_t PROGMEM VVOD2_combo[] = {KC_O, KC_S, COMBO_END};
 const uint16_t PROGMEM PER3_combo[] = {KC_N, KC_V, COMBO_END};
 const uint16_t PROGMEM SOYI_combo[] = {KC_I, KC_N, COMBO_END};
 const uint16_t PROGMEM BUKTZ_combo[] = {KC_I, KC_X, COMBO_END};
-//const uint16_t PROGMEM DOP_combo[] = {KC_D, KC_T, COMBO_END};  // АЛЬТ
-
-
+//const uint16_t PROGMEM DOP_combo[] = {KC_D, KC_T, COMBO_END};  // ДОП
 
 //связываем комбо с функциональными клавишами и действиями
 combo_t key_combos[COMBO_COUNT] = { 
@@ -245,28 +237,28 @@ combo_t key_combos[COMBO_COUNT] = {
 [comb_ZAP] = COMBO_ACTION(ZAP_combo),
 [comb_TZ] = COMBO_ACTION(TZ_combo),
 [comb_DT] = COMBO_ACTION(DT_combo),
-[comb_DEF] = COMBO(DEF_combo, KC_PMNS),
+[comb_DEF] = COMBO(DEF_combo, KC_MINS),
 [comb_TIRE] = COMBO_ACTION(TIRE_combo),
 [comb_VOS] = COMBO_ACTION(VOS_combo),
 [comb_VOP] = COMBO_ACTION(VOP_combo),
-  [comb_REG1] = COMBO_ACTION(REG1_combo), 
-  [comb_REG2] = COMBO_ACTION(REG2_combo),
-  [comb_PROB1] = COMBO(PROB1_combo, KC_SPC),
-  [comb_PROB2] = COMBO(PROB2_combo, KC_SPC),
-  [comb_NACH] = COMBO(NACH_combo, KC_HOME),
-  [comb_KON] = COMBO(KON_combo, KC_END),
-  [comb_LEV] = COMBO(LEV_combo, KC_LEFT),
-  [comb_PRAV] = COMBO(PRAV_combo, KC_RGHT),
-  [comb_VERH] = COMBO(VERH_combo, KC_UP),
-  [comb_VNIZ] = COMBO(VNIZ_combo, KC_DOWN),
-  [comb_VSH] = COMBO(VSH_combo, KC_BSPC),
+[comb_REG1] = COMBO_ACTION(REG1_combo),  
+[comb_REG2] = COMBO_ACTION(REG2_combo),
+[comb_PROB1] = COMBO(PROB1_combo, KC_SPC),
+[comb_PROB2] = COMBO(PROB2_combo, KC_SPC),
+[comb_NACH] = COMBO(NACH_combo, KC_HOME),
+[comb_KON] = COMBO(KON_combo, KC_END),
+[comb_LEV] = COMBO(LEV_combo, KC_LEFT),
+[comb_PRAV] = COMBO(PRAV_combo, KC_RGHT),
+[comb_VERH] = COMBO(VERH_combo, KC_UP),
+[comb_VNIZ] = COMBO(VNIZ_combo, KC_DOWN),
+[comb_VSH] = COMBO(VSH_combo, KC_BSPC),
 [comb_VVOD] = COMBO(VVOD_combo, KC_ENT),
-  [comb_UDL] = COMBO(UDL_combo, KC_DEL),
-  [comb_TAB] = COMBO(TAB_combo, KC_TAB),
-  [comb_VIH] = COMBO(VIH_combo, KC_ESC),
+[comb_UDL] = COMBO(UDL_combo, KC_DEL),
+[comb_TAB] = COMBO(TAB_combo, KC_TAB),
+[comb_VIH] = COMBO(VIH_combo, KC_ESC),
 [comb_KOP1] = COMBO(KOP1_combo, CTRINS),
 [comb_VST1] = COMBO(VST1_combo, SFTINS),
-  [comb_UPR1] = COMBO_ACTION(UPR1_combo),
+[comb_UPR1] = COMBO_ACTION(UPR1_combo),
 [comb_OTM] = COMBO(OTM_combo, ALTBS),
 [comb_N1] = COMBO(N1_combo, KC_P1),
 [comb_N2] = COMBO(N2_combo, KC_P2),
@@ -288,7 +280,6 @@ combo_t key_combos[COMBO_COUNT] = {
 [comb_PER3] = COMBO_ACTION(PER3_combo),
 [comb_SOYI] = COMBO_ACTION(SOYI_combo),
 [comb_BUKTZ] = COMBO_ACTION(BUKTZ_combo),
-
 };
 
 // действия для комбо
@@ -296,35 +287,27 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
   switch(combo_index) {
     case comb_ZAP: // запятая
       if (pressed) {
-        register_code(KC_3);
-        unregister_code(KC_3);
-        register_code(KC_SPC);
-        unregister_code(KC_SPC);
+        tap_code(KC_COMM);
+        tap_code(KC_SPC);        
       }
       break;
     case comb_TOCH: // точка
       if (pressed) {
-        register_code(KC_8);
-        unregister_code(KC_8);
-        register_code(KC_SPC);
-        unregister_code(KC_SPC);
+        tap_code(KC_DOT);
+        tap_code(KC_SPC);
         set_oneshot_mods (MOD_LSFT);
       }
       break;
     case comb_TZ: // точка c запятой
       if (pressed) {
-        register_code(KC_4);
-        unregister_code(KC_4);
-        register_code(KC_SPC);
-        unregister_code(KC_SPC);
+        tap_code(KC_SCLN);
+        tap_code(KC_SPC);
       }
       break;
     case comb_DT: // двоеточие
       if (pressed) {
-        register_code(KC_6);
-        unregister_code(KC_6);
-        register_code(KC_SPC);
-        unregister_code(KC_SPC);
+        tap_code16(S(KC_SCLN));
+        tap_code(KC_SPC);
       }
       break;
     case comb_TIRE: // тире
@@ -341,63 +324,34 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
       break;
     case comb_VOS: // !
       if (pressed) {
-        register_code(KC_1);
-        unregister_code(KC_1);
-        register_code(KC_SPC);
-        unregister_code(KC_SPC);
+        tap_code16(S(KC_1));
+        tap_code(KC_SPC);
         set_oneshot_mods (MOD_LSFT);
       }
       break;
      case comb_VOP: // ?
       if (pressed) {
-        register_code(KC_7);
-        unregister_code(KC_7);
-        register_code(KC_SPC);
-        unregister_code(KC_SPC);
+        tap_code16(S(KC_SLSH));
+        tap_code(KC_SPC);
         set_oneshot_mods (MOD_LSFT);
-      }
-      break;
-    case comb_VSH2: // удалить целиком
-      if (pressed) {
-        register_code(KC_LCTL);
-        register_code(KC_BSPC);
-        unregister_code(KC_BSPC);
-        unregister_code(KC_LCTL);
-      }
-      break;
-    case comb_VYR: // вырезать
-      if (pressed) {
-        tap_code16(LCTL(KC_X));
       }
       break;
     case comb_PER1: // alt shift таб
       if (pressed) {
         register_code(KC_LALT);
         register_code(KC_LSFT);
-        register_code(KC_TAB);
-        unregister_code(KC_TAB);
+        tap_code(KC_TAB);
         unregister_code(KC_LSFT);
         unregister_code(KC_LALT);
       }
       break;
-    case comb_PER2: // ctr PGDN
-      if (pressed) {
-        register_code(KC_LCTL);
-        register_code(KC_PGDN);
-        unregister_code(KC_PGDN);
-        unregister_code(KC_LCTL);
-      }
-      break;
     case comb_OCH: // очистить строку
       if (pressed) {
-        register_code(KC_END);
-        unregister_code(KC_END);
+        tap_code(KC_END);
         register_code(KC_LSFT);
-        register_code(KC_HOME);
-        unregister_code(KC_HOME);
+        tap_code(KC_HOME);
         unregister_code(KC_LSFT);
-        register_code(KC_DEL);
-        unregister_code(KC_DEL);
+        tap_code(KC_DEL);
       }
       break;    
     case comb_UPR1: // залипший упр (левый)
@@ -412,22 +366,8 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
       break;    
     case comb_REG2: // пробел и залипший Рег (правый)
       if (pressed) {
-        register_code(KC_SPC);
-        unregister_code(KC_SPC);
+        tap_code(KC_SPC);
         set_oneshot_mods (MOD_LSFT);
-      }
-      break;
-    case comb_VVOD2: // контр ввод
-      if (pressed) {
-        tap_code16(LCTL(KC_ENT));
-      }
-      break;
-    case comb_PER3: // ctr PGDN
-      if (pressed) {
-        register_code(KC_LCTL);
-        register_code(KC_PGUP);
-        unregister_code(KC_PGUP);
-        unregister_code(KC_LCTL);
       }
       break;
     case comb_SOYI: // ctr PGDN
@@ -518,7 +458,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
     case KCC_6:
       SVIT(KC_EQL, 1, KC_EQL, 0,  KC_INT4, 0, KC_ZKHK, 1)
     case KCC_7:
-      SVIT(KC_PMNS, 0, KC_MINS, 1,  KC_INT5, 0, KC_3, 1)
+      SVIT(KC_MINS, 0, KC_MINS, 1,  KC_INT5, 0, KC_3, 1)
     case KCC_8:
       SVIT(KC_DOT, 0, KC_4, 1,  KC_3, 1, KC_3, 1)
     case KCC_9:
