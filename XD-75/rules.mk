@@ -16,4 +16,5 @@ MOUSEKEY_ENABLE = no     # эмуляция мышки
 #CONSOLE_ENABLE = no     # консоль
 COMMAND_ENABLE = no      # команды
 STENO_ENABLE = no        # стенография
-EXTRAKEY_ENABLE = no 	 # системные и аубиоконтольные клавиши
+EXTRAKEY_ENABLE = no 	   # системные и аубиоконтольные клавиши
+SLEEP_LED_ENABLE = no    # спящее состояние
