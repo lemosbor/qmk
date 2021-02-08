@@ -79,7 +79,7 @@ enum custom_keycodes {
   KCC_10,
 }; 
 
-#define COMBO_COUNT 47 // кол-во комобо-команд
+#define COMBO_COUNT 48 // кол-во комобо-команд
 enum combo_events { // обозначение комбо-команд
 comb_TOCH,
 comb_ZAP,
@@ -89,6 +89,7 @@ comb_DEF,
 comb_TIRE,
 comb_VOS,
 comb_VOP,
+comb_DOP,
 comb_REG1,
 comb_REG2,
 comb_PROB1,
@@ -224,7 +225,7 @@ const uint16_t PROGMEM VVOD2_combo[] = {KC_O, KC_S, COMBO_END};
 const uint16_t PROGMEM PER3_combo[] = {KC_N, KC_V, COMBO_END};
 const uint16_t PROGMEM SOYI_combo[] = {KC_I, KC_N, COMBO_END};
 const uint16_t PROGMEM BUKTZ_combo[] = {KC_I, KC_X, COMBO_END};
-//const uint16_t PROGMEM DOP_combo[] = {KC_D, KC_T, COMBO_END};  // ДОП
+const uint16_t PROGMEM DOP_combo[] = {KC_D, KC_T, COMBO_END};  // ДОП
 
 //связываем комбо с функциональными клавишами и действиями
 combo_t key_combos[COMBO_COUNT] = { 
@@ -275,6 +276,7 @@ combo_t key_combos[COMBO_COUNT] = {
 [comb_OCH] = COMBO_ACTION(OCH_combo),
 [comb_SOYI] = COMBO_ACTION(SOYI_combo),
 [comb_BUKTZ] = COMBO_ACTION(BUKTZ_combo),
+[comb_DOP] = COMBO_ACTION(DOP_combo),
 };
 
 // действия для комбо
@@ -354,11 +356,16 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         set_oneshot_mods (MOD_LCTL);
       }
       break;        
+    case comb_DOP: // залипший ДОП (левый)
+      if (pressed) {
+        set_oneshot_mods (MOD_LALT);
+      }
+      break;        
     case comb_REG1: // залипший Рег (левый)
       if (pressed) {
         set_oneshot_mods (MOD_LSFT);
       }
-      break;    
+      break;       
     case comb_REG2: // пробел и залипший Рег (правый)
       if (pressed) {
         tap_code(KC_SPC);
@@ -446,31 +453,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
     return true;
     break;
     
-    case KCC_1:
-      REG_R(KC_COMM, 0, KC_5, 1)
-    case KCC_3:
-      REG_R(KC_SLSH, 1, KC_1, 1)
-    case KCC_4:
-      REG_R(KC_QUOT, 1, KC_QUOT, 0) // Реверс
-    case KCC_5:
-      REG_R(KC_PSLS, 0, KC_BSLS, 0)
-    case KCC_6:
-      REG_R(KC_EQL, 1, KC_EQL, 0) // Реверс
-    case KCC_8:
-      REG_R(KC_DOT, 0, KC_4, 1)
-    case KCC_9:
-      REG_R(KC_9, 1, KC_5, 1)
-    case KCC_0:
-      REG_R(KC_0, 1, KC_5, 1)
-    case KCC_10:
-      REG_R(KC_PAST, 0, KC_2, 1)
-    case DCC_1:
-      REG_R(KC_3, 1, KC_INT1, 0)
-    case DCC_2:
-      REG_R(ALT_1, 1, ALT_2, 0)     
-    case ALT_3:
-      REG_R(KC_2, 0, KC_8, 1) // поменять на ё
-    
+    case KCC_1:  REG_R(KC_COMM, 0, KC_5, 1)
+    case KCC_3:  REG_R(KC_SLSH, 1, KC_1, 1)
+    case KCC_4:  REG_R(KC_QUOT, 1, KC_QUOT, 0) // Реверс
+    case KCC_5:  REG_R(KC_PSLS, 0, KC_BSLS, 0)
+    case KCC_6:  REG_R(KC_EQL, 1, KC_EQL, 0) // Реверс
+    case KCC_8:  REG_R(KC_DOT, 0, KC_4, 1)
+    case KCC_9:  REG_R(KC_9, 1, KC_5, 1)
+    case KCC_0:  REG_R(KC_0, 1, KC_5, 1)
+    case KCC_10: REG_R(KC_PAST, 0, KC_2, 1)
+    case DCC_1:  REG_R(KC_3, 1, KC_INT1, 0)
+    case DCC_2:  REG_R(ALT_1, 1, ALT_2, 0)     
+    case ALT_3:  REG_R(KC_2, 0, KC_8, 1) // поменять на ё    
     case KOP1: // Кнопка КОП
             if (record->event.pressed) {
         if (shift_held) {
