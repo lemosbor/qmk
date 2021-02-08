@@ -1,49 +1,28 @@
 #include QMK_KEYBOARD_H // компиляция по QMK qmk compile -kb xd75 -km leo
 
 #define L_OSNOVA 0 // слой 0 (основной)
+#define L_DOP 1 // слой 1 (сервисный)
 
 // функция подмены вернего регистра
-#define SVIT(bt1, s1, bt2, s2, bt3, s3, bt4, s4) \
+#define REG_R(kn1, s1, kn2, s2) \
 if (record->event.pressed) { \
   if (shift_held) { \
-     if (alt_held) { \
-      unregister_code(KC_F15); \
-      if (s4 == 0) { \
-        unregister_code(KC_LSFT); \
-        tap_code(bt4); \
-      } else { \
-        tap_code(bt4); \
-        unregister_code(KC_LSFT); \
-       } \
-    } else { \
       if (s2 == 0) { \
         unregister_code(KC_LSFT); \
-        tap_code(bt2); \
+        tap_code(kn2); \
       } else { \
-        tap_code(bt2); \
+        tap_code(kn2); \
         unregister_code(KC_LSFT); \
       } \
-    } \
   } else { \
-    if (alt_held) { \
-      if (s3 == 0) { \
-        tap_code(bt3); \
-      } else { \
-        register_code(KC_LSFT); \
-        tap_code(bt3); \
-        unregister_code(KC_LSFT); \
-      } \
-      unregister_code(KC_F15); \
-    } else { \
       if (s1 == 0) { \
-        tap_code(bt1); \
+        tap_code(kn1); \
       } else { \
         register_code(KC_LSFT); \
-        tap_code(bt1); \
+        tap_code(kn1); \
         unregister_code(KC_LSFT); \
       } \
     } \
-  } \
 } \
 return false;
 
@@ -168,11 +147,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
 э ё ы я ю ф г д б ж з
  */
 [L_OSNOVA] = LAYOUT_ortho_5x15( \
-  KOP1,          VST1,         KCC_1,  KCC_2,    KCC_3,   KCC_4,    KC_F2,   KC_F4,  KC_F9,   KCC_5,   REV_EQL, KCC_7,    KCC_8,   KCC_9,   KCC_0, \
+  KOP1,          VST1,         KCC_1,  KC_SCLN,  KCC_3,   KCC_4,    KC_F2,   KC_F4,  KC_F9,   KCC_5,   REV_EQL, KC_MINS,  KCC_8,   KCC_9,   KCC_0, \
   KC_C,          KC_X,         KC_U,   KC_GRV,   KC_LBRC, TD(VYH),  KC_7,    KC_8,   KC_9,    KCC_10,  KC_H,    KC_P,     KC_L,    KC_M,    KC_J, \
   KC_I,          KC_A,         KC_E,   KC_O,     KC_S,    TD(TABB), KC_4,    KC_5,   KC_6,    KC_RBRC, KC_K,    KC_N,     KC_T,    KC_W,    KC_R, \
   KC_BSLS,       KYO,          KC_Q,   KC_Y,     KC_NUBS, KC_UP,    KC_1,    KC_2,   KC_3,    KC_F,    KC_G,    KC_D,     KC_B,    KC_V,    KC_Z, \
   KC_LCTL,       KC_LSFT,      KC_F15, KC_ENT,   KC_LEFT, KC_DOWN,  KC_RGHT, KC_0,   TD(WEMO),KC_SPC,  KC_SPC,  TD(RU_AN),ALTBS,   KC_DEL,  KC_BSPC \
+),
+[L_DOP] = LAYOUT_ortho_5x15( \
+  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
+  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
+  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
+  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
+  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS \
 )
 }; 
 
@@ -441,56 +427,36 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
         unregister_code(KC_LALT);
       }
       break;
-    case KC_LSFT:
+    case KC_LSFT: // записать, что РЕГ нажат
         shift_held = record->event.pressed;
     return true;
     break;
     case KC_F15:
-        alt_held = record->event.pressed; // записать, что УПР нажат
+        alt_held = record->event.pressed; // записать, что Ф15 (УПР) нажат
     return true;
     break;
     case KCC_1:
-      SVIT(KC_COMM, 0, KC_5, 1,  KC_3, 1, KC_INT1, 0)
-    case KCC_2:
-      SVIT(KC_SCLN, 0, KC_SCLN, 1,  KC_PDOT, 0, KC_3, 1)
+      REG_R(KC_COMM, 0, KC_5, 1)
     case KCC_3:
-      SVIT(KC_SLSH, 1, KC_1, 1,  KC_7, 1, KC_3, 1)
+      REG_R(KC_SLSH, 1, KC_1, 1)
     case KCC_4:
-      SVIT(KC_QUOT, 1, KC_QUOT, 0,  KC_NUHS, 0, KC_NUHS, 1) //KC_NUHS, 0,
+      REG_R(KC_QUOT, 1, KC_QUOT, 0) // Реверс
     case KCC_5:
-      SVIT(KC_PSLS, 0, KC_BSLS, 0,  KC_BSLS, 1, KC_GRV, 1)
+      REG_R(KC_PSLS, 0, KC_BSLS, 0)
     case KCC_6:
-      SVIT(KC_EQL, 1, KC_EQL, 0,  KC_INT4, 0, KC_ZKHK, 1)
-    case KCC_7:
-      SVIT(KC_MINS, 0, KC_MINS, 1,  KC_INT5, 0, KC_3, 1)
+      REG_R(KC_EQL, 1, KC_EQL, 0) // Реверс
     case KCC_8:
-      SVIT(KC_DOT, 0, KC_4, 1,  KC_3, 1, KC_3, 1)
+      REG_R(KC_DOT, 0, KC_4, 1)
     case KCC_9:
-      SVIT(KC_9, 1, KC_5, 1,  KC_3, 1, KC_3, 1)
+      REG_R(KC_9, 1, KC_5, 1)
     case KCC_0:
-      SVIT(KC_0, 1, KC_5, 1,  KC_3, 1, KC_3, 1)
+      REG_R(KC_0, 1, KC_5, 1)
     case KCC_10:
-      SVIT(KC_PAST, 0, KC_2, 1,  KC_6, 1, KC_3, 1)
+      REG_R(KC_PAST, 0, KC_2, 1)
     case ALT_3:
-      SVIT(KC_SLSH, 0, KC_8, 1,  KC_COMM, 1, KC_DOT, 1)
-    case SL_1: {
-            if (record->event.pressed) {
-        if (shift_held) {
-                    //unregister_code(KC_LSFT);
-                    register_code(KC_BSLS);
-                } else {
-          //register_code(KC_LSFT);
-          register_code(KC_PSLS);
-        }
-              } else { // Release the key // https://www.reddit.com/r/olkb/comments/4u36wk/qmk_question_how_do_i_make_backspace_send_delete/d5mh93e/
-          unregister_code(KC_LSFT); // https://github.com/qmk/qmk_firmware/issues/7840
-          unregister_code(KC_PSLS); // https://github.com/qmk/qmk_firmware/blob/master/users/spacebarracecar/spacebarracecar.h
-          unregister_code(KC_BSLS); // https://github.com/jeherve/qmk_firmware/blob/06206a9d5bfcbf96d65394b8bed495dc7b0ddf70/keyboards/redox/keymaps/jeherve/keymap.c#L64-L109
-          }
-          return false;
-          break;
-              }
-    case KOP1:
+      REG_R(KC_SLSH, 0, KC_8, 1) // поменять на ё
+    
+    case KOP1: // Кнопка КОП
             if (record->event.pressed) {
         if (shift_held) {
           unregister_code(KC_LSFT);
@@ -500,7 +466,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
         }
         }
           break;
-    case VST1:
+    case VST1: // Кнопка ВСТ
             if (record->event.pressed) {
         if (shift_held) {
                     unregister_code(KC_LSFT);
