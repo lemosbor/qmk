@@ -2,9 +2,9 @@
 BACKLIGHT_ENABLE = yes   # поддержка светодиодов клавиш
 TAP_DANCE_ENABLE = yes   # поддержка двойных нажатий
 COMBO_ENABLE = yes       # спец. комбинации из букв
-KEY_LOCK_ENABLE = yes    # блокировка клавиш (удержание)
 
 # Отключить:
+KEY_LOCK_ENABLE = no     # блокировка клавиш (удержание)
 RGBLIGHT_ENABLE = no     # поддержка светодиодов платы
 VELOCIKEY_ENABLE = no    # подстройка подсветки под скорость печати
 BLUETOOTH_ENABLE = no    # поддержка блютуза
