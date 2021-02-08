@@ -6,5 +6,5 @@
 `void ql_finished(qk_tap_dance_state_t *state, void *user_data); //индивидуальные функции двойных нажатий`
 `void ql_reset(qk_tap_dance_state_t *state, void *user_data);`
 
-- [ ] комбо (блок #define COMBO_COUNT 47 перенесен в keymap.c)
+- [ ]  комбо (блок #define COMBO_COUNT 47 перенесен в keymap.c, заменены сочетания)
 - [ ] REV_EQL (+ = в обратном порядке)
