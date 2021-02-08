@@ -46,11 +46,11 @@ if (record->event.pressed) { \
 } \
 return false;
 
-#define CTRINS LCTL(KC_INS)
-#define ALTBS LALT(KC_BSPC)
-#define ALTYY LALT(KC_P2)
-#define SFTINS LSFT(KC_INS)
-#define REV_EQL LSFT(KC_EQL)
+#define CTRINS C(KC_INS)
+#define ALTBS A(KC_BSPC)
+#define ALTYY A(KC_P2)
+#define SFTINS S(KC_INS)
+#define REV_EQL S(KC_EQL)
 #define KYO ALT_1
 
 bool shift_held = false;
