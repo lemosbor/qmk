@@ -54,7 +54,11 @@ return false;
 #define SFTINS S(KC_INS)
 #define REV_EQL S(KC_EQL)
 #define KYO ALT_1
-#define KYO C(KC_PGDN)
+#define С_PGUP C(KC_PGUP)
+#define С_PGDN C(KC_PGDN)
+#define С_ENT C(KC_ENT)
+#define С_X C(KC_X)
+#define С_BS C(KC_BSPC)
 
 bool shift_held = false; // обнуляем индикатор зажатого РЕГ
 bool alt_held = false; // обнуляем индикатор зажатого ДОП
@@ -252,12 +256,15 @@ combo_t key_combos[COMBO_COUNT] = {
 [comb_VERH] = COMBO(VERH_combo, KC_UP),
 [comb_VNIZ] = COMBO(VNIZ_combo, KC_DOWN),
 [comb_VSH] = COMBO(VSH_combo, KC_BSPC),
+[comb_VSH2] = COMBO(VSH2_combo, С_BS),
 [comb_VVOD] = COMBO(VVOD_combo, KC_ENT),
+[comb_VVOD2] = COMBO(VVOD2_combo, С_ENT),
 [comb_UDL] = COMBO(UDL_combo, KC_DEL),
 [comb_TAB] = COMBO(TAB_combo, KC_TAB),
 [comb_VIH] = COMBO(VIH_combo, KC_ESC),
 [comb_KOP1] = COMBO(KOP1_combo, CTRINS),
 [comb_VST1] = COMBO(VST1_combo, SFTINS),
+[comb_VYR] = COMBO(VYR_combo, С_X),
 [comb_UPR1] = COMBO_ACTION(UPR1_combo),
 [comb_OTM] = COMBO(OTM_combo, ALTBS),
 [comb_N1] = COMBO(N1_combo, KC_P1),
@@ -270,14 +277,11 @@ combo_t key_combos[COMBO_COUNT] = {
 [comb_N8] = COMBO(N8_combo, KC_P8),
 [comb_N9] = COMBO(N9_combo, KC_P9),
 [comb_N0] = COMBO(N0_combo, KC_P0),
-[comb_VSH2] = COMBO_ACTION(VSH2_combo),
 [comb_INS] = COMBO(INS_combo, KC_INS),
-[comb_VYR] = COMBO_ACTION(VYR_combo),
 [comb_PER1] = COMBO_ACTION(PER1_combo),
-[comb_PER2] = COMBO_ACTION(PER2_combo),
+[comb_PER2] = COMBO(PER2_combo, С_PGDN),
+[comb_PER3] = COMBO(PER3_combo, С_PGUP),
 [comb_OCH] = COMBO_ACTION(OCH_combo),
-[comb_VVOD2] = COMBO_ACTION(VVOD2_combo),
-[comb_PER3] = COMBO_ACTION(PER3_combo),
 [comb_SOYI] = COMBO_ACTION(SOYI_combo),
 [comb_BUKTZ] = COMBO_ACTION(BUKTZ_combo),
 };
