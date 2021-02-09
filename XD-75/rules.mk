@@ -2,7 +2,6 @@
 BACKLIGHT_ENABLE = yes   # поддержка светодиодов клавиш
 TAP_DANCE_ENABLE = yes   # поддержка двойных нажатий
 COMBO_ENABLE = yes       # спец. комбинации из букв
-UNICODE_ENABLE = yes     # поддержка юникода
 
 # Отключить:
 KEY_LOCK_ENABLE = no     # блокировка клавиш (удержание)
@@ -13,6 +12,7 @@ UNICODEMAP_ENABLE = no   # поддержка карт юникода
 BOOTMAGIC_ENABLE = no    # виртуальная настройка клавиатуры
 AUTO_SHIFT_ENABLE = no   # автоматический Шифт (при лёгком удержании) 
 MOUSEKEY_ENABLE = no     # эмуляция мышки
+UNICODE_ENABLE = no     # поддержка юникода
 #CONSOLE_ENABLE = no     # консоль
 COMMAND_ENABLE = no      # команды
 STENO_ENABLE = no        # стенография
