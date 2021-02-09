@@ -31,11 +31,10 @@ return false;
 #define ALTBS A(KC_BSPC)
 #define ALTYY A(KC_P2)
 #define S_INS S(KC_INS)
-#define KYO ALT_1
 #define C_PGUP C(KC_PGUP)
 #define C_PGDN C(KC_PGDN)
 #define C_ENT C(KC_ENT)
-#define C_X C(KC_X)
+#define C_X C(KC_X)  // могут не корректно идентифицироваться
 #define С_S C(KC_S)
 #define С_Z C(KC_Z)
 #define С_Y C(KC_Y)
@@ -50,17 +49,12 @@ return false;
 #define S_0 S(KC_0)
 #define S_QUOT S(KC_QUOT)
 #define CAD C(S(KC_DEL))
-#define K_YO KCCYO
-#define KCC_YO SFT_T(K_YO)
+#define K_YO KCCYO  // задаём K_YO и привязываем к KCCYO, чтобы
+#define KCC_YO SFT_T(K_YO) // создать двойную кнопку РЕГ+Ё  поменять порядок?
 #define OKAV S(KC_9) // поменять на открытую и закрытую кавычки
 #define ZKAV S(KC_0)
 
 bool shift_held = false; // обнуляем индикатор зажатого РЕГ
-
-//typedef struct { //назначение структуры нажатий https://docs.qmk.fm/#/feature_tap_dance?id=how-to-use
-//    bool is_press_action;
-//    uint8_t state;
-//} tap;
 
 enum {
     SINGLE_TAP = 1,
@@ -69,19 +63,14 @@ enum {
     VYH, // Вых / альт+Ф4
     TABB, // таб / альт+таб
     WEMO, // окно / окно+точка
-    LEV, // влево / домой
-    PRAV, // вправо / в конец
     RU_AN, // кнопка Р/А
 };
 
 enum custom_keycodes {      
-  ALT_1 = SAFE_RANGE,
-  SL_1,
-  KOP1,
+  KOP1 = SAFE_RANGE,
   VST1,
-  ALT_3,
-  ALT_2,
   ZAP,
+  TOCH,
   VOPR,
   ZVEZD,
   SLESH,
@@ -89,10 +78,6 @@ enum custom_keycodes {
   PLUS,
   OSKOB,
   ZSKOB,
-  KCC_8,
-  KCC_9,
-  KCC_0,
-  KCC_10,
   DCC_1,
   DCC_2,
   OTMENA,
@@ -217,11 +202,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
   KC_LCTL,     KC_LSFT,    ALT_T(KC_F2),KC_ENT,   KC_LEFT, KC_DOWN,  KC_RGHT, KC_0,   TD(WEMO), OSL(L_DOP), KC_SPC,  TD(RU_AN),OTMENA,  С_F,     A_TAB \
 ),
 [L_DOP] = LAYOUT_ortho_5x15( \
-  KC_TRNS,     KC_TRNS,    DCC_1,       DCC_2,    UC(L'—'), UC(0x003D),KC_F10,  KC_F11,  KC_F12,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  CAD,  KC_TRNS, \
-  PS_1,        SWE_AA,     SWE_OE,      KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_F7,  KC_F8,  KC_F9,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
-  KC_NUMLOCK,  SWE_AE,     KC_P4,       X_KC_4,   KC_TRNS,  KC_TRNS,   KC_F4,  KC_F5,  KC_F6,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
-  S_COMM,      S_DOT,      KC_TRNS,     KC_TRNS,  KC_TRNS,  KC_PGUP,   KC_F1,  KC_F2,  KC_F3,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
-  KC_TRNS,     KC_TRNS,    KC_TRNS,     KC_TRNS,  KC_HOME,  KC_PGDN,   KC_END,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS \
+  KC_TRNS,     KC_TRNS,    KC_TRNS,     KC_TRNS,  UC(L'—'), UC(0x003D), KC_F10, KC_F11, KC_F12,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  CAD,  KC_TRNS, \
+  PS_1,        SWE_AA,     SWE_OE,      KC_TRNS,  KC_TRNS,  KC_TRNS,    KC_F7,  KC_F8,  KC_F9,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
+  KC_NUMLOCK,  SWE_AE,     KC_P4,       X_KC_4,   KC_TRNS,  KC_TRNS,    KC_F4,  KC_F5,  KC_F6,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
+  S_COMM,      S_DOT,      KC_TRNS,     KC_TRNS,  KC_TRNS,  KC_PGUP,    KC_F1,  KC_F2,  KC_F3,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
+  KC_TRNS,     KC_TRNS,    KC_TRNS,     KC_TRNS,  KC_HOME,  KC_PGDN,    KC_END, KC_TRNS, KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS \
 )
 }; 
 
@@ -291,7 +276,6 @@ const uint16_t PROGMEM OSCOB_combo[] = {KC_I, KC_N, COMBO_END};
 const uint16_t PROGMEM OKAV_combo[] = {KC_C, KC_P, COMBO_END};
 const uint16_t PROGMEM ZKAV_combo[] = {KC_GRV, KC_J, COMBO_END};
 const uint16_t PROGMEM KAV_combo[] = {KC_GRV, KC_LBRC, COMBO_END};
-
 const uint16_t PROGMEM N_ZAP_combo[] = {KC_1, KC_5, COMBO_END};
 const uint16_t PROGMEM N_TOCH_combo[] = {KC_5, KC_3, COMBO_END};
 const uint16_t PROGMEM N_DEL_combo[] = {KC_7, KC_8, COMBO_END};
@@ -363,7 +347,6 @@ combo_t key_combos[COMBO_COUNT] = {
 [comb_OKAV] = COMBO(OKAV_combo, OKAV),
 [comb_ZKAV] = COMBO_ACTION(ZKAV_combo),
 [comb_KAV] = COMBO(KAV_combo, S_QUOT),
-  
 [comb_N_ZAP] = COMBO(N_ZAP_combo, KC_COMM),
 [comb_N_TOCH] = COMBO(N_TOCH_combo, KC_PDOT),
 [comb_N_DEL] = COMBO(N_DEL_combo, KC_PSLS),
@@ -405,9 +388,15 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         tap_code(KC_SPC);
       }
       break;
-    case comb_ZKAV: // закрытая кавычка
+    case comb_ZKAV: // закрытая кавычка » 0187
       if (pressed) {
-        tap_code(ZKAV);
+        register_code(KC_LALT);
+        tap_code(KC_P0);
+        tap_code(KC_P1);
+        tap_code(KC_P8);
+	tap_code(KC_P7);
+        unregister_code(KC_LALT);
+	tap_code(KC_SPC);      
       }
       break;		  
     case comb_TZ: // точка c запятой
@@ -542,23 +531,21 @@ qk_tap_dance_action_t tap_dance_actions[] = { // связка кнопок с ф
     [VYH] = ACTION_TAP_DANCE_DOUBLE(KC_ESC, LALT(KC_F4)), // выход или альт+ф4
     [TABB] = ACTION_TAP_DANCE_DOUBLE(KC_TAB, LALT(KC_TAB)), // таб или альт+таб https://docs.qmk.fm/#/feature_macros?id=super-alt%e2%86%aftab
     [WEMO] = ACTION_TAP_DANCE_DOUBLE(KC_LGUI, LGUI(KC_DOT)), // вин или эмодзи
-    [LEV] = ACTION_TAP_DANCE_DOUBLE(KC_LEFT, KC_HOME), // влево или домой
-    [PRAV] = ACTION_TAP_DANCE_DOUBLE(KC_RGHT, KC_END), // вправо или в конец
     [RU_AN] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, x_finished, x_reset), // Р/А
 };
 
 //Создание кнопок
 bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://beta.docs.qmk.fm/using-qmk/guides/custom_quantum_functions#programming-the-behavior-of-any-keycode-id-programming-the-behavior-of-any-keycode
   switch (keycode) { 
-    case ALT_1:
-      if (record->event.pressed) { //if (pressed) {
-        register_code(KC_LALT); // SEND_STRING(SS_LALT("D83D+DC4D")); SEND_STRING(":yellow_yoshi:");
-        tap_code(KC_P1);
-        tap_code(KC_P3);
-        tap_code(KC_P4);
-        unregister_code(KC_LALT);
-      }
-      break;      
+    // case ALT_1:
+      // if (record->event.pressed) { //if (pressed) {
+        // register_code(KC_LALT); // SEND_STRING(SS_LALT("D83D+DC4D")); SEND_STRING(":yellow_yoshi:");
+        // tap_code(KC_P1);
+        // tap_code(KC_P3);
+        // tap_code(KC_P4);
+        // unregister_code(KC_LALT);
+      // }
+      // break;      
     case PS_1: // отправка пар
       if (record->event.pressed) {
         SEND_STRING("pas");
