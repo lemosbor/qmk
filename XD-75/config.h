@@ -5,7 +5,7 @@
 #define TAPPING_TERM 200 // задержка для клавиш двойного назначения
 #define PERMISSIVE_HOLD  // ускорение двойного нажатия
 // #define PERMISSIVE_HOLD_PER_KEY //  усорение двойного нажатия под каждую кнопку
-#define COMBO_COUNT 65 // кол-во комобо-команд
+#define COMBO_COUNT 69 // кол-во комобо-команд
 #define COMBO_TERM 20 // задержка для комбо
 #define COMBO_ALLOW_ACTION_KEY
 
