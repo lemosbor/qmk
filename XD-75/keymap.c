@@ -33,11 +33,11 @@ return false;
 #define SFTINS S(KC_INS)
 #define REV_EQL S(KC_EQL)
 #define KYO ALT_1
-#define С_PGUP C(KC_PGUP)
-#define С_PGDN C(KC_PGDN)
-#define С_ENT C(KC_ENT)
-#define С_X C(KC_X)
-#define С_BS C(KC_BSPC)
+#define C_PGUP C(KC_PGUP)
+#define C_PGDN C(KC_PGDN)
+#define C_ENT C(KC_ENT)
+#define C_X C(KC_X)
+#define C_BS C(KC_BSPC)
 
 bool shift_held = false; // обнуляем индикатор зажатого РЕГ
 bool alt_held = false; // обнуляем индикатор зажатого ДОП
@@ -77,9 +77,11 @@ enum custom_keycodes {
   KCC_9,
   KCC_0,
   KCC_10,
+  DCC_1,
+  DCC_2,
 }; 
 
-#define COMBO_COUNT 48 // кол-во комобо-команд
+
 enum combo_events { // обозначение комбо-команд
 comb_TOCH,
 comb_ZAP,
@@ -155,7 +157,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
   KC_LCTL,       KC_LSFT,      OSL(L_DOP), KC_ENT,   KC_LEFT, KC_DOWN,  KC_RGHT, KC_0,   TD(WEMO),KC_SPC,  KC_SPC,  TD(RU_AN),ALTBS,   KC_DEL,  KC_BSPC \
 ),
 [L_DOP] = LAYOUT_ortho_5x15( \
-  KC_TRNS,      KC_TRNS,       DCC_1,    DCC_2,    UC(L'—'), UC(0x003D), KC_F10,  KC_F11,  KC_F12,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
+  KC_TRNS,      ALT_2,       DCC_1,    DCC_2,    UC(L'—'), UC(0x003D), KC_F10,  KC_F11,  KC_F12,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
   KC_TRNS,      KC_TRNS,       KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,    KC_F7,  KC_F8,  KC_F9,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
   KC_TRNS,      KC_TRNS,       KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,    KC_F4,  KC_F5,  KC_F6,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
   KC_TRNS,      KC_TRNS,       KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,    KC_F1,  KC_F2,  KC_F3,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
@@ -173,7 +175,7 @@ bool led_update_user(led_t led_state) { // зажечь светодиод ес�
 };
 
 void matrix_init_user(void){   // возможно убрать void из скобок  (eeconfig_init_user)
-	 _delay_ms(20); // Gets rid of tick
+   _delay_ms(20); // Gets rid of tick
    set_unicode_input_mode(UC_WINC);
 };
 
@@ -248,15 +250,15 @@ combo_t key_combos[COMBO_COUNT] = {
 [comb_VERH] = COMBO(VERH_combo, KC_UP),
 [comb_VNIZ] = COMBO(VNIZ_combo, KC_DOWN),
 [comb_VSH] = COMBO(VSH_combo, KC_BSPC),
-[comb_VSH2] = COMBO(VSH2_combo, С_BS),
+[comb_VSH2] = COMBO(VSH2_combo, C_BS),
 [comb_VVOD] = COMBO(VVOD_combo, KC_ENT),
-[comb_VVOD2] = COMBO(VVOD2_combo, С_ENT),
+[comb_VVOD2] = COMBO(VVOD2_combo, C_ENT),
 [comb_UDL] = COMBO(UDL_combo, KC_DEL),
 [comb_TAB] = COMBO(TAB_combo, KC_TAB),
 [comb_VIH] = COMBO(VIH_combo, KC_ESC),
 [comb_KOP1] = COMBO(KOP1_combo, CTRINS),
 [comb_VST1] = COMBO(VST1_combo, SFTINS),
-[comb_VYR] = COMBO(VYR_combo, С_X),
+[comb_VYR] = COMBO(VYR_combo, C_X),
 [comb_UPR1] = COMBO_ACTION(UPR1_combo),
 [comb_OTM] = COMBO(OTM_combo, ALTBS),
 [comb_N1] = COMBO(N1_combo, KC_P1),
@@ -271,8 +273,8 @@ combo_t key_combos[COMBO_COUNT] = {
 [comb_N0] = COMBO(N0_combo, KC_P0),
 [comb_INS] = COMBO(INS_combo, KC_INS),
 [comb_PER1] = COMBO_ACTION(PER1_combo),
-[comb_PER2] = COMBO(PER2_combo, С_PGDN),
-[comb_PER3] = COMBO(PER3_combo, С_PGUP),
+[comb_PER2] = COMBO(PER2_combo, C_PGDN),
+[comb_PER3] = COMBO(PER3_combo, C_PGUP),
 [comb_OCH] = COMBO_ACTION(OCH_combo),
 [comb_SOYI] = COMBO_ACTION(SOYI_combo),
 [comb_BUKTZ] = COMBO_ACTION(BUKTZ_combo),
@@ -391,6 +393,11 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
   }
 }
 
+typedef struct { //назначение структуры нажатий https://docs.qmk.fm/#/feature_tap_dance?id=how-to-use
+    bool is_press_action;
+    uint8_t state;
+} tap;
+
 uint8_t cur_dance(qk_tap_dance_state_t *state) { // определение состояния двойного нажатия
     if (state->count == 1) { //если нажата один раз
         if (!state->pressed) return SINGLE_TAP; // если не удерживается, то Одиночное нажатие
@@ -462,8 +469,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
     case KCC_9:  REG_R(KC_9, 1, KC_5, 1)
     case KCC_0:  REG_R(KC_0, 1, KC_5, 1)
     case KCC_10: REG_R(KC_PAST, 0, KC_2, 1)
-    case DCC_1:  REG_R(KC_3, 1, KC_INT1, 0)
-    case DCC_2:  REG_R(ALT_1, 1, ALT_2, 0)     
+    case DCC_1:  REG_R(KC_3, 1, KC_3, 0)
+    case DCC_2:  REG_R(KC_3, 0, KC_3, 0)     
     case ALT_3:  REG_R(KC_2, 0, KC_8, 1) // поменять на ё    
     case KOP1: // Кнопка КОП
             if (record->event.pressed) {
