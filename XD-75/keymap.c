@@ -31,12 +31,16 @@ return false;
 #define ALTBS A(KC_BSPC)
 #define ALTYY A(KC_P2)
 #define SFTINS S(KC_INS)
-#define REV_EQL S(KC_EQL)
 #define KYO ALT_1
 #define C_PGUP C(KC_PGUP)
 #define C_PGDN C(KC_PGDN)
 #define C_ENT C(KC_ENT)
 #define C_X C(KC_X)
+#define С_S C(KC_S)
+#define С_Z C(KC_Z)
+#define С_Y C(KC_Y)
+#define С_F C(KC_F)
+#define A_TAB A(KC_TAB)
 #define C_BS C(KC_BSPC)
 
 bool shift_held = false; // обнуляем индикатор зажатого РЕГ
@@ -66,19 +70,22 @@ enum custom_keycodes {
   VST1,
   ALT_3,
   ALT_2,
-  KCC_1,
-  KCC_2,
-  KCC_3,
-  KCC_4,
-  KCC_5,
-  KCC_6,
-  KCC_7,
+  ZAP,
+  VOPR,
+  ZVEZD,
+  SLESH,
+  KAVYCH,
+  PLUS,
+  OSKOB,
+  ZSKOB,
   KCC_8,
   KCC_9,
   KCC_0,
   KCC_10,
   DCC_1,
   DCC_2,
+  OTMENA,
+  SOHR,
 }; 
 
 
@@ -150,11 +157,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
 э ё ы я ю ф г д б ж з
  */
 [L_OSNOVA] = LAYOUT_ortho_5x15( \
-  KOP1,          VST1,         KCC_1,      KC_SCLN,  KCC_3,   KCC_4,    KC_F2,   KC_F4,  KC_F9,   KCC_5,   REV_EQL, KC_MINS,  KCC_8,   KCC_9,   KCC_0, \
-  KC_C,          KC_X,         KC_U,       KC_GRV,   KC_LBRC, TD(VYH),  KC_7,    KC_8,   KC_9,    KCC_10,  KC_H,    KC_P,     KC_L,    KC_M,    KC_J, \
-  KC_I,          KC_A,         KC_E,       KC_O,     KC_S,    TD(TABB), KC_4,    KC_5,   KC_6,    KC_RBRC, KC_K,    KC_N,     KC_T,    KC_W,    KC_R, \
-  KC_BSLS,       SFT_T(KC_E),  KC_Q,       KC_Y,     KC_NUBS, KC_UP,    KC_1,    KC_2,   KC_3,    KC_F,    KC_G,    KC_D,     KC_B,    KC_V,    KC_Z, \
-  KC_LCTL,       KC_LSFT,      OSL(L_DOP), KC_ENT,   KC_LEFT, KC_DOWN,  KC_RGHT, KC_0,   TD(WEMO),KC_SPC,  KC_SPC,  TD(RU_AN),ALTBS,   KC_DEL,  KC_BSPC \
+  KOP1,        VST1,       ZAP,         VOPR,     KAVYCH,  KC_SCLN,  ZVEZD,   SLESH,  OSKOB,    ZSKOB,      PLUS,    KC_MINS,  TOCH,    KC_DEL,  KC_BSPC, \
+  KC_C,        KC_X,       KC_U,        KC_GRV,   KC_LBRC, TD(VYH),  KC_7,    KC_8,   KC_9,     SOHR,       KC_H,    KC_P,     KC_L,    KC_M,    KC_J, \
+  KC_I,        KC_A,       KC_E,        KC_O,     KC_S,    TD(TABB), KC_4,    KC_5,   KC_6,     KC_RBRC,    KC_K,    KC_N,     KC_T,    KC_W,    KC_R, \
+  KC_BSLS,     SFT_T(KC_E),KC_Q,        KC_Y,     KC_NUBS, KC_UP,    KC_1,    KC_2,   KC_3,     KC_F,       KC_G,    KC_D,     KC_B,    KC_V,    KC_Z, \
+  KC_LCTL,     KC_LSFT,    ALT_T(KC_F2),KC_ENT,   KC_LEFT, KC_DOWN,  KC_RGHT, KC_0,   TD(WEMO), OSL(L_DOP), KC_SPC,  TD(RU_AN),OTMENA,  С_F,     A_TAB \
 ),
 [L_DOP] = LAYOUT_ortho_5x15( \
   KC_TRNS,      ALT_2,       DCC_1,    DCC_2,    UC(L'—'), UC(0x003D), KC_F10,  KC_F11,  KC_F12,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
@@ -435,6 +442,7 @@ qk_tap_dance_action_t tap_dance_actions[] = { // связка кнопок с ф
     [RU_AN] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, x_finished, x_reset), // Р/А
 };
 
+//Создание кнопок
 bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://beta.docs.qmk.fm/using-qmk/guides/custom_quantum_functions#programming-the-behavior-of-any-keycode-id-programming-the-behavior-of-any-keycode
   switch (keycode) { 
     case ALT_1:
@@ -460,18 +468,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
     return true;
     break;
     
-    case KCC_1:  REG_R(KC_COMM, 0, KC_5, 1)
-    case KCC_3:  REG_R(KC_SLSH, 1, KC_1, 1)
-    case KCC_4:  REG_R(KC_QUOT, 1, KC_QUOT, 0) // Реверс
-    case KCC_5:  REG_R(KC_PSLS, 0, KC_BSLS, 0)
-    case KCC_6:  REG_R(KC_EQL, 1, KC_EQL, 0) // Реверс
-    case KCC_8:  REG_R(KC_DOT, 0, KC_4, 1)
-    case KCC_9:  REG_R(KC_9, 1, KC_5, 1)
-    case KCC_0:  REG_R(KC_0, 1, KC_5, 1)
-    case KCC_10: REG_R(KC_PAST, 0, KC_2, 1)
+    case ZAP:  REG_R(KC_COMM, 0, KC_5, 1) // , %
+    case VOPR:  REG_R(KC_SLSH, 1, KC_1, 1) // ? !
+    case KAVYCH:  REG_R(KC_QUOT, 1, KC_QUOT, 0) // Кавычки
+    case ZVEZD: REG_R(KC_PAST, 0, KC_2, 1) // * @
+    case SLESH:  REG_R(KC_PSLS, 0, KC_BSLS, 0) // слеши обратного нет!
+    case OSKOB:  REG_R(KC_9, 1, KC_5, 1) // открытая скобка
+    case ZSKOB:  REG_R(KC_0, 1, KC_5, 1) // закрытая скобка      
+    case PLUS:  REG_R(KC_EQL, 1, KC_EQL, 0) // + =      
+    case TOCH:  REG_R(KC_DOT, 0, KC_4, 1)
+
+    
     case DCC_1:  REG_R(KC_3, 1, KC_3, 0)
     case DCC_2:  REG_R(KC_3, 0, KC_3, 0)     
     case ALT_3:  REG_R(KC_2, 0, KC_8, 1) // поменять на ё    
+    case OTMENA: REG_R(С_Z, 0, С_Y, 0)
+    case SOHR: REG_R(С_S, 0, KC_F12, 0)
     case KOP1: // Кнопка КОП
             if (record->event.pressed) {
         if (shift_held) {
