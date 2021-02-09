@@ -27,10 +27,10 @@ if (record->event.pressed) { \
 return false;
 
 // горячие клавиши в одну
-#define CTRINS C(KC_INS)
+#define C_INS C(KC_INS)
 #define ALTBS A(KC_BSPC)
 #define ALTYY A(KC_P2)
-#define SFTINS S(KC_INS)
+#define S_INS S(KC_INS)
 #define KYO ALT_1
 #define C_PGUP C(KC_PGUP)
 #define C_PGDN C(KC_PGDN)
@@ -44,7 +44,6 @@ return false;
 #define C_BS C(KC_BSPC)
 
 bool shift_held = false; // обнуляем индикатор зажатого РЕГ
-bool alt_held = false; // обнуляем индикатор зажатого ДОП
 
 //typedef struct { //назначение структуры нажатий https://docs.qmk.fm/#/feature_tap_dance?id=how-to-use
 //    bool is_press_action;
@@ -86,6 +85,7 @@ enum custom_keycodes {
   DCC_2,
   OTMENA,
   SOHR,
+  PS_1,
 }; 
 
 
@@ -164,11 +164,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
   KC_LCTL,     KC_LSFT,    ALT_T(KC_F2),KC_ENT,   KC_LEFT, KC_DOWN,  KC_RGHT, KC_0,   TD(WEMO), OSL(L_DOP), KC_SPC,  TD(RU_AN),OTMENA,  С_F,     A_TAB \
 ),
 [L_DOP] = LAYOUT_ortho_5x15( \
-  KC_TRNS,      ALT_2,       DCC_1,    DCC_2,    UC(L'—'), UC(0x003D), KC_F10,  KC_F11,  KC_F12,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
-  KC_TRNS,      KC_TRNS,       KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,    KC_F7,  KC_F8,  KC_F9,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
-  KC_TRNS,      KC_TRNS,       KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,    KC_F4,  KC_F5,  KC_F6,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
-  KC_TRNS,      KC_TRNS,       KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,    KC_F1,  KC_F2,  KC_F3,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
-  KC_TRNS,      KC_TRNS,       KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,    KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS \
+  KC_TRNS,     ALT_2,      DCC_1,       DCC_2,    UC(L'—'), UC(0x003D),KC_F10,  KC_F11,  KC_F12,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
+  KC_TRNS,     KC_TRNS,    KC_TRNS,     KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_F7,  KC_F8,  KC_F9,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
+  KC_TRNS,     KC_TRNS,    KC_TRNS,     KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_F4,  KC_F5,  KC_F6,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
+  KC_TRNS,     KC_TRNS,    KC_TRNS,     KC_TRNS,  KC_TRNS,  KC_PGUP,   KC_F1,  KC_F2,  KC_F3,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
+  KC_TRNS,     KC_TRNS,    KC_TRNS,     KC_TRNS,  KC_HOME,  KC_PGDN,   KC_END,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS \
 )
 }; 
 
@@ -263,11 +263,11 @@ combo_t key_combos[COMBO_COUNT] = {
 [comb_UDL] = COMBO(UDL_combo, KC_DEL),
 [comb_TAB] = COMBO(TAB_combo, KC_TAB),
 [comb_VIH] = COMBO(VIH_combo, KC_ESC),
-[comb_KOP1] = COMBO(KOP1_combo, CTRINS),
-[comb_VST1] = COMBO(VST1_combo, SFTINS),
+[comb_KOP1] = COMBO(KOP1_combo, C_INS),
+[comb_VST1] = COMBO(VST1_combo, S_INS),
 [comb_VYR] = COMBO(VYR_combo, C_X),
 [comb_UPR1] = COMBO_ACTION(UPR1_combo),
-[comb_OTM] = COMBO(OTM_combo, ALTBS),
+[comb_OTM] = COMBO(OTM_combo, OTMENA),
 [comb_N1] = COMBO(N1_combo, KC_P1),
 [comb_N2] = COMBO(N2_combo, KC_P2),
 [comb_N3] = COMBO(N3_combo, KC_P3),
@@ -453,7 +453,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
         tap_code(KC_P4);
         unregister_code(KC_LALT);
       }
-      break;
+      break;      
+    case PS_1: // отправка пар
+      if (record->event.pressed) {
+        SEND_STRING("pas");
+      }
+    break;
     case ALT_2:
       if (record->event.pressed) { //if (pressed) {
         SEND_STRING(SS_LALT("D83D+DC4D"));
@@ -463,11 +468,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
         shift_held = record->event.pressed;
     return true;
     break;
-    case KC_F15:
-        alt_held = record->event.pressed; // записать, что Ф15 (УПР) нажат
-    return true;
-    break;
-    
     case ZAP:  REG_R(KC_COMM, 0, KC_5, 1) // , %
     case VOPR:  REG_R(KC_SLSH, 1, KC_1, 1) // ? !
     case KAVYCH:  REG_R(KC_QUOT, 1, KC_QUOT, 0) // Кавычки
@@ -477,33 +477,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
     case ZSKOB:  REG_R(KC_0, 1, KC_5, 1) // закрытая скобка      
     case PLUS:  REG_R(KC_EQL, 1, KC_EQL, 0) // + =      
     case TOCH:  REG_R(KC_DOT, 0, KC_4, 1)
-
     
     case DCC_1:  REG_R(KC_3, 1, KC_3, 0)
     case DCC_2:  REG_R(KC_3, 0, KC_3, 0)     
     case ALT_3:  REG_R(KC_2, 0, KC_8, 1) // поменять на ё    
+      
     case OTMENA: REG_R(С_Z, 0, С_Y, 0)
     case SOHR: REG_R(С_S, 0, KC_F12, 0)
-    case KOP1: // Кнопка КОП
-            if (record->event.pressed) {
-        if (shift_held) {
-          unregister_code(KC_LSFT);
-          tap_code16(LCTL(KC_DEL));
-                } else {
-          tap_code16(LCTL(KC_INS));
-        }
-        }
-          break;
-    case VST1: // Кнопка ВСТ
-            if (record->event.pressed) {
-        if (shift_held) {
-                    unregister_code(KC_LSFT);
-                    tap_code(KC_INS);
-                } else {
-          tap_code16(LSFT(KC_INS));
-        }
-        }
-          break;
+    case KOP1: REG_R(C_INS, 0, C_X, 0)
+    case VST1: REG_R(KC_INS, 1, KC_INS, 0)
   }
   return true;
 }
