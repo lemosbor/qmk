@@ -46,8 +46,14 @@ return false;
 #define S_4 S(KC_4)
 #define S_6 S(KC_6)
 #define S_7 S(KC_7)
+#define S_9 S(KC_9)
+#define S_0 S(KC_0)
 #define S_QUOT S(KC_QUOT)
 #define CAD C(S(KC_DEL))
+#define K_YO KCCYO
+#define KCC_YO SFT_T(K_YO)
+#define OKAV S(KC_9) // поменять на открытую и закрытую кавычки
+#define ZKAV S(KC_0)
 
 bool shift_held = false; // обнуляем индикатор зажатого РЕГ
 
@@ -93,8 +99,9 @@ enum custom_keycodes {
   SOHR,
   PS_1,
   SWE_AA,
-	SWE_AE,
-	SWE_OE,
+  SWE_AE,
+  SWE_OE,
+  KCCYO,
   S_COMM, // <
   S_DOT, // >
 }; 
@@ -126,8 +133,7 @@ comb_VOP,
 comb_DOP,
 comb_REG1,
 comb_REG2,
-comb_PROB1,
-comb_PROB2,
+comb_PROB,
 comb_NACH,
 comb_KON,
 comb_LEV,
@@ -163,7 +169,11 @@ comb_VVOD2,
 comb_PER3,
 comb_SOYI,
 comb_BUKTZ,
-  
+comb_ZSCOB,
+comb_OSCOB,
+comb_OKAV,
+comb_ZKAV,
+comb_KAV,	
 comb_N_ZAP,
 comb_N_TOCH,
 comb_N_DEL,
@@ -203,11 +213,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
   KOP1,        VST1,       ZAP,         VOPR,     KAVYCH,  KC_SCLN,  ZVEZD,   SLESH,  OSKOB,    ZSKOB,      PLUS,    KC_MINS,  TOCH,    KC_DEL,  KC_BSPC, \
   KC_C,        KC_X,       KC_U,        KC_GRV,   KC_LBRC, TD(VYH),  KC_7,    KC_8,   KC_9,     SOHR,       KC_H,    KC_P,     KC_L,    KC_M,    KC_J, \
   KC_I,        KC_A,       KC_E,        KC_O,     KC_S,    TD(TABB), KC_4,    KC_5,   KC_6,     KC_RBRC,    KC_K,    KC_N,     KC_T,    KC_W,    KC_R, \
-  KC_BSLS,     SFT_T(KC_E),KC_Q,        KC_Y,     KC_NUBS, KC_UP,    KC_1,    KC_2,   KC_3,     KC_F,       KC_G,    KC_D,     KC_B,    KC_V,    KC_Z, \
+  KC_BSLS,     KCC_YO,     KC_Q,        KC_Y,     KC_NUBS, KC_UP,    KC_1,    KC_2,   KC_3,     KC_F,       KC_G,    KC_D,     KC_B,    KC_V,    KC_Z, \
   KC_LCTL,     KC_LSFT,    ALT_T(KC_F2),KC_ENT,   KC_LEFT, KC_DOWN,  KC_RGHT, KC_0,   TD(WEMO), OSL(L_DOP), KC_SPC,  TD(RU_AN),OTMENA,  С_F,     A_TAB \
 ),
 [L_DOP] = LAYOUT_ortho_5x15( \
-  KC_TRNS,     KC_TRNS,    DCC_1,       DCC_2,    UC(L'—'), UC(0x003D),KC_F10,  KC_F11,  KC_F12,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  CAD,  KC_TRNS,
+  KC_TRNS,     KC_TRNS,    DCC_1,       DCC_2,    UC(L'—'), UC(0x003D),KC_F10,  KC_F11,  KC_F12,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  CAD,  KC_TRNS, \
   PS_1,        SWE_AA,     SWE_OE,      KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_F7,  KC_F8,  KC_F9,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
   KC_NUMLOCK,  SWE_AE,     KC_P4,       X_KC_4,   KC_TRNS,  KC_TRNS,   KC_F4,  KC_F5,  KC_F6,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
   S_COMM,      S_DOT,      KC_TRNS,     KC_TRNS,  KC_TRNS,  KC_PGUP,   KC_F1,  KC_F2,  KC_F3,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
@@ -239,8 +249,7 @@ const uint16_t PROGMEM VOS_combo[] = {KC_U, KC_L, COMBO_END};
 const uint16_t PROGMEM VOP_combo[] = {KC_X, KC_M, COMBO_END};
 const uint16_t PROGMEM REG1_combo[] = {KC_U, KC_O, COMBO_END};
 const uint16_t PROGMEM REG2_combo[] = {KC_GRV, KC_S, COMBO_END};
-const uint16_t PROGMEM PROB1_combo[] = {KC_A, KC_E, COMBO_END};
-const uint16_t PROGMEM PROB2_combo[] = {KC_T, KC_N, COMBO_END};
+const uint16_t PROGMEM PROB_combo[] = {KC_T, KC_N, COMBO_END};
 const uint16_t PROGMEM NACH_combo[] = {KC_D, KC_B, COMBO_END};
 const uint16_t PROGMEM KON_combo[] = {KC_V, KC_Z, COMBO_END};
 const uint16_t PROGMEM LEV_combo[] = {KC_W, KC_T, COMBO_END};
@@ -252,10 +261,11 @@ const uint16_t PROGMEM VVOD_combo[] = {KC_E, KC_O, COMBO_END};
 const uint16_t PROGMEM UDL_combo[] = {KC_C, KC_X, COMBO_END};
 const uint16_t PROGMEM TAB_combo[] = {KC_N, KC_R, COMBO_END};
 const uint16_t PROGMEM VIH_combo[] = {KC_I, KC_O, COMBO_END};
-const uint16_t PROGMEM KOP1_combo[] = {KC_X, KC_O, COMBO_END};
-const uint16_t PROGMEM VST1_combo[] = {KC_A, KC_O, COMBO_END};
+const uint16_t PROGMEM KOP1_combo[] = {KC_X, KC_U, COMBO_END};
+const uint16_t PROGMEM VST1_combo[] = {KC_A, KC_E, COMBO_END};
+const uint16_t PROGMEM VYR_combo[] = {KC_C, KC_U, COMBO_END};
 const uint16_t PROGMEM UPR1_combo[] = {KC_E, KC_Y, COMBO_END};
-const uint16_t PROGMEM OTM_combo[] = {KC_X, KC_U, COMBO_END};
+const uint16_t PROGMEM OTM_combo[] = {KC_C, KC_GRV, COMBO_END};
 const uint16_t PROGMEM N1_combo[] = {KC_Y, KC_N, COMBO_END};
 const uint16_t PROGMEM N2_combo[] = {KC_Y, KC_T, COMBO_END};
 const uint16_t PROGMEM N3_combo[] = {KC_Y, KC_W, COMBO_END};
@@ -266,17 +276,21 @@ const uint16_t PROGMEM N7_combo[] = {KC_Y, KC_L, COMBO_END};
 const uint16_t PROGMEM N8_combo[] = {KC_Y, KC_M, COMBO_END};
 const uint16_t PROGMEM N9_combo[] = {KC_Y, KC_J, COMBO_END};
 const uint16_t PROGMEM N0_combo[] = {KC_Y, KC_K, COMBO_END};
-const uint16_t PROGMEM VSH2_combo[] = {KC_EQL, KYO, COMBO_END};
+const uint16_t PROGMEM VSH2_combo[] = {KC_EQL, KCC_YO, COMBO_END};
 const uint16_t PROGMEM INS_combo[] = {KC_X, KC_E, COMBO_END};
-const uint16_t PROGMEM VYR_combo[] = {KYO, KC_O, COMBO_END};
 const uint16_t PROGMEM PER1_combo[] = {KC_N, KC_M, COMBO_END};
 const uint16_t PROGMEM PER2_combo[] = {KC_D, KC_W, COMBO_END};
 const uint16_t PROGMEM OCH_combo[] = {KC_Q, KC_Y, COMBO_END};
 const uint16_t PROGMEM VVOD2_combo[] = {KC_O, KC_S, COMBO_END};
 const uint16_t PROGMEM PER3_combo[] = {KC_N, KC_V, COMBO_END};
-const uint16_t PROGMEM SOYI_combo[] = {KC_I, KC_N, COMBO_END};
+const uint16_t PROGMEM SOYI_combo[] = {KC_I, KC_E, COMBO_END};
 const uint16_t PROGMEM BUKTZ_combo[] = {KC_I, KC_X, COMBO_END};
 const uint16_t PROGMEM DOP_combo[] = {KC_D, KC_T, COMBO_END};
+const uint16_t PROGMEM ZSCOB_combo[] = {KC_O, KC_R, COMBO_END};
+const uint16_t PROGMEM OSCOB_combo[] = {KC_I, KC_N, COMBO_END};
+const uint16_t PROGMEM OKAV_combo[] = {KC_C, KC_P, COMBO_END};
+const uint16_t PROGMEM ZKAV_combo[] = {KC_GRV, KC_J, COMBO_END};
+const uint16_t PROGMEM KAV_combo[] = {KC_GRV, KC_LBRC, COMBO_END};
 
 const uint16_t PROGMEM N_ZAP_combo[] = {KC_1, KC_5, COMBO_END};
 const uint16_t PROGMEM N_TOCH_combo[] = {KC_5, KC_3, COMBO_END};
@@ -307,8 +321,7 @@ combo_t key_combos[COMBO_COUNT] = {
 [comb_VOP] = COMBO_ACTION(VOP_combo),
 [comb_REG1] = COMBO_ACTION(REG1_combo),  
 [comb_REG2] = COMBO_ACTION(REG2_combo),
-[comb_PROB1] = COMBO(PROB1_combo, KC_SPC),
-[comb_PROB2] = COMBO(PROB2_combo, KC_SPC),
+[comb_PROB] = COMBO(PROB2_combo, KC_SPC),
 [comb_NACH] = COMBO(NACH_combo, KC_HOME),
 [comb_KON] = COMBO(KON_combo, KC_END),
 [comb_LEV] = COMBO(LEV_combo, KC_LEFT),
@@ -345,6 +358,11 @@ combo_t key_combos[COMBO_COUNT] = {
 [comb_SOYI] = COMBO_ACTION(SOYI_combo),
 [comb_BUKTZ] = COMBO_ACTION(BUKTZ_combo),
 [comb_DOP] = COMBO_ACTION(DOP_combo),
+[comb_OSCOB] = COMBO(OSCOB_combo, S_9),
+[comb_ZSCOB] = COMBO_ACTION(ZSCOB_combo),
+[comb_OKAV] = COMBO(OKAV_combo, OKAV),
+[comb_ZKAV] = COMBO_ACTION(ZKAV_combo),
+[comb_KAV] = COMBO(KAV_combo, S_QUOT),
   
 [comb_N_ZAP] = COMBO(N_ZAP_combo, KC_COMM),
 [comb_N_TOCH] = COMBO(N_TOCH_combo, KC_PDOT),
@@ -381,6 +399,17 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         set_oneshot_mods (MOD_LSFT);
       }
       break;
+    case comb_ZSCOB: // закрытая скобка
+      if (pressed) {
+        tap_code16(S(KC_0));
+        tap_code(KC_SPC);
+      }
+      break;
+    case comb_ZKAV: // закрытая кавычка
+      if (pressed) {
+        tap_code(ZKAV);
+      }
+      break;		  
     case comb_TZ: // точка c запятой
       if (pressed) {
         tap_code(KC_SCLN);
@@ -549,6 +578,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
         shift_held = record->event.pressed;
     return true;
     break;
+    case KCCYO: REG_R(KC_E, 0, KC_E, 1) // Ё
     case ZAP:  REG_R(KC_COMM, 0, KC_5, 1) // , %
     case VOPR:  REG_R(KC_SLSH, 1, KC_1, 1) // ? !
     case KAVYCH:  REG_R(KC_QUOT, 1, KC_QUOT, 0) // Кавычки
