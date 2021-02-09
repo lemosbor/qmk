@@ -164,10 +164,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
   KC_LCTL,     KC_LSFT,    ALT_T(KC_F2),KC_ENT,   KC_LEFT, KC_DOWN,  KC_RGHT, KC_0,   TD(WEMO), OSL(L_DOP), KC_SPC,  TD(RU_AN),OTMENA,  С_F,     A_TAB \
 ),
 [L_DOP] = LAYOUT_ortho_5x15( \
-  KC_TRNS,     ALT_2,      DCC_1,       DCC_2,    UC(L'—'), UC(0x003D),KC_F10,  KC_F11,  KC_F12,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
-  KC_TRNS,     KC_TRNS,    KC_TRNS,     KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_F7,  KC_F8,  KC_F9,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
-  KC_TRNS,     KC_TRNS,    KC_TRNS,     KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_F4,  KC_F5,  KC_F6,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
-  KC_TRNS,     KC_TRNS,    KC_TRNS,     KC_TRNS,  KC_TRNS,  KC_PGUP,   KC_F1,  KC_F2,  KC_F3,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
+  KC_TRNS,     KC_TRNS,      DCC_1,       DCC_2,    UC(L'—'), UC(0x003D),KC_F10,  KC_F11,  KC_F12,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
+  PS_1,        KC_TRNS,    KC_TRNS,     KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_F7,  KC_F8,  KC_F9,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
+  KC_NUMLOCK,  KC_TRNS,    KC_TRNS,     KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_F4,  KC_F5,  KC_F6,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
+  KC_P4,       KC_TRNS,    KC_TRNS,     KC_TRNS,  KC_TRNS,  KC_PGUP,   KC_F1,  KC_F2,  KC_F3,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
   KC_TRNS,     KC_TRNS,    KC_TRNS,     KC_TRNS,  KC_HOME,  KC_PGDN,   KC_END,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS \
 )
 }; 
@@ -181,8 +181,7 @@ bool led_update_user(led_t led_state) { // зажечь светодиод ес�
     return false;
 };
 
-void matrix_init_user(void){   // возможно убрать void из скобок  (eeconfig_init_user)
-   _delay_ms(20); // Gets rid of tick
+void matrix_init_user(){   //   (eeconfig_init_user)
    set_unicode_input_mode(UC_WINC);
 };
 
