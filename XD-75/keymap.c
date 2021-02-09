@@ -47,6 +47,7 @@ return false;
 #define S_6 S(KC_6)
 #define S_7 S(KC_7)
 #define S_QUOT S(KC_QUOT)
+#define CAD C(S(KC_DEL))
 
 bool shift_held = false; // обнуляем индикатор зажатого РЕГ
 
@@ -206,7 +207,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
   KC_LCTL,     KC_LSFT,    ALT_T(KC_F2),KC_ENT,   KC_LEFT, KC_DOWN,  KC_RGHT, KC_0,   TD(WEMO), OSL(L_DOP), KC_SPC,  TD(RU_AN),OTMENA,  С_F,     A_TAB \
 ),
 [L_DOP] = LAYOUT_ortho_5x15( \
-  KC_TRNS,     KC_TRNS,    DCC_1,       DCC_2,    UC(L'—'), UC(0x003D),KC_F10,  KC_F11,  KC_F12,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \S_DOT
+  KC_TRNS,     KC_TRNS,    DCC_1,       DCC_2,    UC(L'—'), UC(0x003D),KC_F10,  KC_F11,  KC_F12,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  CAD,  KC_TRNS,
   PS_1,        SWE_AA,     SWE_OE,      KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_F7,  KC_F8,  KC_F9,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
   KC_NUMLOCK,  SWE_AE,     KC_P4,       X_KC_4,   KC_TRNS,  KC_TRNS,   KC_F4,  KC_F5,  KC_F6,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
   S_COMM,      S_DOT,      KC_TRNS,     KC_TRNS,  KC_TRNS,  KC_PGUP,   KC_F1,  KC_F2,  KC_F3,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
@@ -223,7 +224,7 @@ bool led_update_user(led_t led_state) { // зажечь светодиод ес�
     return false;
 };
 
-void matrix_init_user(){   //   (eeconfig_init_user)
+void matrix_init_user(){   //   (eeconfig_init_user) ЮНИКОД
    set_unicode_input_mode(UC_WINC);
 };
 
