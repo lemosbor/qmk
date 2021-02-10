@@ -129,6 +129,9 @@ enum custom_keycodes {
   KKC_8, 
   KKC_9, 
   KKC_10,
+  SLED_OKNO,
+  VYD_STROK,
+  UD_STROK,
 }; 
 
 char *alt_codes[][2] = {
@@ -195,11 +198,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
   KC_LCTL,   KC_LSFT,    ALT_T(KC_F2),KC_ENT,  KC_LEFT, KC_DOWN, KC_RGHT, KKC_0,  TD(WEMO),OSL(L_DOP),KC_SPC,  TD(RU_AN),OTMENA,  TD(POISK),TD(TABB) \
 ),
 [L_DOP] = LAYOUT_ortho_5x15( \
-  KC_TRNS,   KC_TRNS,    EN_NUM,      KC_TRNS, UDAR,    KC_TRNS, KC_TRNS, A_SLESH, KK_LBRC, KK_RBRC,   KC_TRNS, KC_TRNS,  KC_TRNS, CAD,      PS_1, \
-  KC_TRNS,   RU_TY,      KC_TRNS,     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,   KC_TRNS, KC_TRNS,  KC_TRNS, KC_TRNS,  PS_2, \
-  KC_NUMLOCK,KC_TRNS,    KC_TRNS,     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,   KC_TRNS, KC_TRNS,  KC_TRNS, KC_TRNS,  PS_3, \
-  S_COMM,    S_DOT,      KC_TRNS,     KC_TRNS, KC_TRNS, KC_PGUP, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,   KC_TRNS, KC_TRNS,  KC_TRNS, KC_TRNS,  PS_4, \
-  KC_TRNS,   KC_TRNS,    KC_TRNS,     KC_TRNS, KC_HOME, KC_PGDN, KC_END,  KC_F11,  KC_F12,  KC_TRNS,   G_SP,    KC_TRNS,  KC_TRNS, KC_TRNS,  KC_TRNS \
+  KC_TRNS,   KC_TRNS,    EN_NUM,      KC_TRNS, UDAR,    KC_TRNS, KC_TRNS, A_SLESH, KK_LBRC,   KK_RBRC,   KC_TRNS,   KC_TRNS,  KC_TRNS, CAD,      PS_1, \
+  KC_TRNS,   RU_TY,      KC_TRNS,     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,   UD_STROK,  VYD_STROK, KC_TRNS,  KC_TRNS, KC_TRNS,  PS_2, \
+  KC_NUMLOCK,KC_TRNS,    KC_TRNS,     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, C(KC_HOME),SLED_OKNO, KC_TRNS,   KC_TRNS,  KC_TRNS, KC_TRNS,  PS_3, \
+  S_COMM,    S_DOT,      KC_TRNS,     KC_TRNS, KC_TRNS, KC_PGUP, KC_TRNS, KC_TRNS, C(KC_END), C(KC_PGUP),C(KC_PGDN),KC_TRNS,  KC_TRNS, KC_TRNS,  PS_4, \
+  KC_TRNS,   KC_TRNS,    KC_TRNS,     KC_TRNS, KC_HOME, KC_PGDN, KC_END,  KC_F11,  KC_F12,    KC_TRNS,   G_SP,      KC_TRNS,  KC_TRNS, KC_TRNS,  KC_TRNS \
 )
 }; 
 
@@ -553,7 +556,34 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
     case KC_LSFT: // записать, что РЕГ нажат
         shift_held = record->event.pressed;
     return true;
-    break;
+    break;      
+    case VYD_STROK: 
+      if (pressed) {        
+        tap_code(KC_END);
+        register_code(KC_LSFT);
+        tap_code(KC_HOME);
+        unregister_code(KC_LSFT);
+      }
+      break;            
+    case UD_STROK:
+      if (pressed) {        
+        tap_code(KC_END);
+        register_code(KC_LSFT);
+        tap_code(KC_HOME);
+        unregister_code(KC_LSFT);
+        tap_code(KC_DEL);
+        tap_code(KC_DEL);
+      }
+      break;     
+    case SLED_OKNO: 
+      if (pressed) {
+        register_code(KC_LALT);
+        tap_code(KC_TAB);
+        tap_code(KC_END);
+        tap_code(KC_RGHT);
+        unregister_code(KC_LALT);
+      }
+      break;
     case KCCYO: REG_R(KC_E, 0, KC_E, 1) // Ё
     case ZAP:  REG_R(KC_COMM, 0, KC_5, 1) // , %
     case VOPR:  REG_R(KC_SLSH, 1, KC_1, 1) // ? !
