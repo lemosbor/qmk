@@ -3,7 +3,12 @@
 - [ ] цифровые комбо: N_MEN_combo и N_BOL_combo. Если не работают, то сделать COMBO_ACTION
 - [ ] Ё
 - [ ] работают ли X_KP_1 при выключенном NUM, если да, то поменять на них сочетания в комбо
-
+Постоянный KC_NUMLOCK:
+void matrix_init_user(void) {
+  if (!(host_keyboard_leds() & (1<<USB_LED_NUM_LOCK))) {
+    register_code(KC_NUMLOCK);
+    unregister_code(KC_NUMLOCK);
+  }
 
 - [X] Шведская схема: работает
 - [X] Контр-Альт-Дел: работает
