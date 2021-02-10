@@ -26,6 +26,13 @@ if (record->event.pressed) { \
 } \
 return false;
 
+#define COD(code) \
+if (record->event.pressed) { \
+        SEND_STRING(code); \
+      } \
+      break; \
+return false;
+
 // горячие клавиши в одну
 #define C_INS C(KC_INS)
 #define ALTBS A(KC_BSPC)
@@ -49,7 +56,6 @@ return false;
 #define S_0 S(KC_0)
 #define S_QUOT S(KC_QUOT)
 #define CAD C(A(KC_DEL))
-#define KCC_YO KCCYO // создать двойную кнопку РЕГ+Ё 
 #define S_COMM G_COMM 
 #define S_DOT G_DOT 
 #define BUKTZ comb_BUKTZ
@@ -87,26 +93,37 @@ enum custom_keycodes {
   OTMENA,
   SOHR,
   PS_1,
-  SWE_AA,
-  SWE_AE,
-  SWE_OE,
-  KCCYO,
+  RU_E,
+  RU_TY,
+  KK_LBRC,
+  KK_RBRC,
+  UDAR,
   G_COMM, // <
   G_DOT, // >
+  G_SP, // неразрывный пробел
+  
 }; 
 
 char *alt_codes[][2] = {
     {
-        SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_2)SS_TAP(X_KP_2)SS_TAP(X_KP_9)), // Alt+0229 → å
-        SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_9)SS_TAP(X_KP_7)), // Alt+0197 → Å
+        SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_4)SS_TAP(X_KP_1)), // ё RU_E
+        SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_4)SS_TAP(X_KP_0)), // Ё
     },
     {
-    SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_2)SS_TAP(X_KP_2)SS_TAP(X_KP_8)), // Alt+0228 → ä
-        SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_9)SS_TAP(X_KP_6)), // Alt+0196 → Ä
+    SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_3)SS_TAP(X_KP_4)), // ъ RU_TY
+    SS_LALT(SS_TAP(X_KP_1)SS_TAP(X_KP_5)SS_TAP(X_KP_4)), // Ъ
     },
     {
-        SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_2)SS_TAP(X_KP_4)SS_TAP(X_KP_6)), // Alt+0246 → ö
-        SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_2)SS_TAP(X_KP_1)SS_TAP(X_KP_4)), // Alt+0214 → Ö
+     SS_LALT(SS_TAP(X_KP_9)SS_TAP(X_KP_1)), // [ KK_LBRC
+      SS_LALT(SS_TAP(X_KP_1)SS_TAP(X_KP_2)SS_TAP(X_KP_3)), // { 
+    },
+    {
+     SS_LALT(SS_TAP(X_KP_9)SS_TAP(X_KP_3)), // ] KK_RBRC
+      SS_LALT(SS_TAP(X_KP_1)SS_TAP(X_KP_2)SS_TAP(X_KP_5)), // }
+    },
+    {
+     SS_LALT(SS_TAP(X_KP_9)SS_TAP(X_KP_6)), // ` UDAR
+SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_7)SS_TAP(X_KP_6)SS_TAP(X_KP_9)), // ударение
     },
 };
 
@@ -202,15 +219,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
   KOP1,        VST1,       ZAP,         VOPR,     KAVYCH,  KC_SCLN,  ZVEZD,   SLESH,  OSKOB,    ZSKOB,      PLUS,    KC_MINS,  TOCH,    KC_DEL,  SOHR, \
   KC_C,        KC_X,       KC_U,        KC_GRV,   KC_LBRC, TD(VYH),  KC_7,    KC_8,   KC_9,     KC_BSPC,    KC_H,    KC_P,     KC_L,    KC_M,    KC_J, \
   KC_I,        KC_A,       KC_E,        KC_O,     KC_S, KC_TAB, KC_4,    KC_5,   KC_6,     KC_RBRC,    KC_K,    KC_N,     KC_T,    KC_W,    KC_R, \
-  KC_BSLS,     SFT_T(KCCYO),     KC_Q,        KC_Y,     KC_NUBS, KC_UP,    KC_1,    KC_2,   KC_3,     KC_F,       KC_G,    KC_D,     KC_B,    KC_V,    KC_Z, \
+  KC_BSLS,     SFT_T(RU_E),     KC_Q,        KC_Y,     KC_NUBS, KC_UP,    KC_1,    KC_2,   KC_3,     KC_F,       KC_G,    KC_D,     KC_B,    KC_V,    KC_Z, \
   KC_LCTL,     KC_LSFT,    ALT_T(KC_F2),KC_ENT,   KC_LEFT, KC_DOWN,  KC_RGHT, KC_0,   TD(WEMO), OSL(L_DOP), KC_SPC,  TD(RU_AN),OTMENA,  TD(POISK), TD(TABB) \
 ),
 [L_DOP] = LAYOUT_ortho_5x15( \
-  KC_TRNS,     KC_TRNS,    KC_TRNS,     KC_TRNS,  KC_TRNS, KC_TRNS, KC_F10, KC_F11, KC_F12,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  CAD,  KC_TRNS, \
-  PS_1,        comb_BUKTZ, SWE_OE,      KC_TRNS,  KC_TRNS,  KC_TRNS,    KC_F7,  KC_F8,  KC_F9,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
-  KC_NUMLOCK,  SWE_AE,     KC_P4,       KC_4,   KC_TRNS,  KC_TRNS,    KC_F4,  KC_F5,  KC_F6,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
-  S_COMM,      S_DOT,      SWE_AA,     KC_TRNS,  KC_TRNS,  KC_PGUP,    KC_F1,  KC_F2,  KC_F3,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
-  KC_TRNS,     KC_TRNS,    KC_TRNS,     KC_TRNS,  KC_HOME,  KC_PGDN,    KC_END, KC_TRNS, KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS \
+  KC_TRNS,     KC_TRNS,    KC_TRNS,     KC_TRNS,  UDAR, KC_TRNS, KC_F10, KC_F11, KK_LBRC,  KK_RBRC,  KC_TRNS,  KC_TRNS,  KC_TRNS,  CAD,  KC_TRNS, \
+  PS_1,        RU_TY,      KC_TRNS,      KC_TRNS,  KC_TRNS,  KC_TRNS,    KC_F7,  KC_F8,  KC_F9,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
+  KC_NUMLOCK,  KC_TRNS,     KC_TRNS,       KC_TRNS,   KC_TRNS,  KC_TRNS,    KC_F4,  KC_F5,  KC_F6,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
+  S_COMM,      S_DOT,      KC_TRNS,     KC_TRNS,  KC_TRNS,  KC_PGUP,    KC_F1,  KC_F2,  KC_F3,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
+  KC_TRNS,     KC_TRNS,    KC_TRNS,     KC_TRNS,  KC_HOME,  KC_PGDN,    KC_END, KC_TRNS, KC_TRNS,  KC_TRNS,  G_SP,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS \
 )
 }; 
 
@@ -222,7 +239,6 @@ bool led_update_user(led_t led_state) { // зажечь светодиод ес�
     }
     return false;
 };
-
 
 // задаем сочитание клавиш (комбо)
 const uint16_t PROGMEM TOCH_combo[] = {KC_P, KC_L, COMBO_END};
@@ -539,21 +555,10 @@ qk_tap_dance_action_t tap_dance_actions[] = { // связка кнопок с ф
 //Создание кнопок
 bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://beta.docs.qmk.fm/using-qmk/guides/custom_quantum_functions#programming-the-behavior-of-any-keycode-id-programming-the-behavior-of-any-keycode
   switch (keycode) {    
-    case PS_1: // отправка пар
-      if (record->event.pressed) {
-        SEND_STRING("pas");
-      }
-    break;
-    case G_COMM: //<
-      if (record->event.pressed) {
-        SEND_STRING(SS_LALT(SS_TAP(X_KP_6)SS_TAP(X_KP_0)));
-      }
-      break;
-    case G_DOT: //>
-      if (record->event.pressed) {
-        SEND_STRING(SS_LALT(SS_TAP(X_KP_6)SS_TAP(X_KP_2)));
-      }
-      break;
+    case PS_1: COD("pas")
+    case G_COMM: COD(SS_LALT(SS_TAP(X_KP_6)SS_TAP(X_KP_0)) // <
+    case G_DOT: COD(SS_LALT(SS_TAP(X_KP_6)SS_TAP(X_KP_2)) // >
+    case G_SP: COD(SS_LALT(SS_TAP(X_KP_6)SS_TAP(X_KP_2)) // неразрывный пробел
     case KC_LSFT: // записать, что РЕГ нажат
         shift_held = record->event.pressed;
     return true;
@@ -572,9 +577,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
     case SOHR: REG_R(C_S, 0, KC_F12, 0)
     case KOP1: REG_R(C_INS, 0, C_X, 0)
     case VST1: REG_R(KC_INS, 1, KC_INS, 0)
-    case SWE_AA: 
-    case SWE_AE: 
-    case SWE_OE: 
+    case RU_E: 
+    case RU_TY: 
+    case KK_LBRC:
+    case KK_RBRC: 
+    case UDAR: 
       if (!record->event.pressed) {
       uint16_t index = keycode - SWE_AA;
       uint8_t shift = get_mods() & (MOD_BIT(KC_LSFT));
