@@ -26,6 +26,18 @@ if (record->event.pressed) { \
 } \
 return false;
 
+#define REG_R2(kn1, kn2) \
+if (record->event.pressed) { \
+  if (shift_held) { \
+        unregister_code(KC_LSFT); \
+        kn2; \
+        register_code(KC_LSFT); \
+  } else { \
+        kn1; \
+    } \
+} \
+return false;
+
 #define COD(code) \
 if (record->event.pressed) { \
         SEND_STRING(code); \
@@ -41,7 +53,7 @@ return false;
 #define C_PGUP C(KC_PGUP)
 #define C_PGDN C(KC_PGDN)
 #define C_ENT C(KC_ENT)
-#define C_X C(KC_X)  // могут не корректно идентифицироваться
+#define C_X C(KC_X)
 #define C_S C(KC_S)
 #define C_Z C(KC_Z)
 #define C_Y C(KC_Y)
@@ -101,7 +113,8 @@ enum custom_keycodes {
   G_COMM, // <
   G_DOT, // >
   G_SP, // неразрывный пробел
-  
+  RU_NUM,
+  RU_TIR,  
 }; 
 
 char *alt_codes[][2] = {
@@ -125,7 +138,16 @@ char *alt_codes[][2] = {
      SS_LALT(SS_TAP(X_KP_9)SS_TAP(X_KP_6)), // ` UDAR
 SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_7)SS_TAP(X_KP_6)SS_TAP(X_KP_9)), // ударение
     },
+    {
+      SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_5)SS_TAP(X_KP_2)), // №
+      SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_1)), // §
+    },
+    {
+      SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_5)SS_TAP(X_KP_1)), // —
+      SS_LALT(SS_TAP(X_KP_1)SS_TAP(X_KP_2)SS_TAP(X_KP_6)), // ~
+    },
 };
+
 
 enum combo_events { // обозначение комбо-команд
 comb_TOCH,
@@ -556,9 +578,9 @@ qk_tap_dance_action_t tap_dance_actions[] = { // связка кнопок с ф
 bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://beta.docs.qmk.fm/using-qmk/guides/custom_quantum_functions#programming-the-behavior-of-any-keycode-id-programming-the-behavior-of-any-keycode
   switch (keycode) {    
     case PS_1: COD("pas")
-    case G_COMM: COD(SS_LALT(SS_TAP(X_KP_6)SS_TAP(X_KP_0)) // <
-    case G_DOT: COD(SS_LALT(SS_TAP(X_KP_6)SS_TAP(X_KP_2)) // >
-    case G_SP: COD(SS_LALT(SS_TAP(X_KP_6)SS_TAP(X_KP_2)) // неразрывный пробел
+    case G_COMM: COD(SS_LALT(SS_TAP(X_KP_6)SS_TAP(X_KP_0))) // <
+    case G_DOT: COD(SS_LALT(SS_TAP(X_KP_6)SS_TAP(X_KP_2))) // >
+    case G_SP:  COD(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_5)SS_TAP(X_KP_5))) // неразрывный пробел
     case KC_LSFT: // записать, что РЕГ нажат
         shift_held = record->event.pressed;
     return true;
@@ -569,7 +591,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
     case KAVYCH:  REG_R(KC_QUOT, 1, KC_QUOT, 0) // Кавычки
     case ZVEZD: REG_R(KC_PAST, 0, KC_2, 1) // * @
     case SLESH:  REG_R(KC_PSLS, 0, KC_BSLS, 0) // слеши обратного нет!
-    case OSKOB:  REG_R(KC_9, 1, KC_5, 1) // открытая скобка
+    //case OSKOB:  REG_R(KC_9, 1, KC_5, 1) // открытая скобка
     case ZSKOB:  REG_R(KC_0, 1, KC_5, 1) // закрытая скобка      
     case PLUS:  REG_R(KC_EQL, 1, KC_EQL, 0) // + =      
     case TOCH:  REG_R(KC_DOT, 0, KC_4, 1)        
@@ -577,11 +599,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
     case SOHR: REG_R(C_S, 0, KC_F12, 0)
     case KOP1: REG_R(C_INS, 0, C_X, 0)
     case VST1: REG_R(KC_INS, 1, KC_INS, 0)
+    case OSKOB: REG_R2(tap_code(KC_9), send_string(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_7)SS_TAP(X_KP_1))))
     case RU_E: 
     case RU_TY: 
     case KK_LBRC:
     case KK_RBRC: 
     case UDAR: 
+    case RU_NUM:
+    case RU_TIR:
       if (!record->event.pressed) {
       uint16_t index = keycode - SWE_AA;
       uint8_t shift = get_mods() & (MOD_BIT(KC_LSFT));
