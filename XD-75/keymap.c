@@ -118,7 +118,17 @@ enum custom_keycodes {
   RU_NUM, // №
   RU_TIR, // —
   A_SLESH, // |
-  EN_NUM,
+  EN_NUM,  	
+  KKC_1, 
+  KKC_2, 
+  KKC_3, 
+  KKC_4, 
+  KKC_5, 
+  KKC_6, 
+  KKC_7, 
+  KKC_8, 
+  KKC_9, 
+  KKC_10,
 }; 
 
 char *alt_codes[][2] = {
@@ -178,18 +188,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
 э ё ы я ю ф г д б ж з
  */
 [L_OSNOVA] = LAYOUT_ortho_5x15( \
-  KOP1,      VST1,       ZAP,         VOPR,    KAVYCH,  KC_SCLN, ZVEZD,  SLESH,  OSKOB,   ZSKOB,     KC_EQL,  KC_MINS,  TOCH,    KC_DEL,   SOHR, \
-  KC_C,      KC_X,       KC_U,        KC_GRV,  KC_LBRC, TD(VYH), KC_7,   KC_8,   KC_9,    KC_BSPC,   KC_H,    KC_P,     KC_L,    KC_M,     KC_J, \
-  KC_I,      KC_A,       KC_E,        KC_O,    KC_S,    KC_TAB,  KC_4,   KC_5,   KC_6,    KC_RBRC,   KC_K,    KC_N,     KC_T,    KC_W,     KC_R, \
-  KC_BSLS,   SFT_T(RU_E),KC_Q,        KC_Y,    KC_NUBS, KC_UP,   KC_1,   KC_2,   KC_3,    KC_F,      KC_G,    KC_D,     KC_B,    KC_V,     KC_Z, \
-  KC_LCTL,   KC_LSFT,    ALT_T(KC_F2),KC_ENT,  KC_LEFT, KC_DOWN, KC_RGHT,KC_0,   TD(WEMO),OSL(L_DOP),KC_SPC,  TD(RU_AN),OTMENA,  TD(POISK),TD(TABB) \
+  KOP1,      VST1,       ZAP,         VOPR,    KAVYCH,  KC_SCLN, ZVEZD,   SLESH,  OSKOB,   ZSKOB,     KC_EQL,  KC_MINS,  TOCH,    KC_DEL,   SOHR, \
+  KC_C,      KC_X,       KC_U,        KC_GRV,  KC_LBRC, TD(VYH), KKC_7,   KKC_8,  KKC_9,   KC_BSPC,   KC_H,    KC_P,     KC_L,    KC_M,     KC_J, \
+  KC_I,      KC_A,       KC_E,        KC_O,    KC_S,    KC_TAB,  KKC_4,   KC_5,   KKC_6,   KC_RBRC,   KC_K,    KC_N,     KC_T,    KC_W,     KC_R, \
+  KC_BSLS,   SFT_T(RU_E),KC_Q,        KC_Y,    KC_NUBS, KC_UP,   KKC_1,   KKC_2,  KKC_3,   KC_F,      KC_G,    KC_D,     KC_B,    KC_V,     KC_Z, \
+  KC_LCTL,   KC_LSFT,    ALT_T(KC_F2),KC_ENT,  KC_LEFT, KC_DOWN, KC_RGHT, KKC_0,  TD(WEMO),OSL(L_DOP),KC_SPC,  TD(RU_AN),OTMENA,  TD(POISK),TD(TABB) \
 ),
 [L_DOP] = LAYOUT_ortho_5x15( \
-  KC_TRNS,   KC_TRNS,    EN_NUM,      KC_TRNS, UDAR,    KC_TRNS, KC_F10, A_SLESH,KK_LBRC, KK_RBRC,   KC_TRNS, KC_TRNS,  KC_TRNS, CAD,      PS_1, \
-  KC_TRNS,   RU_TY,      KC_TRNS,     KC_TRNS, KC_TRNS, KC_TRNS, KC_F7,  KC_F8,  KC_F9,   KC_TRNS,   KC_TRNS, KC_TRNS,  KC_TRNS, KC_TRNS,  PS_2, \
-  KC_NUMLOCK,KC_TRNS,    KC_TRNS,     KC_TRNS, KC_TRNS, KC_TRNS, KC_F4,  KC_F5,  KC_F6,   KC_TRNS,   KC_TRNS, KC_TRNS,  KC_TRNS, KC_TRNS,  PS_3, \
-  S_COMM,    S_DOT,      KC_TRNS,     KC_TRNS, KC_TRNS, KC_PGUP, KC_F1,  KC_F2,  KC_F3,   KC_TRNS,   KC_TRNS, KC_TRNS,  KC_TRNS, KC_TRNS,  PS_4, \
-  KC_TRNS,   KC_TRNS,    KC_TRNS,     KC_TRNS, KC_HOME, KC_PGDN, KC_END, KC_TRNS,KC_TRNS, KC_TRNS,   G_SP,    KC_TRNS,  KC_TRNS, KC_TRNS,  KC_TRNS \
+  KC_TRNS,   KC_TRNS,    EN_NUM,      KC_TRNS, UDAR,    KC_TRNS, KC_TRNS, A_SLESH, KK_LBRC, KK_RBRC,   KC_TRNS, KC_TRNS,  KC_TRNS, CAD,      PS_1, \
+  KC_TRNS,   RU_TY,      KC_TRNS,     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,   KC_TRNS, KC_TRNS,  KC_TRNS, KC_TRNS,  PS_2, \
+  KC_NUMLOCK,KC_TRNS,    KC_TRNS,     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,   KC_TRNS, KC_TRNS,  KC_TRNS, KC_TRNS,  PS_3, \
+  S_COMM,    S_DOT,      KC_TRNS,     KC_TRNS, KC_TRNS, KC_PGUP, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,   KC_TRNS, KC_TRNS,  KC_TRNS, KC_TRNS,  PS_4, \
+  KC_TRNS,   KC_TRNS,    KC_TRNS,     KC_TRNS, KC_HOME, KC_PGDN, KC_END,  KC_F11,  KC_F12,  KC_TRNS,   G_SP,    KC_TRNS,  KC_TRNS, KC_TRNS,  KC_TRNS \
 )
 }; 
 
@@ -558,6 +568,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
     case KOP1: REG_R(C_INS, 0, C_X, 0)
     case VST1: REG_R(KC_INS, 1, KC_INS, 0)
     case EN_NUM: REG_R(KC_3, 1, KC_7, 1)
+    case EN_NUM: REG_R(KC_3, 1, KC_7, 1)
+    case KKC_1: REG_R(KC_1, 0, KC_F1, 0)
+    case KKC_2: REG_R(KC_2, 0, KC_F2, 0)
+    case KKC_3: REG_R(KC_3, 0, KC_F3, 0)
+    case KKC_4: REG_R(KC_4, 0, KC_F4, 0)
+    case KKC_5: REG_R(KC_5, 0, KC_F5, 0)
+    case KKC_6: REG_R(KC_6, 0, KC_F6, 0)
+    case KKC_7: REG_R(KC_7, 0, KC_F7, 0)
+    case KKC_8: REG_R(KC_8, 0, KC_F8, 0)
+    case KKC_9: REG_R(KC_9, 0, KC_F9, 0)
+    case KKC_10: REG_R(KC_10, 0, KC_F10, 0)
     case SLESH: REG_R2(tap_code(KC_PSLS), send_string(SS_LALT(SS_TAP(X_KP_9)SS_TAP(X_KP_2))))
     case OSKOB: REG_R2(tap_code(KC_9), send_string(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_7)SS_TAP(X_KP_1))))
     case RU_E: 
