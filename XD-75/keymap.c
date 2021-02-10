@@ -113,8 +113,10 @@ enum custom_keycodes {
   G_COMM, // <
   G_DOT, // >
   G_SP, // неразрывный пробел
-  RU_NUM,
-  RU_TIR,  
+  RU_NUM, // №
+  RU_TIR, // —
+  A_SLESH, // |
+  EN_NUM,
 }; 
 
 char *alt_codes[][2] = {
@@ -245,9 +247,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
   KC_LCTL,     KC_LSFT,    ALT_T(KC_F2),KC_ENT,   KC_LEFT, KC_DOWN,  KC_RGHT, KC_0,   TD(WEMO), OSL(L_DOP), KC_SPC,  TD(RU_AN),OTMENA,  TD(POISK), TD(TABB) \
 ),
 [L_DOP] = LAYOUT_ortho_5x15( \
-  KC_TRNS,     KC_TRNS,    KC_TRNS,     KC_TRNS,  UDAR, KC_TRNS, KC_F10, KC_F11, KK_LBRC,  KK_RBRC,  KC_TRNS,  KC_TRNS,  KC_TRNS,  CAD,  KC_TRNS, \
+  KC_TRNS,     KC_TRNS,    EN_NUM,     KC_TRNS,  UDAR, KC_TRNS, KC_F10, A_SLESH, KK_LBRC,  KK_RBRC,  KC_TRNS,  KC_TRNS,  KC_TRNS,  CAD,  KC_TRNS, \
   PS_1,        RU_TY,      KC_TRNS,      KC_TRNS,  KC_TRNS,  KC_TRNS,    KC_F7,  KC_F8,  KC_F9,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
-  KC_NUMLOCK,  KC_TRNS,     KC_TRNS,       KC_TRNS,   KC_TRNS,  KC_TRNS,    KC_F4,  KC_F5,  KC_F6,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
+  KC_NUMLOCK,  KC_TRNS,    KC_TRNS,       KC_TRNS,   KC_TRNS,  KC_TRNS,    KC_F4,  KC_F5,  KC_F6,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
   S_COMM,      S_DOT,      KC_TRNS,     KC_TRNS,  KC_TRNS,  KC_PGUP,    KC_F1,  KC_F2,  KC_F3,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, \
   KC_TRNS,     KC_TRNS,    KC_TRNS,     KC_TRNS,  KC_HOME,  KC_PGDN,    KC_END, KC_TRNS, KC_TRNS,  KC_TRNS,  G_SP,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS \
 )
@@ -381,9 +383,9 @@ combo_t key_combos[COMBO_COUNT] = {
 [comb_SOYI] = COMBO_ACTION(SOYI_combo),
 [comb_BUKTZ] = COMBO_ACTION(BUKTZ_combo),
 [comb_DOP] = COMBO_ACTION(DOP_combo),
-[comb_OSCOB] = COMBO(OSCOB_combo, S_9),
+[comb_OSCOB] = COMBO_ACTION(OSCOB_combo),
 [comb_ZSCOB] = COMBO_ACTION(ZSCOB_combo),
-[comb_OKAV] = COMBO(OKAV_combo, OKAV),
+[comb_OKAV] = COMBO_ACTION(OKAV_combo),
 [comb_ZKAV] = COMBO_ACTION(ZKAV_combo),
 [comb_KAV] = COMBO(KAV_combo, S_QUOT),
 [comb_N_ZAP] = COMBO(N_ZAP_combo, KC_COMM),
@@ -399,8 +401,8 @@ combo_t key_combos[COMBO_COUNT] = {
 [comb_N_TZ] = COMBO(N_TZ_combo, KC_SCLN),
 [comb_N_DOL] = COMBO(N_DOL_combo, S_4),
 [comb_N_STEP] = COMBO(N_STEP_combo, S_6),
-[comb_N_MEN] = COMBO(N_MEN_combo, G_COMM),
-[comb_N_BOL] = COMBO(N_BOL_combo, G_DOT),
+[comb_N_MEN] = COMBO(N_MEN_combo, S_COMM),
+[comb_N_BOL] = COMBO(N_BOL_combo, S_DOT),
 [comb_N_KAV] = COMBO(N_KAV_combo, S_QUOT),
 [comb_N_AND] = COMBO(N_AND_combo, S_7),  
 };
@@ -420,22 +422,39 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         tap_code(KC_SPC);
         set_oneshot_mods (MOD_LSFT);
       }
-      break;
+      break;      
+    case comb_OSCOB: // открытая скобка
+      if (pressed) {
+        tap_code(KC_SPC);
+        tap_code16(S(KC_9));        
+      }
+      break;   
     case comb_ZSCOB: // закрытая скобка
       if (pressed) {
         tap_code16(S(KC_0));
         tap_code(KC_SPC);
       }
-      break;
+      break;      
     case comb_ZKAV: // закрытая кавычка » 0187
       if (pressed) {
         register_code(KC_LALT);
         tap_code(KC_P0);
         tap_code(KC_P1);
         tap_code(KC_P8);
-  tap_code(KC_P7);
+        tap_code(KC_P7);
         unregister_code(KC_LALT);
-  tap_code(KC_SPC);      
+        tap_code(KC_SPC);      
+      }
+      break;      
+    case OKAV_combo: // открытая кавычка
+      if (pressed) {
+        tap_code(KC_SPC);   
+        register_code(KC_LALT);
+        tap_code(KC_P0);
+        tap_code(KC_P1);
+        tap_code(KC_P7);
+        tap_code(KC_P1);
+        unregister_code(KC_LALT);
       }
       break;      
     case comb_TZ: // точка c запятой
@@ -452,14 +471,12 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
       break;
     case comb_TIRE: // тире
       if (pressed) {
-        register_code(KC_SPC);
-        unregister_code(KC_SPC);
-        register_code(KC_LSFT);
-        register_code(KC_5);
-        unregister_code(KC_5);
-        unregister_code(KC_LSFT);
-        register_code(KC_SPC);
-        unregister_code(KC_SPC);
+        register_code(KC_LALT);
+        tap_code(KC_P0);
+        tap_code(KC_P1);
+        tap_code(KC_P5);
+        tap_code(KC_P1);
+        unregister_code(KC_LALT);
       }
       break;
     case comb_VOS: // !
@@ -581,6 +598,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
     case G_COMM: COD(SS_LALT(SS_TAP(X_KP_6)SS_TAP(X_KP_0))) // <
     case G_DOT: COD(SS_LALT(SS_TAP(X_KP_6)SS_TAP(X_KP_2))) // >
     case G_SP:  COD(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_5)SS_TAP(X_KP_5))) // неразрывный пробел
+    case A_SLESH:  COD(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_5)SS_TAP(X_KP_5))) // неразрывный пробел
     case KC_LSFT: // записать, что РЕГ нажат
         shift_held = record->event.pressed;
     return true;
@@ -590,7 +608,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
     case VOPR:  REG_R(KC_SLSH, 1, KC_1, 1) // ? !
     case KAVYCH:  REG_R(KC_QUOT, 1, KC_QUOT, 0) // Кавычки
     case ZVEZD: REG_R(KC_PAST, 0, KC_2, 1) // * @
-    case SLESH:  REG_R(KC_PSLS, 0, KC_BSLS, 0) // слеши обратного нет!
+    //case SLESH:  REG_R(KC_PSLS, 0, KC_BSLS, 0) // слеши обратного нет!
     //case OSKOB:  REG_R(KC_9, 1, KC_5, 1) // открытая скобка
     case ZSKOB:  REG_R(KC_0, 1, KC_5, 1) // закрытая скобка      
     case PLUS:  REG_R(KC_EQL, 1, KC_EQL, 0) // + =      
@@ -599,6 +617,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
     case SOHR: REG_R(C_S, 0, KC_F12, 0)
     case KOP1: REG_R(C_INS, 0, C_X, 0)
     case VST1: REG_R(KC_INS, 1, KC_INS, 0)
+    case EN_NUM: REG_R(KC_3, 1, KC_7, 1)
+    case SLESH: REG_R2(tap_code(KC_PSLS), send_string(SS_LALT(SS_TAP(X_KP_9)SS_TAP(X_KP_2))))
     case OSKOB: REG_R2(tap_code(KC_9), send_string(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_7)SS_TAP(X_KP_1))))
     case RU_E: 
     case RU_TY: 
