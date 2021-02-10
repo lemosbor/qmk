@@ -97,7 +97,6 @@ enum custom_keycodes {
   ZVEZD,
   SLESH,
   KAVYCH,
-  PLUS,
   OSKOB,
   ZSKOB,
   DCC_1,
@@ -176,7 +175,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
 э ё ы я ю ф г д б ж з
  */
 [L_OSNOVA] = LAYOUT_ortho_5x15( \
-  KOP1,        VST1,       ZAP,         VOPR,     KAVYCH,  KC_SCLN,  ZVEZD,   SLESH,  OSKOB,    ZSKOB,      PLUS,    KC_MINS,  TOCH,    KC_DEL,  SOHR, \
+  KOP1,        VST1,       ZAP,         VOPR,     KAVYCH,  KC_SCLN,  ZVEZD,   SLESH,  OSKOB,    ZSKOB,      KC_EQL,    KC_MINS,  TOCH,    KC_DEL,  SOHR, \
   KC_C,        KC_X,       KC_U,        KC_GRV,   KC_LBRC, TD(VYH),  KC_7,    KC_8,   KC_9,     KC_BSPC,    KC_H,    KC_P,     KC_L,    KC_M,    KC_J, \
   KC_I,        KC_A,       KC_E,        KC_O,     KC_S, KC_TAB, KC_4,    KC_5,   KC_6,     KC_RBRC,    KC_K,    KC_N,     KC_T,    KC_W,    KC_R, \
   KC_BSLS,     SFT_T(RU_E),     KC_Q,        KC_Y,     KC_NUBS, KC_UP,    KC_1,    KC_2,   KC_3,     KC_F,       KC_G,    KC_D,     KC_B,    KC_V,    KC_Z, \
@@ -546,8 +545,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
     case ZVEZD: REG_R(KC_PAST, 0, KC_2, 1) // * @
     //case SLESH:  REG_R(KC_PSLS, 0, KC_BSLS, 0) // слеши обратного нет!
     //case OSKOB:  REG_R(KC_9, 1, KC_5, 1) // открытая скобка
-    case ZSKOB:  REG_R(KC_0, 1, KC_5, 1) // закрытая скобка      
-    case PLUS:  REG_R(KC_EQL, 1, KC_EQL, 0) // + =      
+    case ZSKOB:  REG_R(KC_0, 1, KC_5, 1) // закрытая скобка 
     case TOCH:  REG_R(KC_DOT, 0, KC_4, 1)        
     case OTMENA: REG_R(C_Z, 0, C_Y, 0)
     case SOHR: REG_R(C_S, 0, KC_F12, 0)
