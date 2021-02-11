@@ -611,7 +611,7 @@ if (record->event.pressed) {
      break;    
     case ZAP:  REG_R2(tap_code(KC_COMM), tap_code16(S(KC_5)))
     case VOPR:  REG_R2(tap_code16(S(KC_SLSH)), tap_code16(S(KC_1)))
-    case KAVYCH: REG_R2(tap_code(KC_QUOT), tap_code16(S(KC_QUOT)))
+    case KAVYCH: REG_R2(tap_code16(S(KC_QUOT), tap_code(KC_QUOT)))
     case ZVEZD: REG_R2(tap_code(KC_PAST), tap_code16(S(KC_2))) // * @
     case ZSKOB:  REG_R2(tap_code16(S(KC_0)), send_string(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_8)SS_TAP(X_KP_7))))
     case TOCH:  REG_R2(tap_code(KC_DOT), tap_code16(S(KC_4)))        
