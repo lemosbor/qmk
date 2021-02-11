@@ -512,8 +512,8 @@ if (record->event.pressed) {
         unregister_code(KC_LSFT); 
         tap_code(KC_F1);
         register_code(KC_LSFT);
-        } else { // 
-      }
+        } 
+  return state;
    }
      break;   
     case KC_2: 
@@ -522,8 +522,8 @@ if (record->event.pressed) {
         unregister_code(KC_LSFT); 
         tap_code(KC_F2);
         register_code(KC_LSFT);
-        } else { // 
-      }
+        } 
+  return;
    }
      break;   
     case KC_3: 
@@ -542,8 +542,8 @@ if (record->event.pressed) {
         unregister_code(KC_LSFT); 
         tap_code(KC_F4);
         register_code(KC_LSFT);
-        } else { // 
-      }
+        } 
+  return true;
    }
      break;    
     case KC_5: 
@@ -552,8 +552,8 @@ if (record->event.pressed) {
         unregister_code(KC_LSFT); 
         tap_code(KC_F5);
         register_code(KC_LSFT);
-        } else { // 
-      }
+        } 
+  return false;
    }
      break;    
     case KC_6: 
