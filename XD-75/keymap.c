@@ -503,7 +503,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
         register_code(KC_LALT);
         tap_code(KC_TAB);
         tap_code(KC_END);
-        tap_code(KC_RGHT);
         unregister_code(KC_LALT);
       }
       break;     
