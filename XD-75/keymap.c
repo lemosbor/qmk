@@ -306,7 +306,6 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
     case comb_ZSCOB: // закрытая скобка
       if (pressed) {
         tap_code16(S(KC_0));
-        tap_code(KC_SPC);
       }
       break;      
     case comb_ZKAV: // закрытая кавычка » 0187
@@ -317,7 +316,6 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         tap_code(KC_P8);
         tap_code(KC_P7);
         unregister_code(KC_LALT);
-        tap_code(KC_SPC);      
       }
       break;      
     case comb_OKAV: // открытая кавычка
