@@ -81,7 +81,6 @@ enum custom_keycodes {
   UDAR,
   G_SP, // неразрывный пробел
   RU_TIR, // —
-  A_SLESH, // |
   SLED_OKNO,
   VYD_STROK,
   UD_STROK,
@@ -470,7 +469,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
     case PS_3: COD("pas3"SS_TAP(X_ENT))
     case PS_4: COD("pas4"SS_TAP(X_ENT))
     case G_SP:  COD(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_5)SS_TAP(X_KP_5))) // неразрывный пробел
-    case A_SLESH:  COD(SS_LALT(SS_TAP(X_KP_1)SS_TAP(X_KP_2)SS_TAP(X_KP_4))) // неразрывный пробел
     case KC_LSFT: // записать, что РЕГ нажат
         shift_held = record->event.pressed;
     return true;
