@@ -114,18 +114,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
 э ё ы я ю ф г д б ж з
  */
 [L_OSNOVA] = LAYOUT_ortho_5x15( \
-  KOP1,      VST1,       ZAP,         VOPR,    KAVYCH,  KC_SCLN, ZVEZD,   SLESH,  OSKOB,   ZSKOB,     KC_EQL,  KC_MINS,  TOCH,    KC_DEL,   SOHR, \
-  KC_C,      KC_X,       KC_U,        KC_GRV,  KC_LBRC, TD(VYH), KC_7,   KC_8,  KC_9,   KC_BSPC,   KC_H,    KC_P,     KC_L,    KC_M,     KC_J, \
-  KC_I,      KC_A,       KC_E,        KC_O,    KC_S,    KC_TAB,  KC_4,   KC_5,  KC_6,   KC_RBRC,   KC_K,    KC_N,     KC_T,    KC_W,     KC_R, \
-  SFT_T(KC_BSLS),RU_E,   KC_Q,        KC_Y,    KC_NUBS, KC_UP,   KC_1,   KC_2,  KC_3,   KC_F,      KC_G,    KC_D,     KC_B,    KC_V,     KC_Z, \
-  KC_LCTL,   KC_LSFT,    ALT_T(KC_F2),KC_ENT,  KC_LEFT, KC_DOWN, KC_RGHT, KC_0, TD(WEMO),OSL(L_DOP),KC_SPC,  TD(RU_AN),OTMENA,  TD(POISK),TD(TABB) \
+  KOP1,          VST1,   TD(VYH),     KC_COMM,  VOPR,   KAVYCH, KC_SCLN,   KC_EQL,SLESH,  KC_MINS, OSKOB,   ZSKOB,    KC_DOT,  KC_BSPC,  SOHR, \
+  KC_C,          KC_X,   KC_U,        KC_GRV,   KC_LBRC,KC_TAB, KC_7,      KC_8,  KC_9,   KC_F,    KC_H,    KC_P,     KC_L,    KC_M,     KC_J, \
+  KC_I,          KC_A,   KC_E,        KC_O,     KC_S,   KC_ENT, KC_4,      KC_5,  KC_6,   KC_RBRC, KC_K,    KC_N,     KC_T,    KC_W,     KC_R, \
+  SFT_T(KC_BSLS),RU_E,   KC_Q,        KC_Y,     KC_NUBS,KC_DEL, KC_1,      KC_2,  KC_3,   KC_UP,   KC_G,    KC_D,     KC_B,    KC_V,     KC_Z, \
+  CTL_T(KC_ESC), KC_LSFT,ALT_T(KC_F2),VYD_STROK,KC_SPC, KC_LGUI,OSL(L_DOP),KC_0,  KC_LEFT,KC_DOWN, KC_RGHT, TD(RU_AN),OTMENA,  TD(POISK),TD(TABB) \
 ),
 [L_DOP] = LAYOUT_ortho_5x15( \
-  KC_TRNS,   KC_TRNS,    EN_NUM,     RU_NUM ,   UDAR,    GRADU,   UMNO,    A_SLESH, KK_LBRC,   KK_RBRC,   DELTA,     RU_TIR,  STEPE, C(A(KC_DEL)),PS_1, \
-  KC_TRNS,   RU_TY,      KC_TRNS,     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,   UD_STROK,  VYD_STROK, KC_TRNS,  KC_TRNS, C(S(KC_DEL)),PS_2, \
-  KC_NUMLOCK,KC_TRNS,    KC_TRNS,     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, C(KC_HOME),SLED_OKNO, KC_TRNS,   KC_TRNS,  KC_TRNS, KC_TRNS,    PS_3, \
-  S_COMM,    S_DOT,      KC_TRNS,     KC_TRNS, KC_TRNS, KC_PGUP, KC_TRNS, KC_TRNS, C(KC_END), C(KC_PGUP),C(KC_PGDN),KC_TRNS,  KC_TRNS, KC_TRNS,    PS_4, \
-  KC_TRNS,   KC_TRNS,    KC_TRNS,     KC_TRNS, KC_HOME, KC_PGDN, KC_END,  KC_F11,  KC_F12,    KC_TRNS,   G_SP,      KC_TRNS,  KC_TRNS, KC_TRNS,    KC_TRNS \
+  KC_TRNS,       KC_TRNS,KC_TRNS,     STEPE,    UMNO,   UDAR,   KC_F10,    KC_F11,KC_F12, RU_TIR,  KK_LBRC, KK_RBRC,  GRADU,   C(A(KC_DEL)),PS_1, \
+  KC_NUMLOCK,    RU_TY,  KC_TRNS,     KC_TRNS,  KC_TRNS,KC_TRNS,KC_F7,     KC_F8, KC_F9, C(KC_HOME),C(KC_END),KC_PSCR,KC_TRNS, KC_TRNS,     PS_2, \
+  KC_TRNS,       KC_TRNS,KC_TRNS,     KC_TRNS,  KC_TRNS,KC_TRNS,KC_F4,     KC_F5, KC_F6, C(KC_PGUP),C(KC_PGDN),KC_TRNS,KC_TRNS,KC_TRNS,     PS_3, \    
+  KC_TRNS,       KC_TRNS,KC_TRNS,     KC_TRNS, KC_TRNS,UD_STROK,KC_F1,     KC_F2, KC_F3, KC_PGUP,  KC_TRNS,C(S(KC_DEL)),KC_TRNS,KC_TRNS,    PS_4, \
+  KC_TRNS,       KC_TRNS,KC_TRNS,     KC_TRNS, G_SP,   KC_TRNS, KC_TRNS,   KC_TRNS,KC_HOME,KC_PGDN,KC_END, KC_TRNS,  KC_TRNS, KC_TRNS,    KC_TRNS \
 )
 }; 
 
