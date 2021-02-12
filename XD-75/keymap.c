@@ -288,7 +288,7 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
       if (pressed) {
         tap_code(KC_DOT);
         tap_code(KC_SPC);
-        set_oneshot_mods (MOD_LSFT);
+        set_oneshot_mods (MOD_LSFT| get_oneshot_mods());
       }
       break;      
     case comb_OSCOB: // открытая скобка
