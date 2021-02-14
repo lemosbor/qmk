@@ -34,7 +34,6 @@ return false;
 #define C_Z C(KC_Z)
 #define C_Y C(KC_Y)
 #define C_F C(KC_F)
-#define C_BS C(KC_BSPC)
 #define S_SCLN S(KC_SCLN)
 #define S_4 S(KC_4)
 #define S_6 S(KC_6)
@@ -60,6 +59,7 @@ enum {
     RU_AN, // кнопка Р/А
     SOHR,
     KOP1,
+    VYDEL,
 };
 
 enum custom_keycodes { 
@@ -74,6 +74,7 @@ enum custom_keycodes {
   PS_2,
   PS_3,
   PS_4,
+  PS_5,
   RU_E,
   RU_TY,
   KK_LBRC,
@@ -81,14 +82,10 @@ enum custom_keycodes {
   UDAR,
   G_SP, // неразрывный пробел
   RU_TIR, // —
-  SLED_OKNO,
-  VYD_STROK,
   UD_STROK,
   STEPE,
   GRADU,
   UMNO,
-  SOHR1,
-  SOHR2,
 }; 
 
 enum combo_events { // обозначение комбо-команд
@@ -96,7 +93,7 @@ comb_TOCH, comb_ZAP, comb_TZ, comb_DT, comb_DEF, comb_TIRE, comb_VOS, comb_VOP, 
 comb_VNIZ, comb_VSH, comb_VVOD, comb_UDL, comb_TAB, comb_VIH, comb_KOP1, comb_VST1, comb_UPR1, comb_OTM, comb_N1, comb_N2, comb_N3, comb_N4, comb_N5, comb_N6, comb_N7, comb_N8,
 comb_N9, comb_N0, comb_VSH2, comb_INS, comb_VYR, comb_PER1, comb_PER2, comb_OCH, comb_VVOD2, comb_PER3, comb_SOYI, comb_BUKTZ, comb_ZSCOB, comb_OSCOB, comb_OKAV, comb_ZKAV,  
 comb_KAV, comb_N_ZAP, comb_N_TOCH, comb_N_DEL, comb_N_UMN, comb_N_MIN, comb_N_PLUS, comb_N_OSK, comb_N_ZSK, comb_N_RAV, comb_N_DT, comb_N_TZ, comb_N_DOL, comb_N_STEP, comb_N_MEN,
-comb_N_BOL, comb_N_KAV, comb_N_AND, comb_PROB2, 
+comb_N_BOL, comb_N_KAV, comb_N_AND, comb_PROB2, comb_PGUP, comb_PGDN,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определение матриц
@@ -106,18 +103,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
 э ё ы я ю ф г д б ж з
  */
 [L_OSNOVA] = LAYOUT_ortho_5x15( \
-  TD(KOP1),      VST1,   TD(VYH),     KC_COMM,  VOPR,   KAVYCH, KC_SCLN,   KC_EQL,SLESH,  KC_MINS, OSKOB,   ZSKOB,    KC_DOT,  KC_BSPC,  TD(SOHR), \
+  TD(KOP1),      VST1,   TD(VYH),    KC_COMM,  VOPR,   KAVYCH, KC_SCLN,   KC_EQL,SLESH,  KC_MINS, OSKOB,   ZSKOB,    KC_DOT,  KC_BSPC,  TD(SOHR), \
   KC_C,          KC_X,   KC_U,        KC_GRV,   KC_LBRC,KC_TAB, KC_7,      KC_8,  KC_9,   KC_F,    KC_H,    KC_P,     KC_L,    KC_M,     KC_J, \
   KC_I,          KC_A,   KC_E,        KC_O,     KC_S,   KC_ENT, KC_4,      KC_5,  KC_6,   KC_RBRC, KC_K,    KC_N,     KC_T,    KC_W,     KC_R, \
   SFT_T(KC_BSLS),RU_E,   KC_Q,        KC_Y,     KC_NUBS,KC_DEL, KC_1,      KC_2,  KC_3,   KC_UP,   KC_G,    KC_D,     KC_B,    KC_V,     KC_Z, \
-  CTL_T(KC_ESC), KC_LSFT,ALT_T(KC_F2),VYD_STROK,KC_SPC, KC_LGUI,OSL(L_DOP),KC_0,  KC_LEFT,KC_DOWN, KC_RGHT, TD(RU_AN),OTMENA,  TD(POISK),TD(TABB) \
+  CTL_T(KC_ESC), KC_LSFT,ALT_T(KC_F2),TD(VYDEL),KC_SPC, KC_LGUI,OSL(L_DOP),KC_0,  KC_LEFT,KC_DOWN, KC_RGHT, TD(RU_AN),OTMENA,  TD(POISK),TD(TABB) \
 ),
 [L_DOP] = LAYOUT_ortho_5x15( \
-  KC_TRNS,       KC_TRNS,KC_TRNS,     STEPE,    UMNO,   UDAR,   KC_F10,    KC_F11,KC_F12, RU_TIR,  KK_LBRC, KK_RBRC,  GRADU,   C(A(KC_DEL)),PS_1, \
-  KC_NUMLOCK,    RU_TY,  KC_TRNS,     KC_TRNS,  KC_TRNS,KC_TRNS,KC_F7,     KC_F8, KC_F9, C(KC_HOME),C(KC_END),KC_PSCR,KC_TRNS, KC_TRNS,     PS_2, \
-  KC_TRNS,       KC_TRNS,KC_TRNS,     KC_TRNS,  KC_TRNS,KC_TRNS,KC_F4,     KC_F5, KC_F6, C(KC_PGUP),C(KC_PGDN),KC_TRNS,KC_TRNS,KC_TRNS,     PS_3, \    
-  KC_TRNS,       KC_TRNS,KC_TRNS,     KC_TRNS, KC_TRNS,UD_STROK,KC_F1,     KC_F2, KC_F3, KC_PGUP,  KC_TRNS,C(S(KC_DEL)),KC_TRNS,KC_TRNS,    PS_4, \
-  KC_TRNS,       KC_TRNS,KC_TRNS,     KC_TRNS, G_SP,   KC_TRNS, KC_TRNS,   KC_TRNS,KC_HOME,KC_PGDN,KC_END, KC_TRNS,  KC_TRNS, KC_TRNS,    KC_TRNS \
+  KC_TRNS,       KC_TRNS, KC_TRNS,     STEPE,   UMNO,    UDAR,   KC_F10,    KC_F11, KC_F12, RU_TIR,  KK_LBRC, KK_RBRC,  GRADU,   C(A(KC_DEL)), PS_1, \
+  KC_NUMLOCK,    RU_TY,   KC_TRNS,     KC_TRNS, KC_TRNS, KC_TRNS,KC_F7,     KC_F8, KC_F9, C(KC_HOME), C(KC_END), KC_PSCR, KC_TRNS, KC_TRNS,     PS_2, \
+  KC_TRNS,       KC_TRNS, KC_TRNS,     KC_TRNS, KC_TRNS, KC_TRNS,KC_F4,     KC_F5, KC_F6, C(KC_PGUP), C(KC_PGDN), KC_TRNS, KC_TRNS, KC_TRNS,     PS_3, \
+  OSM(MOD_LSFT), KC_TRNS, KC_TRNS,     KC_TRNS, KC_TRNS, UD_STROK,KC_F1,     KC_F2, KC_F3, KC_PGUP,  KC_TRNS, C(S(KC_DEL)), KC_TRNS, KC_TRNS,    PS_4, \
+  KC_TRNS,       KC_TRNS, KC_TRNS,     KC_TRNS, G_SP,    KC_TRNS, KC_TRNS,   KC_TRNS, KC_HOME, KC_PGDN, KC_END, KC_TRNS,  KC_TRNS, KC_TRNS,    PS_5 \
 )
 }; 
 
@@ -172,10 +169,10 @@ const uint16_t PROGMEM N0_combo[] = {KC_RGHT, KC_K, COMBO_END};
 const uint16_t PROGMEM VSH2_combo[] = {KC_LCTL, KC_LSFT, COMBO_END};
 const uint16_t PROGMEM INS_combo[] = {KC_C, KC_I, COMBO_END};
 const uint16_t PROGMEM PER1_combo[] = {KC_M, KC_J, COMBO_END};
-const uint16_t PROGMEM PER2_combo[] = {KC_N, KC_L, COMBO_END};
+const uint16_t PROGMEM PER2_combo[] = {KC_W, KC_L, COMBO_END};
 const uint16_t PROGMEM OCH_combo[] = {KC_Q, KC_Y, COMBO_END};
 const uint16_t PROGMEM VVOD2_combo[] = {KC_K, KC_N, COMBO_END};
-const uint16_t PROGMEM PER3_combo[] = {KC_L, KC_W, COMBO_END};
+const uint16_t PROGMEM PER3_combo[] = {KC_L, KC_N, COMBO_END};
 const uint16_t PROGMEM SOYI_combo[] = {KC_I, KC_E, COMBO_END};
 const uint16_t PROGMEM BUKTZ_combo[] = {KC_I, KC_X, COMBO_END};
 const uint16_t PROGMEM DOP_combo[] = {KC_D, KC_T, COMBO_END};
@@ -201,6 +198,8 @@ const uint16_t PROGMEM N_MEN_combo[] = {KC_1, KC_0, COMBO_END};
 const uint16_t PROGMEM N_BOL_combo[] = {KC_0, KC_3, COMBO_END};
 const uint16_t PROGMEM N_KAV_combo[] = {KC_7, KC_9, COMBO_END};
 const uint16_t PROGMEM N_AND_combo[] = {KC_2, KC_6, COMBO_END};
+const uint16_t PROGMEM PGUP_combo[] = {KC_T, KC_M, COMBO_END};
+const uint16_t PROGMEM PGDN_combo[] = {KC_T, KC_V, COMBO_END};
 //связываем комбо с функциональными клавишами и действиями
 combo_t key_combos[COMBO_COUNT] = { 
 [comb_TOCH] = COMBO_ACTION(TOCH_combo),
@@ -272,7 +271,9 @@ combo_t key_combos[COMBO_COUNT] = {
 [comb_N_MEN] = COMBO(N_MEN_combo, S_COMM),
 [comb_N_BOL] = COMBO(N_BOL_combo, S_DOT),
 [comb_N_KAV] = COMBO(N_KAV_combo, S_QUOT),
-[comb_N_AND] = COMBO(N_AND_combo, S_7),  
+[comb_N_AND] = COMBO(N_AND_combo, S_7),
+[comb_PGUP] = COMBO(PGUP_combo, KC_PGUP),
+[comb_PGDN] = COMBO(PGDN_combo, KC_PGDN),
 };
 
 // действия для комбо
@@ -288,7 +289,7 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
       if (pressed) {
         tap_code(KC_DOT);
         tap_code(KC_SPC);
-        set_oneshot_mods (MOD_LSFT| get_oneshot_mods());
+        set_oneshot_mods (MOD_LSFT); // clear_oneshot_mods();
       }
       break;      
     case comb_OSCOB: // открытая скобка
@@ -450,24 +451,55 @@ void x_reset(qk_tap_dance_state_t *state, void *user_data) { // Действие
     }
     ql_tap_state.state = 0; // обнуление состояния
 };
-
+void soh_finished(qk_tap_dance_state_t *state, void *user_data) {
+    ql_tap_state.state = cur_dance(state);
+    switch (ql_tap_state.state) {
+        case SINGLE_TAP: register_code16(C(KC_S)); break; // нажатие КАПС
+        case DOUBLE_TAP: register_code16(C(KC_S)); break; // нажатие КАПС
+    }
+}
+void soh_reset(qk_tap_dance_state_t *state, void *user_data) {
+    switch (ql_tap_state.state) {
+        case SINGLE_TAP: unregister_code16(C(KC_S)); tap_code16(A(KC_TAB)); break; // снятие КАПС
+        case DOUBLE_TAP: unregister_code16(C(KC_S)); tap_code16(A(KC_F4)); break; // нажатие КАПС
+    }
+    ql_tap_state.state = 0; // обнуление состояния
+};
+void vydel_finished(qk_tap_dance_state_t *state, void *user_data) {
+    ql_tap_state.state = cur_dance(state);
+    switch (ql_tap_state.state) {
+        case SINGLE_TAP: tap_code16(C(KC_LEFT)); register_code(KC_LSFT);  break; // нажатие КАПС
+        case DOUBLE_TAP: tap_code(KC_HOME); register_code(KC_LSFT);  break; /// нажатие КАПС
+        case SINGLE_HOLD: register_code16(C(KC_A)); break; // нажатие КАПС
+    }
+}
+void vydel_reset(qk_tap_dance_state_t *state, void *user_data) {
+    switch (ql_tap_state.state) {
+        case SINGLE_TAP: tap_code16(C(KC_RGHT)); unregister_code(KC_LSFT); break; // снятие КАПС
+        case DOUBLE_TAP: tap_code(KC_END); unregister_code(KC_LSFT); break; // нажатие КАПС
+        case SINGLE_HOLD: unregister_code16(C(KC_A)); break; // нажатие КАПС
+    }
+    ql_tap_state.state = 0; // обнуление состояния
+};
 qk_tap_dance_action_t tap_dance_actions[] = { // связка кнопок с функциями двойного нажатия
-    [VYH] = ACTION_TAP_DANCE_DOUBLE(KC_ESC, LALT(KC_F4)), // выход или альт+ф4
-    [TABB] = ACTION_TAP_DANCE_DOUBLE(A(KC_TAB), SLED_OKNO), // таб или альт+таб https://docs.qmk.fm/#/feature_macros?id=super-alt%e2%86%aftab
-    //[WEMO] = ACTION_TAP_DANCE_DOUBLE(KC_LGUI, LGUI(KC_DOT)), // вин или эмодзи
+    [VYH] = ACTION_TAP_DANCE_DOUBLE(KC_ESC, LALT(KC_F4)),//[WEMO] = ACTION_TAP_DANCE_DOUBLE(KC_LGUI, LGUI(KC_DOT)), // вин или эмодзи
     [POISK] = ACTION_TAP_DANCE_DOUBLE(KC_F3, C_F), // поиск
-    [RU_AN] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, x_finished, x_reset), // Р/А
-    [SOHR] = ACTION_TAP_DANCE_DOUBLE(SOHR1, SOHR2), // сохранить
-    [KOP1] = ACTION_TAP_DANCE_DOUBLE(tap_code16(C(KC_INS)), tap_code16(C(KC_X))), // копировать
+    [RU_AN] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, x_finished, x_reset), // Р/А wait_ms (10);
+    [SOHR] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, soh_finished, soh_reset),
+    [VYDEL] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, vydel_finished, vydel_reset),
+    //[KOP1] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, kop_finished, kop_reset),
+    [TABB] = ACTION_TAP_DANCE_DOUBLE(A(KC_TAB), A(S(KC_TAB))), // поиск
+    [KOP1] = ACTION_TAP_DANCE_DOUBLE(C(KC_INS), C(KC_X)), // поиск
 };
 
 //Создание кнопок
 bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://beta.docs.qmk.fm/using-qmk/guides/custom_quantum_functions#programming-the-behavior-of-any-keycode-id-programming-the-behavior-of-any-keycode
   switch (keycode) {    
-    case PS_1: COD("Te"SS_TAP(X_ENT))
-    case PS_2: COD("pas2"SS_TAP(X_ENT))
-    case PS_3: COD("pas3"SS_TAP(X_ENT))
-    case PS_4: COD("pas4"SS_TAP(X_ENT))
+    case PS_1: COD("ц"SS_TAP(X_ENT))
+    case PS_2: COD("ц"SS_TAP(X_ENT))
+    case PS_3: COD("ц"SS_TAP(X_ENT))
+    case PS_4: COD("ц"SS_TAP(X_ENT))
+    case PS_5: COD("ц"SS_TAP(X_ENT))
     case G_SP:  COD(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_5)SS_TAP(X_KP_5))) // неразрывный пробел
     case KC_LSFT: // записать, что РЕГ нажат
         shift_held = record->event.pressed;
@@ -476,15 +508,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
     case SFT_T(KC_BSLS): // записать, что РЕГ нажат
         shift_held = record->event.pressed;
     return true;
-    break;
-    case VYD_STROK: 
-      if (record->event.pressed) {        
-        tap_code(KC_END);
-        register_code(KC_LSFT);
-        tap_code(KC_HOME);
-        unregister_code(KC_LSFT);
-      }
-      break;            
+    break;          
     case UD_STROK:
       if (record->event.pressed) {        
         tap_code(KC_END);
@@ -494,38 +518,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
         tap_code(KC_DEL);
         tap_code(KC_DEL);
       }
-      break;     
-    case SLED_OKNO:
-      if (record->event.pressed) {
-        register_code(KC_LALT);
-        tap_code(KC_TAB);
-        tap_code(KC_END);
-        unregister_code(KC_LALT);
-      }
-      break;     
-    case SOHR1:
-      if (record->event.pressed) {
-        tap_code16(C(KC_S));
-        tap_code16(A(KC_TAB));
-      }
-      break;     
-    case SOHR2:
-      if (record->event.pressed) {
-        tap_code16(C(KC_S));
-        tap_code16(A(KC_F4));
-      }
       break;
-    case KC_9: 
-if (record->event.pressed) {
-  if (shift_held) { 
-        send_string(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_1)));
-        } else { // 
-      }
-  return false; //return true;return;
-   }
-     break;
+    //case KC_9: 
+     //if (record->event.pressed) {
+      // if (shift_held) { 
+       //SEND_STRING(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_5)SS_TAP(X_KP_2))); send_string(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_7)SS_TAP(X_KP_8))),
+      // } //else { 
+   // }
+   // }
+  // return true;
+  //   break;
     case VOPR:  REG_R2(tap_code16(S(KC_SLSH)), send_string(SS_LALT(SS_TAP(X_KP_9)SS_TAP(X_KP_2))))
-    case KAVYCH: REG_R2(tap_code16(S(KC_QUOT), tap_code(KC_QUOT)))
+    case KAVYCH: REG_R2(tap_code16(S(KC_QUOT)), tap_code(KC_QUOT))
     case ZSKOB:  REG_R2(tap_code16(S(KC_0)), send_string(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_8)SS_TAP(X_KP_7))))  
     case OTMENA: REG_R2(tap_code16(C(KC_Z)), tap_code16(C(KC_Y)))
     case VST1: REG_R2(tap_code16(S(KC_INS)), tap_code(KC_INS))
@@ -537,7 +541,7 @@ if (record->event.pressed) {
     case KK_RBRC: REG_R2(send_string(SS_LALT(SS_TAP(X_KP_9)SS_TAP(X_KP_3))), send_string(SS_LALT(SS_TAP(X_KP_1)SS_TAP(X_KP_2)SS_TAP(X_KP_5))))
     case UDAR: REG_R2(send_string(SS_LALT(SS_TAP(X_KP_9)SS_TAP(X_KP_6))), send_string(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_7)SS_TAP(X_KP_6)SS_TAP(X_KP_9))))
     case RU_TIR:REG_R2(send_string(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_5)SS_TAP(X_KP_1))), send_string(SS_LALT(SS_TAP(X_KP_1)SS_TAP(X_KP_2)SS_TAP(X_KP_6))))
-    case STEPE:REG_R2(send_string(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_7)SS_TAP(X_KP_8))), send_string(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_7)SS_TAP(X_KP_9))))
+    case STEPE:REG_R2(send_string(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_5)SS_TAP(X_KP_2))), send_string(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_7)SS_TAP(X_KP_9))))
     case GRADU:REG_R2(send_string(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_4)SS_TAP(X_KP_8))), send_string(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_6))))
     case UMNO:REG_R2(send_string(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_2)SS_TAP(X_KP_1)SS_TAP(X_KP_5))), send_string(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_2)SS_TAP(X_KP_4)SS_TAP(X_KP_7))))
    }
