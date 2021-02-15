@@ -5,20 +5,14 @@
     // #define STARTUP_SONG SONG(NO_SOUND)
 //#endif
 
-#define MUSIC_MASK (keycode != KC_NO) // расширяет коды клавиш для музыкального режима https://docs.qmk.fm/#/feature_audio?id=music-mask
+//#define MUSIC_MASK (keycode != KC_NO) // расширяет коды клавиш для музыкального режима https://docs.qmk.fm/#/feature_audio?id=music-mask
 #define LOCKING_SUPPORT_ENABLE // блокировка клавиш для капс локов
 #define LOCKING_RESYNC_ENABLE // синхронизация светодиода с каспами
 
-#undef  BACKLIGHT_LEVELS
-#define BACKLIGHT_LEVELS 1 //яркость светодиодов
+// #undef  BACKLIGHT_LEVELS
+//#define BACKLIGHT_LEVELS 1 //яркость светодиодов
 
-#define CUSTOM_STARTUP \
-    QD_NOTE(_A6),  \
-    QD_NOTE(_C7),  \
-    QD_NOTE(_A7),  \
-    QD_NOTE(_F7),  \
-    QD_NOTE(_G7),  \
-    HD_NOTE(_C8),
+#define CUSTOM_STARTUP ED_NOTE(_E7), E__NOTE(_CS7), E__NOTE(_E6), E__NOTE(_A6), M__NOTE(_CS7, 20),
 
 #define RGBLIGHT_SLEEP // если ПК в спящем режиме, то подсветка отключается
 #define NO_DEBUG // отключить отладку для экономии кода

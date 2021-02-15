@@ -14,7 +14,7 @@ if (record->event.pressed) { \
         kn1; \
     } \
 } \
-//return false;  !!!
+return false;
 
 // функция отправки текста
 #define COD(code) \
@@ -22,7 +22,7 @@ if (record->event.pressed) { \
         SEND_STRING(code); \
       } \
       break; \
-//return false;  !!!
+return false;
 
 // сочетания клавиш в одну команду
 #define C_INS C(KC_INS)
@@ -70,7 +70,7 @@ enum custom_keycodes {
   KAVYCH, // "
   OSKOB, // (
   ZSKOB, // )
-  OTMENA, // отмена/повтор
+  OTMENA, // отмена/повторае
   PS_1, // текст 1
   PS_2, // текст 2
   PS_3, // текст 3
@@ -84,7 +84,6 @@ enum custom_keycodes {
   G_SP, // неразрывный пробел
   RU_TIR, // —
   UD_STROK, // удалить строку
-  VSTVVOD, // вставить и нажать ввод
   STEPE, // степень
   GRADU, // градус
   UMNO, // умножение
@@ -110,33 +109,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
   SFT_T(KC_BSLS),RU_E,          KC_Q,        KC_Y,      KC_NUBS,  KC_DEL,  KC_UP,   KC_G,    KC_D,      KC_B,     KC_V,     KC_Z, \
   CTL_T(KC_ESC), LGUI_T(KC_TAB),ALT_T(KC_F2),TD(POISK), KC_SPC,   KC_LEFT, KC_DOWN, KC_RGHT, OSL(L_DOP),TD(RU_AN),OTMENA,   TD(TABB) \
 ),
-[L_DOP] = LAYOUT_preonic_grid( \                       
+[L_DOP] = LAYOUT_preonic_grid( \
   RGB_TOG,      RGB_MOD,        KC_TRNS,     STEPE,     UDAR,     KC_PAST, KC_F10,  KC_F11,  KC_F12,    RU_TIR,   KK_LBRC,  KK_RBRC, \
   KC_NUMLOCK,   RU_TY,          KC_TRNS,     KC_TRNS,   KC_PSCR,  KC_TRNS, KC_F7,   KC_F8,   KC_F9,     KC_7,     KC_8,     KC_9, \
   KC_MUTE,      KC_VOLD,        KC_VOLU,     KC_MSTP,   KC_MNXT,  KC_TRNS, KC_F4,   KC_F5,   KC_F6,     KC_4,     KC_5,     KC_6, \
   KC_TRNS,      KC_BRID,        KC_BRIU,     C(S(KC_ESC)),KC_TRNS,KC_TRNS, KC_F1,   KC_F2,   KC_F3,     KC_1,     KC_2,     KC_3, \
-  A(KC_F4),     KC_TRNS,        KC_TRNS,     KC_TRNS,   G_SP,     KC_HOME, KC_PGDN, KC_END,  KC_TRNS,   KC_TRNS,  KC_0,     KC_TRNS \
+  A(KC_F4),     PS_1,           KC_TRNS,     KC_TRNS,   G_SP,     KC_HOME, KC_PGDN, KC_END,  KC_TRNS,   KC_TRNS,  KC_0,     KC_TRNS \
 )
 }; 
 
-void encoder_update_user(uint8_t index, bool clockwise) {  // действия знкодера
-        switch(biton32(layer_state)){
-          case 0: // на слое 0
-            if (clockwise) {
-                tap_code(KC_MS_WH_DOWN);
-            } else {
-                tap_code(KC_MS_WH_UP);
-            }
-            break;
-            case 1: // на слое 1
-                if (clockwise){
-                    tap_code(KC_RGHT);
-                } else{
-                    tap_code(KC_LEFT);
-                }
-                break;
-          }
-};
+
 
 // задаем сочитание клавиш (комбо)
 const uint16_t PROGMEM TOCH_combo[] = {KC_P, KC_L, COMBO_END};
@@ -444,6 +426,20 @@ void vydel_reset(qk_tap_dance_state_t *state, void *user_data) {
     }
     ql_tap_state.state = 0; // обнуление состояния
 };
+void vstav_finished(qk_tap_dance_state_t *state, void *user_data) {
+    ql_tap_state.state = cur_dance(state);
+    switch (ql_tap_state.state) {
+        case SINGLE_TAP: tap_code16(S(KC_INS));  break;
+        case DOUBLE_TAP: tap_code16(S(KC_INS));  break;
+    }
+}
+void vstav_reset(qk_tap_dance_state_t *state, void *user_data) {
+    switch (ql_tap_state.state) {
+        case SINGLE_TAP: break;
+        case DOUBLE_TAP: tap_code(KC_ENT); break;
+    }
+    ql_tap_state.state = 0; // обнуление состояния
+};
 qk_tap_dance_action_t tap_dance_actions[] = { // связка кнопок с функциями двойного нажатия
     [VYH] = ACTION_TAP_DANCE_DOUBLE(KC_ESC, LALT(KC_F4)),// выйти / принудительно закрыть [WEMO] = ACTION_TAP_DANCE_DOUBLE(KC_LGUI, LGUI(KC_DOT)), // вин или эмодзи
     [POISK] = ACTION_TAP_DANCE_DOUBLE(KC_F3, C_F), // поиск
@@ -452,13 +448,13 @@ qk_tap_dance_action_t tap_dance_actions[] = { // связка кнопок с ф
     [VYDEL] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, vydel_finished, vydel_reset), // выделить
     [TABB] = ACTION_TAP_DANCE_DOUBLE(ALTB, ALSTB), // переход между окнами
     [KOP1] = ACTION_TAP_DANCE_DOUBLE(C(KC_INS), C(KC_X)), // копировать
-    [VST1] = ACTION_TAP_DANCE_DOUBLE(S(KC_INS), VSTVVOD), // вставить
+    [VST1] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, vstav_finished, vstav_reset), // вставить
 };
 
 //Создание кнопок
 bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://beta.docs.qmk.fm/using-qmk/guides/custom_quantum_functions#programming-the-behavior-of-any-keycode-id-programming-the-behavior-of-any-keycode
   switch (keycode) {    
-    case PS_1: COD("ц"SS_TAP(X_ENT))
+    case PS_1: COD("c"SS_TAP(X_ENT))
     case PS_2: COD("ц"SS_TAP(X_ENT))
     case PS_3: COD("ц"SS_TAP(X_ENT))
     case PS_4: COD("ц"SS_TAP(X_ENT))
@@ -480,12 +476,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
         unregister_code(KC_LSFT);
         tap_code(KC_DEL);
         tap_code(KC_DEL);
-      }
-      break;          
-    case VSTVVOD:
-      if (record->event.pressed) {        
-        tap_code16(S(KC_INS));
-        tap_code(KC_ENT);
       }
       break;
     //case KC_9: 
@@ -514,4 +504,23 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
     case UMNO:REG_R2(send_string(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_2)SS_TAP(X_KP_1)SS_TAP(X_KP_5))), send_string(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_2)SS_TAP(X_KP_4)SS_TAP(X_KP_7))))
    }
   return true;
-}
+};
+
+void encoder_update_user(uint8_t index, bool clockwise) {  // действия знкодера
+        switch(biton32(layer_state)){
+          case 0: // на слое 0
+            if (clockwise) {
+                tap_code(KC_MS_WH_DOWN);
+            } else {
+                tap_code(KC_MS_WH_UP);
+            }
+            break;
+            case 1: // на слое 1
+                if (clockwise){
+                    tap_code(KC_RGHT);
+                } else{
+                    tap_code(KC_LEFT);
+                }
+                break;
+          }
+};
