@@ -104,18 +104,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
 э ё ы я ю ф г д б ж з
  */
 [L_OSNOVA] = LAYOUT_preonic_grid( \
-  TD(KOP1),      TD(VST1),KC_COMM,  VOPR,   KAVYCH, KC_SCLN,   KC_EQL,SLESH, KC_DOT, KC_MINS, OSKOB,   ZSKOB, \
-  KC_C,          KC_X,    KC_U,        KC_GRV,   KC_LBRC,KC_BSPC, KC_F,    KC_H,    KC_P,     KC_L,    KC_M,     KC_J, \
-  KC_I,          KC_A,    KC_E,        KC_O,     KC_S,   KC_ENT, KC_RBRC, KC_K,    KC_N,     KC_T,    KC_W,     KC_R, \
-  SFT_T(KC_BSLS),RU_E,    KC_Q,        KC_Y,     KC_NUBS,KC_DEL, KC_UP,   KC_G,    KC_D,     KC_B,    KC_V,     KC_Z, \
-  CTL_T(KC_ESC), LGUI_T(KC_TAB), ALT_T(KC_F2), TD(POISK), KC_SPC, KC_LEFT,KC_DOWN, KC_RGHT, OSL(L_DOP),TD(RU_AN),OTMENA, TD(TABB) \
+  TD(KOP1),      TD(VST1),      KC_COMM,     VOPR,      KAVYCH,   KC_SCLN, KC_EQL,  SLESH,   KC_DOT,    KC_MINS,  OSKOB,    ZSKOB, \
+  KC_C,          KC_X,          KC_U,        KC_GRV,    KC_LBRC,  KC_BSPC, KC_F,    KC_H,    KC_P,      KC_L,     KC_M,     KC_J, \
+  KC_I,          KC_A,          KC_E,        KC_O,      KC_S,     KC_ENT,  KC_RBRC, KC_K,    KC_N,      KC_T,     KC_W,     KC_R, \
+  SFT_T(KC_BSLS),RU_E,          KC_Q,        KC_Y,      KC_NUBS,  KC_DEL,  KC_UP,   KC_G,    KC_D,      KC_B,     KC_V,     KC_Z, \
+  CTL_T(KC_ESC), LGUI_T(KC_TAB),ALT_T(KC_F2),TD(POISK), KC_SPC,   KC_LEFT, KC_DOWN, KC_RGHT, OSL(L_DOP),TD(RU_AN),OTMENA,   TD(TABB) \
 ),
 [L_DOP] = LAYOUT_preonic_grid( \                       
-  RGB_TOG, RGB_MOD,  KC_TRNS, KC_TRNS,  KC_TRNS, KC_PAST, KC_F10,  KC_F11, KC_F12, RU_TIR,  KK_LBRC, KK_RBRC, \
-  KC_NUMLOCK,    RU_TY,   KC_TRNS,     KC_TRNS, KC_PSCR, KC_TRNS,KC_F7,     KC_F8, KC_F9, KC_7,      KC_8,  KC_9, \
-  KC_MUTE, KC_VOLD, KC_VOLU, KC_MSTP,KC_MNXT,KC_TRNS, KC_F4,     KC_F5, KC_F6, KC_4,      KC_5,  KC_6, \
-  KC_TRNS, KC_BRID, KC_BRIU, C(S(KC_ESC)), KC_TRNS,     KC_TRNS, KC_F1,     KC_F2, KC_F3, KC_1,   KC_2,   KC_3, \
-  A(KC_F4),      KC_TRNS, KC_TRNS,     KC_TRNS, G_SP, KC_HOME, KC_PGDN, KC_END, KC_TRNS,  KC_TRNS,KC_0,KC_TRNS \
+  RGB_TOG,      RGB_MOD,        KC_TRNS,     STEPE,     UDAR,     KC_PAST, KC_F10,  KC_F11,  KC_F12,    RU_TIR,   KK_LBRC,  KK_RBRC, \
+  KC_NUMLOCK,   RU_TY,          KC_TRNS,     KC_TRNS,   KC_PSCR,  KC_TRNS, KC_F7,   KC_F8,   KC_F9,     KC_7,     KC_8,     KC_9, \
+  KC_MUTE,      KC_VOLD,        KC_VOLU,     KC_MSTP,   KC_MNXT,  KC_TRNS, KC_F4,   KC_F5,   KC_F6,     KC_4,     KC_5,     KC_6, \
+  KC_TRNS,      KC_BRID,        KC_BRIU,     C(S(KC_ESC)),KC_TRNS,KC_TRNS, KC_F1,   KC_F2,   KC_F3,     KC_1,     KC_2,     KC_3, \
+  A(KC_F4),     KC_TRNS,        KC_TRNS,     KC_TRNS,   G_SP,     KC_HOME, KC_PGDN, KC_END,  KC_TRNS,   KC_TRNS,  KC_0,     KC_TRNS \
 )
 }; 
 
