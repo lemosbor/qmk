@@ -1,6 +1,6 @@
 #include QMK_KEYBOARD_H //  qmk compile -kb xd75 -km leo
 
-#define L_OSNOVA 0 // слой 0 (основной)ia4545
+#define L_OSNOVA 0 // слой 0 (основной)
 #define L_DOP 1 // слой 1 (сервисный)
 
 // функция подмены вернего регистра
@@ -14,16 +14,17 @@ if (record->event.pressed) { \
         kn1; \
     } \
 } \
-return false;
+//return false;  !!!
 
+// функция отправки текста
 #define COD(code) \
 if (record->event.pressed) { \
         SEND_STRING(code); \
       } \
       break; \
-return false;
+//return false;  !!!
 
-// горячие клавиши в одну
+// сочетания клавиш в одну команду
 #define C_INS C(KC_INS)
 #define S_INS S(KC_INS)
 #define C_PGUP C(KC_PGUP)
@@ -48,44 +49,45 @@ return false;
 
 bool shift_held = false; // обнуляем индикатор зажатого РЕГ
 
+//клавиши с двойными нажатиями
 enum {
-    SINGLE_TAP = 1,
-    SINGLE_HOLD,
-    DOUBLE_TAP,
+    SINGLE_TAP = 1, // одиночное нажатие
+    SINGLE_HOLD, // одиночное удержание
+    DOUBLE_TAP, // двойное нажатие
     VYH, // Вых / альт+Ф4
-    TABB, // таб / альт+таб
-    POISK,
+    TABB, // переход между окнами
+    POISK, // поиск
     RU_AN, // кнопка Р/А
-    SOHR,
-    KOP1,
-    VST1,
-    VYDEL,
+    SOHR, // сохранить
+    KOP1, // копировать
+    VST1, // вставить
+    VYDEL, // выделить
 };
-
+// клавиши с одной командой
 enum custom_keycodes { 
-  VOPR = SAFE_RANGE,
-  SLESH,
-  KAVYCH,
-  OSKOB,
-  ZSKOB,
-  OTMENA,
-  PS_1,
-  PS_2,
-  PS_3,
-  PS_4,
-  PS_5,
-  RU_E,
-  RU_TY,
-  KK_LBRC,
-  KK_RBRC,
-  UDAR,
+  VOPR = SAFE_RANGE, // ?
+  SLESH, // /
+  KAVYCH, // "
+  OSKOB, // (
+  ZSKOB, // )
+  OTMENA, // отмена/повтор
+  PS_1, // текст 1
+  PS_2, // текст 2
+  PS_3, // текст 3
+  PS_4, // текст 4
+  PS_5, // текст 5
+  RU_E, // ё
+  RU_TY, // ъ
+  KK_LBRC, // [
+  KK_RBRC, // ]
+  UDAR, // `
   G_SP, // неразрывный пробел
   RU_TIR, // —
-  UD_STROK,
-  VSTVVOD,
-  STEPE,
-  GRADU,
-  UMNO,
+  UD_STROK, // удалить строку
+  VSTVVOD, // вставить и нажать ввод
+  STEPE, // степень
+  GRADU, // градус
+  UMNO, // умножение
 }; 
 
 enum combo_events { // обозначение комбо-команд
@@ -387,14 +389,14 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         set_oneshot_mods (MOD_LSFT);
       }
       break;
-    case comb_SOYI: //
+    case comb_SOYI: // _и_
       if (pressed) {
         tap_code(KC_SPC);
         tap_code(KC_I);
         tap_code(KC_SPC);
       }
       break;
-    case comb_BUKTZ: //
+    case comb_BUKTZ: // ъ
       if (pressed) {
         register_code(KC_LALT);
         tap_code(KC_P2);
@@ -440,43 +442,42 @@ void x_reset(qk_tap_dance_state_t *state, void *user_data) { // Действие
 void soh_finished(qk_tap_dance_state_t *state, void *user_data) {
     ql_tap_state.state = cur_dance(state);
     switch (ql_tap_state.state) {
-        case SINGLE_TAP: register_code16(C(KC_S)); break; // нажатие КАПС
-        case DOUBLE_TAP: register_code16(C(KC_S)); break; // нажатие КАПС
+        case SINGLE_TAP: register_code16(C(KC_S)); break;
+        case DOUBLE_TAP: register_code16(C(KC_S)); break;
     }
 }
 void soh_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (ql_tap_state.state) {
-        case SINGLE_TAP: unregister_code16(C(KC_S)); tap_code16(A(KC_TAB)); break; // снятие КАПС
-        case DOUBLE_TAP: unregister_code16(C(KC_S)); tap_code16(A(KC_F4)); break; // нажатие КАПС
+        case SINGLE_TAP: unregister_code16(C(KC_S)); tap_code16(A(KC_TAB)); break;
+        case DOUBLE_TAP: unregister_code16(C(KC_S)); tap_code16(A(KC_F4)); break;
     }
     ql_tap_state.state = 0; // обнуление состояния
 };
 void vydel_finished(qk_tap_dance_state_t *state, void *user_data) {
     ql_tap_state.state = cur_dance(state);
     switch (ql_tap_state.state) {
-        case SINGLE_TAP: tap_code16(C(KC_LEFT)); register_code(KC_LSFT);  break; // нажатие КАПС
-        case DOUBLE_TAP: tap_code(KC_HOME); register_code(KC_LSFT);  break; /// нажатие КАПС
-        case SINGLE_HOLD: register_code16(C(KC_A)); break; // нажатие КАПС
+        case SINGLE_TAP: tap_code16(C(KC_LEFT)); register_code(KC_LSFT);  break;
+        case DOUBLE_TAP: tap_code(KC_HOME); register_code(KC_LSFT);  break;
+        case SINGLE_HOLD: register_code16(C(KC_A)); break;
     }
 }
 void vydel_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (ql_tap_state.state) {
-        case SINGLE_TAP: tap_code16(C(KC_RGHT)); unregister_code(KC_LSFT); break; // снятие КАПС
-        case DOUBLE_TAP: tap_code(KC_END); unregister_code(KC_LSFT); break; // нажатие КАПС
-        case SINGLE_HOLD: unregister_code16(C(KC_A)); break; // нажатие КАПС
+        case SINGLE_TAP: tap_code16(C(KC_RGHT)); unregister_code(KC_LSFT); break;
+        case DOUBLE_TAP: tap_code(KC_END); unregister_code(KC_LSFT); break;
+        case SINGLE_HOLD: unregister_code16(C(KC_A)); break;
     }
     ql_tap_state.state = 0; // обнуление состояния
 };
 qk_tap_dance_action_t tap_dance_actions[] = { // связка кнопок с функциями двойного нажатия
-    [VYH] = ACTION_TAP_DANCE_DOUBLE(KC_ESC, LALT(KC_F4)),//[WEMO] = ACTION_TAP_DANCE_DOUBLE(KC_LGUI, LGUI(KC_DOT)), // вин или эмодзи
+    [VYH] = ACTION_TAP_DANCE_DOUBLE(KC_ESC, LALT(KC_F4)),// выйти / принудительно закрыть [WEMO] = ACTION_TAP_DANCE_DOUBLE(KC_LGUI, LGUI(KC_DOT)), // вин или эмодзи
     [POISK] = ACTION_TAP_DANCE_DOUBLE(KC_F3, C_F), // поиск
-    [RU_AN] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, x_finished, x_reset), // Р/А wait_ms (10);
-    [SOHR] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, soh_finished, soh_reset),
-    [VYDEL] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, vydel_finished, vydel_reset),
-    //[KOP1] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, kop_finished, kop_reset),
-    [TABB] = ACTION_TAP_DANCE_DOUBLE(ALTB, ALSTB), // поиск
-    [KOP1] = ACTION_TAP_DANCE_DOUBLE(C(KC_INS), C(KC_X)), // поиск
-    [VST1] = ACTION_TAP_DANCE_DOUBLE(S(KC_INS), VSTVVOD), // поиск
+    [RU_AN] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, x_finished, x_reset), // Р/А
+    [SOHR] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, soh_finished, soh_reset), // сохранить
+    [VYDEL] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, vydel_finished, vydel_reset), // выделить
+    [TABB] = ACTION_TAP_DANCE_DOUBLE(ALTB, ALSTB), // переход между окнами
+    [KOP1] = ACTION_TAP_DANCE_DOUBLE(C(KC_INS), C(KC_X)), // копировать
+    [VST1] = ACTION_TAP_DANCE_DOUBLE(S(KC_INS), VSTVVOD), // вставить
 };
 
 //Создание кнопок
