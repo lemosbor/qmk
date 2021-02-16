@@ -2,7 +2,7 @@
 
 #define L_OSNOVA 0 // слой 0 (основной)
 #define L_DOP 1 // слой 1 (сервисный)
-
+#define L_DO 2 // слой 1 (сервисный)
 // функция подмены вернего регистра
 #define REG_R2(kn1, kn2) \
 if (record->event.pressed) { \
