@@ -1,6 +1,6 @@
 #include QMK_KEYBOARD_H //  qmk compile -kb xd75 -km leo
 
-#define L_OSNOVA 0 // слой 0 (основной)
+#define L_OSNOVA 0 // слой 0 (основной) eo
 #define L_DOP 1 // слой 1 (сервисный)
 
 // функция подмены вернего регистра
