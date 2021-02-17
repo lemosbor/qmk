@@ -12,7 +12,7 @@
 // #undef  BACKLIGHT_LEVELS
 //#define BACKLIGHT_LEVELS 1 //яркость светодиодов
 
-#define CUSTOM_STARTUP ED_NOTE(_E7), E__NOTE(_CS7), E__NOTE(_E6), E__NOTE(_A6), M__NOTE(_CS7, 20),
+#define CUSTOM_STARTUP ED_NOTE(_E7), E__NOTE(_CS7), E__NOTE(_E6), E__NOTE(_A6), ED_NOTE(_E7), E__NOTE(_CS7), E__NOTE(_E6), E__NOTE(_A6), M__NOTE(_CS7, 20),
 
 #define RGBLIGHT_SLEEP // если ПК в спящем режиме, то подсветка отключается
 #define NO_DEBUG // отключить отладку для экономии кода
@@ -21,7 +21,7 @@
 // #define IGNORE_MOD_TAP_INTERRUPT
 #define PERMISSIVE_HOLD // ускорение двойного нажатия
 #define COMBO_TERM 20 // задержка для комбо
-#define COMBO_COUNT 55 // количество спец. комбинаций с клавишами
+#define COMBO_COUNT 56 // количество спец. комбинаций с клавишами
 #define COMBO_ALLOW_ACTION_KEY
 
 #define ONESHOT_TAP_TOGGLE 2 // ожидающие кнопки. Количество нажатий для залипания.
