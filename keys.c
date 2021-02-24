@@ -47,6 +47,7 @@ return false;
 #define ALTB A(KC_TAB)
 
 bool shift_held = false; // обнуляем индикатор зажатого РЕГ
+bool alt_held = false; // обнуляем индикатор зажатого ДОП
 bool is_alt_tab_active = false;
 uint16_t alt_tab_timer = 0;  
 
@@ -90,6 +91,7 @@ enum custom_keycodes {
   GRADU, // градус
   UMNO, // умножение
   ALTTABB,
+  A_HOME,
 }; 
 
 enum combo_events { // обозначение комбо-команд
@@ -478,21 +480,22 @@ void vstav_reset(qk_tap_dance_state_t *state, void *user_data) {
     ql_tap_state.state = 0; // обнуление состояния
 };
 qk_tap_dance_action_t tap_dance_actions[] = { // связка кнопок с функциями двойного нажатия
-    [VYH] = ACTION_TAP_DANCE_DOUBLE(KC_ESC, LALT(KC_F4)),// выйти / принудительно закрыть [WEMO] = ACTION_TAP_DANCE_DOUBLE(KC_LGUI, LGUI(KC_DOT)), // вин или эмодзи
-    [POISK] = ACTION_TAP_DANCE_DOUBLE(KC_F3, C_F), // поиск
+    // [VYH] = ACTION_TAP_DANCE_DOUBLE(KC_ESC, LALT(KC_F4)),// выйти / принудительно закрыть 
+    // [WEMO] = ACTION_TAP_DANCE_DOUBLE(KC_LGUI, LGUI(KC_DOT)), // вин / эмодзи
+    [POISK] = ACTION_TAP_DANCE_DOUBLE(KC_F3, C_F), // поиск (продолжить) / поиск
     [RU_AN] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, x_finished, x_reset), // Р/А
-    [SOHR] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, soh_finished, soh_reset), // сохранить
-    // [VYDEL] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, vydel_finished, vydel_reset), // выделить
-    [KOP1] = ACTION_TAP_DANCE_DOUBLE(C(KC_INS), C(KC_X)), // копировать
-    [VST1] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, vstav_finished, vstav_reset), // вставить
-    [NACH] = ACTION_TAP_DANCE_DOUBLE(KC_HOME, C_HOME), // поиск
-    [KONE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, vydel_finished, vydel_reset), // выделить
+    [SOHR] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, soh_finished, soh_reset), // сохранить / сохранить и выйти / сохранить как
+    // [VYDEL] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, vydel_finished, vydel_reset), // выделить слово /выделить строку / выделить всё
+    [KOP1] = ACTION_TAP_DANCE_DOUBLE(C(KC_INS), C(KC_X)), // копировать / вырезать
+    [VST1] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, vstav_finished, vstav_reset), // вставить / вставить и нажать ввод / удалить всё и вставить
+    [NACH] = ACTION_TAP_DANCE_DOUBLE(KC_HOME, C_HOME), // в начало / в самое начало
+    [KONE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, vydel_finished, vydel_reset), // в конец / выделить строку / выделить всё
 };
 
 //Создание кнопок
 bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://beta.docs.qmk.fm/using-qmk/guides/custom_quantum_functions#programming-the-behavior-of-any-keycode-id-programming-the-behavior-of-any-keycode
   switch (keycode) {
-    case PS_1: if (record->event.pressed) { SEND_STRING(par1); } break;
+    case PS_1: if (record->event.pressed) { SEND_STRING(par1); } break; // пар 1
    // case PS_1: COD(par1); tap_code(KC_ENT);
       
     case G_SP:  COD(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_5)SS_TAP(X_KP_5))) // неразрывный пробел
@@ -508,7 +511,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
         shift_held = record->event.pressed;
     return true;
     break;
-    case UD_STROK:
+    case ALT_T(KC_F2): // записать, что ДОП нажат
+        alt_held = record->event.pressed;
+    return true;
+    break;      
+    case UD_STROK: // Удалить строку
       if (record->event.pressed) {        
         tap_code(KC_END);
         register_code(KC_LSFT);
@@ -518,18 +525,29 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
         tap_code(KC_DEL);
       }
       break;
-    case ALTTABB:
-      if (record->event.pressed) {
-        if (!is_alt_tab_active) {
-          is_alt_tab_active = true;
-          register_code(KC_LALT);
+    case A_HOME:  
+        if (record->event.pressed) { 
+           if (alt_held) { 
+              unregister_code(KC_LSFT); 
+              C_PGUP;
+              register_code(KC_LSFT); 
+            } else { 
+              TD(NACH);
+          } 
+      } 
+    break;
+    case ALTTABB:  // Супер Альт-Таб (переключение между смежными окнами при одиночном нажатии; переключение между всеми окнами последовательно при повторном нажатии)
+      if (record->event.pressed) {  // при нажатии
+        if (!is_alt_tab_active) {  // если is_alt_tab_active не активирован
+          is_alt_tab_active = true;  // ...активировать
+          register_code(KC_LALT);  // зажать альт
         }
-        alt_tab_timer = timer_read();
-        register_code(KC_TAB);
+        alt_tab_timer = timer_read(); // начать запись времени (каждый раз нажимая, записывать с нуля)
+        register_code(KC_TAB); // зажать таб
       } else {
-        unregister_code(KC_TAB);
+        unregister_code(KC_TAB); // если кнопка снята, снять таб
       }
-      break;
+      break;  // альт будет деактивирован по таймеру, а пока он нажат и мы перемещаемся по окнам табом.
     //case KC_9: 
      //if (record->event.pressed) {
       // if (shift_held) { 
@@ -558,11 +576,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
   return true;
 };
 
-void matrix_scan_user(void) {
-  if (is_alt_tab_active) {
-    if (timer_elapsed(alt_tab_timer) > 500) { //    wait_ms(100);
-      unregister_code(KC_LALT);
-      is_alt_tab_active = false;
+void matrix_scan_user(void) {  // Супер Альт-Таб
+  if (is_alt_tab_active) {  // если is_alt_tab_active активирован
+    if (timer_elapsed(alt_tab_timer) > 500) { // если сработал таймер на 500 мс   wait_ms(100);
+      unregister_code(KC_LALT);  // деактивировать альт
+      is_alt_tab_active = false; // деактивировать is_alt_tab_active
     }
   }
 }
