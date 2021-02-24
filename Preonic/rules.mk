@@ -5,7 +5,8 @@ TAP_DANCE_ENABLE = yes    # поддержка двойных нажатий
 EXTRAKEY_ENABLE = yes     # аудиоконтроль и системный контроль
 COMBO_ENABLE = yes        # спец. комбинации из букв
 ENCODER_ENABLE = yes      # поддержка энкодера (крутилки)
-MOUSEKEY_ENABLE = yes      # эмуляция мышки
+MOUSEKEY_ENABLE = yes     # эмуляция мышки
+AUDIO_ENABLE = yes        # звуки
 
 #отключить:
 BLUETOOTH_ENABLE = no     # поддержка блютуза
