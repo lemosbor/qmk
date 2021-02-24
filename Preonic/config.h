@@ -11,7 +11,7 @@
 
 // #undef  BACKLIGHT_LEVELS
 //#define BACKLIGHT_LEVELS 1 //яркость светодиодов
-
+// https://beta.docs.qmk.fm/using-qmk/hardware-features/feature_audio
 #define CUSTOM_STARTUP ED_NOTE(_E7), E__NOTE(_CS7), E__NOTE(_E6), E__NOTE(_A6), ED_NOTE(_E7), E__NOTE(_CS7), E__NOTE(_E6), E__NOTE(_A6), M__NOTE(_CS7, 20),
 
 #define RGBLIGHT_SLEEP // если ПК в спящем режиме, то подсветка отключается
