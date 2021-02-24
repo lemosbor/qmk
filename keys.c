@@ -491,22 +491,20 @@ qk_tap_dance_action_t tap_dance_actions[] = { // связка кнопок с ф
 
 //Создание кнопок
 bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://beta.docs.qmk.fm/using-qmk/guides/custom_quantum_functions#programming-the-behavior-of-any-keycode-id-programming-the-behavior-of-any-keycode
-  switch (keycode) {        
-    case PS_1: COD(par1); tap_code(KC_ENT);
-    case PS_2: COD(par2); tap_code(KC_ENT);
-    case PS_3: COD(par3); tap_code(KC_ENT);
-    case PS_4: COD(par4); tap_code(KC_ENT);
-    case PS_5: COD(par5); tap_code(KC_ENT);
+  switch (keycode) {
+    case PS_1: if (record->event.pressed) { SEND_STRING(par1); } break;
+   // case PS_1: COD(par1); tap_code(KC_ENT);
+      
     case G_SP:  COD(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_5)SS_TAP(X_KP_5))) // неразрывный пробел
     case KC_LSFT: // записать, что РЕГ нажат
         shift_held = record->event.pressed;
     return true;
     break;
-    case SFT_T(KC_BSLS): // записать, что РЕГ нажат
+    case SFT_T(KC_SPC): // записать, что РЕГ нажат
         shift_held = record->event.pressed;
     return true;
     break;
-    case SFT_T(KC_RGHT): // записать, что РЕГ нажат
+    case OSM(MOD_LSFT): // записать, что РЕГ нажат
         shift_held = record->event.pressed;
     return true;
     break;
@@ -551,7 +549,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
     case RU_TY: REG_R2(send_string(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_3)SS_TAP(X_KP_4))), send_string(SS_LALT(SS_TAP(X_KP_1)SS_TAP(X_KP_5)SS_TAP(X_KP_4))))
     case KK_LBRC:REG_R2(send_string(SS_LALT(SS_TAP(X_KP_9)SS_TAP(X_KP_1))), send_string(SS_LALT(SS_TAP(X_KP_1)SS_TAP(X_KP_2)SS_TAP(X_KP_3))))
     case KK_RBRC: REG_R2(send_string(SS_LALT(SS_TAP(X_KP_9)SS_TAP(X_KP_3))), send_string(SS_LALT(SS_TAP(X_KP_1)SS_TAP(X_KP_2)SS_TAP(X_KP_5))))
-    case UDAR: REG_R2(send_string(SS_LALT(SS_TAP(X_KP_9)SS_TAP(X_KP_1)SS_TAP(X_KP_6))), send_string(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_7)SS_TAP(X_KP_6)SS_TAP(X_KP_9))))
+    case UDAR: REG_R2(send_string(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_9)SS_TAP(X_KP_1)SS_TAP(X_KP_6))), send_string(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_7)SS_TAP(X_KP_6)SS_TAP(X_KP_9))))
     case RU_TIR:REG_R2(send_string(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_5)SS_TAP(X_KP_1))), send_string(SS_LALT(SS_TAP(X_KP_1)SS_TAP(X_KP_2)SS_TAP(X_KP_6))))
     case STEPE:REG_R2(send_string(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_5)SS_TAP(X_KP_2))), send_string(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_7)SS_TAP(X_KP_9))))
     case GRADU:REG_R2(send_string(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_4)SS_TAP(X_KP_8))), send_string(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_6))))
