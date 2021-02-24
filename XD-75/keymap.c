@@ -13,7 +13,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
   KC_NUMLOCK,    RU_TY,        KC_TRNS,     KC_TRNS,  KC_TRNS, KC_TRNS, KC_F4,          KC_F5, KC_F6,  KC_TRNS, KC_TRNS,    KC_PSCR,  KC_TRNS,  KC_TRNS,   PS_2, \
   KC_TRNS,       KC_TRNS,      KC_TRNS,     KC_TRNS,  KC_TRNS, KC_TRNS, KC_F1,          KC_F2, KC_F3,  KC_TRNS, KC_TRNS,    KC_TRNS,  KC_TRNS,  KC_TRNS,   PS_3, \
   KC_TRNS,       KC_TRNS,      KC_TRNS,     KC_TRNS, A(KC_F11),UD_STROK,KC_TRNS,  C(KC_PGUP),C(KC_PGDN),KC_TRNS, KC_TRNS, C(S(KC_DEL)),KC_TRNS, KC_TRNS,   PS_4, \
-  KC_TRNS,       KC_TRNS,      KC_TRNS,     KC_TRNS,  G_SP,    KC_TRNS, KC_F10,         KC_F11,KC_F12, KC_TRNS, G_SP,       KC_TRNS,  KC_PGUP,  KC_PGDN,   PS_5 \
+  A(KC_F4),      KC_TRNS,      KC_TRNS,     KC_TRNS,  G_SP,    KC_TRNS, KC_F10,         KC_F11,KC_F12, KC_TRNS, G_SP,       KC_TRNS,  KC_PGUP,  KC_PGDN,   PS_5 \
 )
 }; 
 
