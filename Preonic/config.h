@@ -14,6 +14,10 @@
 // https://beta.docs.qmk.fm/using-qmk/hardware-features/feature_audio
 #define CUSTOM_STARTUP ED_NOTE(_E7), E__NOTE(_CS7), E__NOTE(_E6), E__NOTE(_A6), ED_NOTE(_E7), E__NOTE(_CS7), E__NOTE(_E6), E__NOTE(_A6), M__NOTE(_CS7, 20),
 
+#ifdef AUDIO_ENABLE
+  #define STARTUP_SONG SONG(STARTUP_SOUND)
+#endif
+
 #define RGBLIGHT_SLEEP // если ПК в спящем режиме, то подсветка отключается
 #define NO_DEBUG // отключить отладку для экономии кода
 
