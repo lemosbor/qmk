@@ -49,8 +49,17 @@ return false;
 bool shift_held = false; // обнуляем индикатор зажатого РЕГ
 bool is_alt_tab_active = false;
 uint16_t alt_tab_timer = 0;  
-
+bool twz_active = false;
+uint16_t twz_timer = 0; 
 //клавиши с двойными нажатиями
+
+char *alt_codes[] = {
+        SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_5)SS_TAP(X_KP_5)),
+		SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_5)SS_TAP(X_KP_5)),
+        SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_9)SS_TAP(X_KP_6)),
+        SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_2)SS_TAP(X_KP_4)SS_TAP(X_KP_6)),
+};
+
 enum {
     SINGLE_TAP = 1, // одиночное нажатие
     SINGLE_HOLD, // одиночное удержание
@@ -90,7 +99,7 @@ enum custom_keycodes {
   GRADU, // градус
   UMNO, // умножение
   ALTTABB,
-  A_HOME,
+  TWZ,
 }; 
 
 enum combo_events { // обозначение комбо-команд
@@ -496,8 +505,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
   switch (keycode) {
     case PS_1: if (record->event.pressed) { SEND_STRING(par1);tap_code(KC_ENT);} break; // пар 1
    // case PS_1: COD(par1); tap_code(KC_ENT);
-      
-    case G_SP:  COD(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_5)SS_TAP(X_KP_5))) // неразрывный пробел
+    case G_SP:  send_string(alt_codes[1]);
+    // case G_SP:  COD(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_5)SS_TAP(X_KP_5))) // неразрывный пробел
     case KC_LSFT: // записать, что РЕГ нажат
         shift_held = record->event.pressed;
     return true;
@@ -509,7 +518,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
     case OSM(MOD_LSFT): // записать, что РЕГ нажат
         shift_held = record->event.pressed;
     return true;
-    break;   
+    break;
+     case KC_D:   
+	      twz_active = record->event.pressed;
+			  twz_timer = timer_read();
+    return true;
+    break; 
+    case TWZ:
+      if (record->event.pressed) {  // при нажатии
+        if (twz_active) {  //
+          REG_R2(send_string(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_3)SS_TAP(X_KP_4))), send_string(SS_LALT(SS_TAP(X_KP_1)SS_TAP(X_KP_5)SS_TAP(X_KP_4))));
+        }
+      } else {
+        tap_code(KC_EQL); // 
+      }
+      break; 
     case UD_STROK: // Удалить строку
       if (record->event.pressed) {        
         tap_code(KC_END);
@@ -560,7 +583,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
   return true;
 };
 
-void matrix_scan_user(void) {  // Супер Альт-Таб
+void matrix_scan_user(void) {  // Супер Альт-Таб и пр.
+  if (twz_active) {  // 
+    if (timer_elapsed(twz_timer) > 1000) { // если сработал таймер
+      twz_active = false; //
+    }
+  }
   if (is_alt_tab_active) {  // если is_alt_tab_active активирован
     if (timer_elapsed(alt_tab_timer) > 500) { // если сработал таймер на 500 мс   wait_ms(100);
       unregister_code(KC_LALT);  // деактивировать альт
