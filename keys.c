@@ -47,7 +47,6 @@ return false;
 #define ALTB A(KC_TAB)
 
 bool shift_held = false; // обнуляем индикатор зажатого РЕГ
-bool alt_held = false; // обнуляем индикатор зажатого ДОП
 bool is_alt_tab_active = false;
 uint16_t alt_tab_timer = 0;  
 
@@ -495,7 +494,7 @@ qk_tap_dance_action_t tap_dance_actions[] = { // связка кнопок с ф
 //Создание кнопок
 bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://beta.docs.qmk.fm/using-qmk/guides/custom_quantum_functions#programming-the-behavior-of-any-keycode-id-programming-the-behavior-of-any-keycode
   switch (keycode) {
-    case PS_1: if (record->event.pressed) { SEND_STRING(par1); } break; // пар 1
+    case PS_1: if (record->event.pressed) { SEND_STRING(par1);tap_code(KC_ENT);} break; // пар 1
    // case PS_1: COD(par1); tap_code(KC_ENT);
       
     case G_SP:  COD(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_5)SS_TAP(X_KP_5))) // неразрывный пробел
@@ -510,11 +509,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
     case OSM(MOD_LSFT): // записать, что РЕГ нажат
         shift_held = record->event.pressed;
     return true;
-    break;
-    case ALT_T(KC_F2): // записать, что ДОП нажат
-        alt_held = record->event.pressed;
-    return true;
-    break;      
+    break;   
     case UD_STROK: // Удалить строку
       if (record->event.pressed) {        
         tap_code(KC_END);
@@ -525,17 +520,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
         tap_code(KC_DEL);
       }
       break;
-    case A_HOME:  
-        if (record->event.pressed) { 
-           if (alt_held) { 
-              unregister_code(KC_LSFT); 
-              C_PGUP;
-              register_code(KC_LSFT); 
-            } else { 
-              TD(NACH);
-          } 
-      } 
-    break;
     case ALTTABB:  // Супер Альт-Таб (переключение между смежными окнами при одиночном нажатии; переключение между всеми окнами последовательно при повторном нажатии)
       if (record->event.pressed) {  // при нажатии
         if (!is_alt_tab_active) {  // если is_alt_tab_active не активирован
