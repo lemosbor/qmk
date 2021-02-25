@@ -105,7 +105,7 @@ enum custom_keycodes {
 enum combo_events { // обозначение комбо-команд
 comb_TOCH, comb_ZAP, comb_TZ, comb_DT, comb_DEF, comb_TIRE, comb_VOS, comb_VOP, comb_DOP, comb_REG1, comb_REG2, comb_PROB, comb_NACH, comb_KON, comb_LEV, comb_PRAV, comb_VERH,
 comb_VNIZ, comb_VSH, comb_VVOD, comb_UDL, comb_TAB, comb_VIH, comb_KOP1, comb_VST1, comb_UPR1, comb_OTM, comb_N1, comb_N2, comb_N3, comb_N4, comb_N5, comb_N6, comb_N7, comb_N8,
-comb_N9, comb_N0, comb_ALTB, comb_INS, comb_VYR, comb_PER1, comb_PER2, comb_OCH, comb_VVOD2, comb_PER3, comb_SOYI, comb_BUKTZ, comb_ZSCOB, comb_OSCOB, comb_OKAV, comb_ZKAV,  
+comb_N9, comb_N0, comb_ALTB, comb_INS, comb_VYR, comb_PER1, comb_PER2, comb_REG3, comb_VVOD2, comb_PER3, comb_SOYI, comb_BUKTZ, comb_ZSCOB, comb_OSCOB, comb_OKAV, comb_ZKAV,  
 comb_KAV, comb_PROB2, comb_PGUP, comb_PGDN, comb_TIRE2,
 /*comb_N_BOL, comb_N_KAV, comb_N_AND, comb_N_ZAP, comb_N_TOCH, comb_N_DEL, comb_N_UMN, comb_N_MIN, comb_N_PLUS, comb_N_OSK, comb_N_ZSK, comb_N_RAV, comb_N_DT, comb_N_TZ, comb_N_DOL, comb_N_STEP, comb_N_MEN,
 */};
@@ -119,8 +119,8 @@ const uint16_t PROGMEM DT_combo[] = {KC_H, KC_P, COMBO_END};
 const uint16_t PROGMEM DEF_combo[] = {KC_O, KC_N, COMBO_END};
 const uint16_t PROGMEM TIRE_combo[] = {KC_E, KC_T, COMBO_END};
 const uint16_t PROGMEM TIRE2_combo[] = {KC_MINS, KC_DOT, COMBO_END};
-const uint16_t PROGMEM VOS_combo[] = {KC_U, KC_L, COMBO_END};
-const uint16_t PROGMEM VOP_combo[] = {KC_X, KC_M, COMBO_END};
+const uint16_t PROGMEM VOS_combo[] = {KC_Q, KC_Y, COMBO_END};
+const uint16_t PROGMEM VOP_combo[] = {KC_Y, KC_NUBS, COMBO_END};
 const uint16_t PROGMEM REG1_combo[] = {KC_U, KC_O, COMBO_END};
 const uint16_t PROGMEM REG2_combo[] = {KC_GRV, KC_S, COMBO_END};
 const uint16_t PROGMEM PROB_combo[] = {KC_T, KC_N, COMBO_END};
@@ -134,7 +134,7 @@ const uint16_t PROGMEM VNIZ_combo[] = {KC_B, KC_Z, COMBO_END};
 const uint16_t PROGMEM VSH_combo[] = {KC_I, KC_A, COMBO_END};
 const uint16_t PROGMEM VVOD_combo[] = {KC_O, KC_S, COMBO_END};
 const uint16_t PROGMEM UDL_combo[] = {KC_C, KC_X, COMBO_END};
-const uint16_t PROGMEM TAB_combo[] = {KC_G, KC_D, COMBO_END};
+const uint16_t PROGMEM TAB_combo[] = {KC_G, KC_N, COMBO_END};
 const uint16_t PROGMEM VIH_combo[] = {KC_M, KC_V, COMBO_END};
 const uint16_t PROGMEM KOP1_combo[] = {KC_X, KC_U, COMBO_END};
 const uint16_t PROGMEM VST1_combo[] = {KC_A, KC_E, COMBO_END};
@@ -151,20 +151,20 @@ const uint16_t PROGMEM N7_combo[] = {KC_DOWN, KC_L, COMBO_END};
 const uint16_t PROGMEM N8_combo[] = {KC_DOWN, KC_M, COMBO_END};
 const uint16_t PROGMEM N9_combo[] = {KC_DOWN, KC_V, COMBO_END};
 const uint16_t PROGMEM N0_combo[] = {KC_DOWN, KC_K, COMBO_END};
-const uint16_t PROGMEM ALTB_combo[] = {KC_N, KC_B, COMBO_END};
+const uint16_t PROGMEM ALTB_combo[] = {KC_D, KC_T, COMBO_END};
 const uint16_t PROGMEM INS_combo[] = {KC_C, KC_I, COMBO_END};
 const uint16_t PROGMEM PER1_combo[] = {KC_W, KC_B, COMBO_END};
 const uint16_t PROGMEM PER2_combo[] = {KC_R, KC_J, COMBO_END};
-const uint16_t PROGMEM OCH_combo[] = {KC_Q, KC_Y, COMBO_END};
+const uint16_t PROGMEM REG3_combo[] = {KC_N, KC_L, COMBO_END};
 const uint16_t PROGMEM VVOD2_combo[] = {KC_K, KC_N, COMBO_END};
 const uint16_t PROGMEM PER3_combo[] = {KC_V, KC_R, COMBO_END};
-const uint16_t PROGMEM SOYI_combo[] = {KC_I, KC_E, COMBO_END};
+const uint16_t PROGMEM SOYI_combo[] = {KC_I, KC_R, COMBO_END};
 const uint16_t PROGMEM BUKTZ_combo[] = {KC_I, KC_X, COMBO_END};
-const uint16_t PROGMEM DOP_combo[] = {KC_D, KC_T, COMBO_END};
+const uint16_t PROGMEM DOP_combo[] = {KC_N, KC_B, COMBO_END};
 const uint16_t PROGMEM ZSCOB_combo[] = {KC_O, KC_R, COMBO_END};
 const uint16_t PROGMEM OSCOB_combo[] = {KC_I, KC_N, COMBO_END};
-const uint16_t PROGMEM OKAV_combo[] = {KC_C, KC_P, COMBO_END};
-const uint16_t PROGMEM ZKAV_combo[] = {KC_GRV, KC_V, COMBO_END};
+const uint16_t PROGMEM OKAV_combo[] = {KC_A, KC_T, COMBO_END};
+const uint16_t PROGMEM ZKAV_combo[] = {KC_E, KC_W, COMBO_END};
 const uint16_t PROGMEM KAV_combo[] = {KC_S, KC_K, COMBO_END};
 const uint16_t PROGMEM PGUP_combo[] = {KC_W, KC_M, COMBO_END};
 const uint16_t PROGMEM PGDN_combo[] = {KC_W, KC_Z, COMBO_END};
@@ -233,7 +233,7 @@ combo_t key_combos[COMBO_COUNT] = {
 [comb_PER1] = COMBO(PER1_combo, ALSTB),
 [comb_PER2] = COMBO(PER2_combo, C_PGDN),
 [comb_PER3] = COMBO(PER3_combo, C_PGUP),
-[comb_OCH] = COMBO_ACTION(OCH_combo),
+[comb_REG3] = COMBO_ACTION(REG3_combo),
 [comb_SOYI] = COMBO_ACTION(SOYI_combo),
 [comb_BUKTZ] = COMBO_ACTION(BUKTZ_combo),
 [comb_DOP] = COMBO_ACTION(DOP_combo),
@@ -347,15 +347,11 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         //set_oneshot_mods(MOD_LSFT);
       }
       break;
-    case comb_OCH: // очистить строку
+    case comb_REG3: // залипший Рег (левый)
       if (pressed) {
-        tap_code(KC_END);
-        register_code(KC_LSFT);
-        tap_code(KC_HOME);
-        unregister_code(KC_LSFT);
-        tap_code(KC_DEL);
+        set_oneshot_mods(MOD_RSFT);
       }
-      break;    
+      break;   
     case comb_UPR1: // залипший упр (левый)
       if (pressed) {
         set_oneshot_mods(MOD_LCTL);
