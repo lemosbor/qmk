@@ -1,27 +1,19 @@
 #pragma once // директива, для контроля за тем, чтобы файл при компиляции подключался строго один раз
 
-//#ifdef AUDIO_ENABLE //директива сообщает, что если последующий идентификатор определяется препроцессором, то выполняются все последующие директивы до первого появления #else/#endif 
-  //  #define STARTUP_SONG SONG(PREONIC_SOUND) //определяет макрос с токеном.  После определения макроса компилятор подставит строку токена для каждого обнаруженного идентификатора
-    // #define STARTUP_SONG SONG(NO_SOUND)
-//#endif
-
 //#define MUSIC_MASK (keycode != KC_NO) // расширяет коды клавиш для музыкального режима https://docs.qmk.fm/#/feature_audio?id=music-mask
 #define LOCKING_SUPPORT_ENABLE // блокировка клавиш для капс локов
 #define LOCKING_RESYNC_ENABLE // синхронизация светодиода с каспами
 
 // #undef  BACKLIGHT_LEVELS
 //#define BACKLIGHT_LEVELS 1 //яркость светодиодов
-// https://beta.docs.qmk.fm/using-qmk/hardware-features/feature_audio
-#define CUSTOM_STARTUP ED_NOTE(_E7), E__NOTE(_CS7), E__NOTE(_E6), E__NOTE(_A6), ED_NOTE(_E7), E__NOTE(_CS7), E__NOTE(_E6), E__NOTE(_A6), M__NOTE(_CS7, 20),
-
 #ifdef AUDIO_ENABLE
-  #define STARTUP_SONG SONG(STARTUP_SOUND)
-#endif
+    #define STARTUP_SONG SONG(PREONIC_SOUND)
 
+#endif
 #define RGBLIGHT_SLEEP // если ПК в спящем режиме, то подсветка отключается
 #define NO_DEBUG // отключить отладку для экономии кода
 
-#define TAPPING_TERM 200 // задержка для клавиш двойного назначения
+#define TAPPING_TERM 180 // задержка для клавиш двойного назначения
 // #define IGNORE_MOD_TAP_INTERRUPT
 #define PERMISSIVE_HOLD // ускорение двойного нажатия
 #define COMBO_TERM 20 // задержка для комбо
