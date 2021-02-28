@@ -55,7 +55,6 @@ bool shift_active = false;
 uint16_t shift_timer = 0; 
 bool skob_active = false;
 bool kav_active=false;
-uint16_t key_timer;
 //клавиши с двойными нажатиями
 
 enum {
@@ -591,20 +590,24 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
       break;
 
 case ALTTABB: if (record->event.pressed) {
- key_timer = timer_read(); 
+ alt_tab_timer = timer_read(); 
  register_code(KC_LGUI); 
-} else {
- unregister_code(KC_LGUI); 
- if (timer_elapsed(key_timer) < 300) { //TAPPING_TERM
-  if (!is_alt_tab_active) {  // если is_alt_tab_active не активирован
+ if (!is_alt_tab_active) {  // если is_alt_tab_active не активирован
           is_alt_tab_active = true;  // ...активировать
           register_code(KC_LALT);  // зажать альт
         }
-        alt_tab_timer = timer_read(); // начать запись времени (каждый раз нажимая, записывать с нуля)
+} else {
+ unregister_code(KC_LGUI); 
+ if (timer_elapsed(alt_tab_timer) < 300) { //TAPPING_TERM
+  //tap_code(KC_LGUI);
+   // wait_ms(100);
+        /// alt_tab_timer = timer_read(); // начать запись времени (каждый раз нажимая, записывать с нуля)
         tap_code(KC_TAB); // зажать таб
+} else {
+  unregister_code(KC_LALT);
+  } 
 } 
-} 
-break;
+break; 
  // альт будет деактивирован по таймеру, а пока он нажат и мы перемещаемся по окнам табом.
     //case KC_9: 
      //if (record->event.pressed) {
@@ -647,7 +650,7 @@ void matrix_scan_user(void) {  // Супер Альт-Таб и пр.
     }
   }
   if (is_alt_tab_active) {  // если is_alt_tab_active активирован
-    if (timer_elapsed(alt_tab_timer) > 400) { // если сработал таймер на 500 мс   wait_ms(100);
+    if (timer_elapsed(alt_tab_timer) > 500) { // если сработал таймер на 500 мс   wait_ms(100);
       unregister_code(KC_LALT);  // деактивировать альт
       is_alt_tab_active = false; // деактивировать is_alt_tab_active
     }
