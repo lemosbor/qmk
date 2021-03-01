@@ -486,6 +486,22 @@ void vydel_reset(qk_tap_dance_state_t *state, void *user_data) {
     }
     ql_tap_state.state = 0; // обнуление состояния
 };
+void kopi_finished(qk_tap_dance_state_t *state, void *user_data) {
+    ql_tap_state.state = cur_dance(state);
+    switch (ql_tap_state.state) {
+        case SINGLE_TAP: register_code16(C(KC_INS));  break;
+        case DOUBLE_TAP: register_code16(C(KC_X));  break;
+        case SINGLE_HOLD: tap_code16(C(KC_INS)); break;
+    }
+}
+void kopi_reset(qk_tap_dance_state_t *state, void *user_data) {
+    switch (ql_tap_state.state) {
+        case SINGLE_TAP: unregister_code16(C(KC_INS)); break;
+        case DOUBLE_TAP: unregister_code16(C(KC_X)); break;
+        case SINGLE_HOLD: tap_code16(S(KC_INS)); break;
+    }
+    ql_tap_state.state = 0; // обнуление состояния
+};
 void vstav_finished(qk_tap_dance_state_t *state, void *user_data) {
     ql_tap_state.state = cur_dance(state);
     switch (ql_tap_state.state) {
@@ -525,7 +541,7 @@ qk_tap_dance_action_t tap_dance_actions[] = { // связка кнопок с ф
     [RU_AN] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, x_finished, x_reset), // Р/А
     [SOHR] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, soh_finished, soh_reset), // сохранить / сохранить и выйти / сохранить как
     // [VYDEL] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, vydel_finished, vydel_reset), // выделить слово /выделить строку / выделить всё
-    [KOP1] = ACTION_TAP_DANCE_DOUBLE(C(KC_INS), C(KC_X)), // копировать / вырезать
+    [KOP1] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, kopi_finished, kopi_reset),  // копировать / вырезать
     [VST1] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, vstav_finished, vstav_reset), // вставить / вставить и нажать ввод / удалить всё и вставить
     [NACH] = ACTION_TAP_DANCE_DOUBLE(KC_HOME, C_HOME), // в начало / в самое начало
     [KONE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, vydel_finished, vydel_reset), // в конец / выделить строку / выделить всё
