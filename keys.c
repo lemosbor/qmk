@@ -616,53 +616,46 @@ case ALTTABB: if (record->event.pressed) {
  //         register_code(KC_LALT);  // зажать альт
   //      }
 } else {
- unregister_code(KC_LGUI);
- gpu_active = false;
+ 
  if (timer_elapsed(alt_tab_timer) < TAPPING_TERM) { //TAPPING_TERM
   //tap_code(KC_LGUI);
    // wait_ms(100);
         /// alt_tab_timer = timer_read(); // начать запись времени (каждый раз нажимая, записывать с нуля)
         tap_code16(A(KC_TAB)); // зажать таб
-} else {
-  case KC_I: if (record->event.pressed) { 
-     tap_code(KC_1);
-      }
-    break;
-  } 
+}
+ unregister_code(KC_LGUI);
+ gpu_active = false;
 } 
+   
 break;
  // альт будет деактивирован по таймеру, а пока он нажат и мы перемещаемся по окнам табом.
-    //case KC_9: 
-     //if (record->event.pressed) {
-      // if (shift_held) { 
-       //SEND_STRING(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_5)SS_TAP(X_KP_2))); send_string(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_7)SS_TAP(X_KP_8))),
-      // } //else { 
-   // }
-   // }
-  // return true;
-  //   break;
 
-    case KC_BSLS: if (record->event.pressed) { 
-    if (gpu_active) { tap_code(KC_1); }
-      }
+    case KC_9: if (record->event.pressed) { 
+    if (shift_held) {unregister_code(KC_LSFT); send_string(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_5)SS_TAP(X_KP_2))); return false; }
+    }
     break;
-    case RU_E: if (record->event.pressed) { 
-    if (gpu_active) { tap_code(KC_2); }
+    case KC_BSLS: if (record->event.pressed) { 
+    if (gpu_active) { tap_code(KC_1); return false;}
       }
     break;
     case KC_Q: if (record->event.pressed) { 
-    if (gpu_active) { tap_code(KC_3); }
+    if (gpu_active) {tap_code(KC_3); return false; }
+    //else { tap_code(KC_Q);  }
       }
+    //return false;
     break;
     case KC_Y: if (record->event.pressed) { 
-    if (gpu_active) { tap_code(KC_4); }
-    else { tap_code(KC_Y); }
+    if (gpu_active) { tap_code(KC_4); return false;}
     }
     break;
     case KC_NUBS: if (record->event.pressed) { 
-    if (gpu_active) { tap_code(KC_5); }
+    if (gpu_active) { tap_code(KC_5); return false;}
       }
-    return false;
+    break;
+     case RU_E: if (record->event.pressed) { 
+    if (gpu_active) { tap_code(KC_2); return false;}
+    else { REG_R2(send_string(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_4)SS_TAP(X_KP_1))), send_string(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_4)SS_TAP(X_KP_0)))); }
+      }
     break;
 
     case KC_RESET: // Custom RESET code
@@ -679,13 +672,13 @@ break;
     case OTMENA: REG_R2(tap_code16(C(KC_Z)), tap_code16(C(KC_Y)))
     case SLESH: REG_R2(tap_code(KC_PSLS), send_string(SS_LALT(SS_TAP(X_KP_1)SS_TAP(X_KP_2)SS_TAP(X_KP_4))))
     case OSKOB: REG_R2(tap_code16(S(KC_9)), send_string(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_7)SS_TAP(X_KP_1))))
-    case RU_E: REG_R2(send_string(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_4)SS_TAP(X_KP_1))), send_string(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_4)SS_TAP(X_KP_0))))
+    //case RU_E: REG_R2(send_string(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_4)SS_TAP(X_KP_1))), send_string(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_4)SS_TAP(X_KP_0))))
     case RU_TY: REG_R2(send_string(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_3)SS_TAP(X_KP_4))), send_string(SS_LALT(SS_TAP(X_KP_1)SS_TAP(X_KP_5)SS_TAP(X_KP_4))))
     case KK_LBRC:REG_R2(send_string(SS_LALT(SS_TAP(X_KP_9)SS_TAP(X_KP_1))), send_string(SS_LALT(SS_TAP(X_KP_1)SS_TAP(X_KP_2)SS_TAP(X_KP_3))))
     case KK_RBRC: REG_R2(send_string(SS_LALT(SS_TAP(X_KP_9)SS_TAP(X_KP_3))), send_string(SS_LALT(SS_TAP(X_KP_1)SS_TAP(X_KP_2)SS_TAP(X_KP_5))))
     case UDAR: REG_R2(send_string(SS_LALT(SS_TAP(X_KP_9)SS_TAP(X_KP_1)SS_TAP(X_KP_6))), send_string(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_7)SS_TAP(X_KP_6)SS_TAP(X_KP_9))))
     case RU_TIR:REG_R2(send_string(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_5)SS_TAP(X_KP_1))), send_string(SS_LALT(SS_TAP(X_KP_1)SS_TAP(X_KP_2)SS_TAP(X_KP_6))))
-    case STEPE:REG_R2(send_string(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_5)SS_TAP(X_KP_2))), send_string(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_7)SS_TAP(X_KP_9))))
+    case STEPE:REG_R2(send_string(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_7)SS_TAP(X_KP_8))), send_string(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_7)SS_TAP(X_KP_9))))
     case GRADU:REG_R2(send_string(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_4)SS_TAP(X_KP_8))), send_string(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_6))))
     case UMNO:REG_R2(send_string(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_2)SS_TAP(X_KP_1)SS_TAP(X_KP_5))), send_string(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_2)SS_TAP(X_KP_4)SS_TAP(X_KP_7))))
    }
