@@ -99,6 +99,7 @@ enum custom_keycodes {
   UMNO, // умножение
   ALTTABB,
   TWZ,
+  KC_RESET,
 }; 
 
 enum combo_events { // обозначение комбо-команд
