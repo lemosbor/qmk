@@ -47,7 +47,8 @@ return false;
 #define ALTB A(KC_TAB)
 
 bool shift_held = false; // обнуляем индикатор зажатого РЕГ
-bool is_alt_tab_active = false;
+//bool is_alt_tab_active = false;
+bool gpu_active = false;
 uint16_t alt_tab_timer = 0;  
 bool twz_active = false;
 uint16_t twz_timer = 0;   
@@ -607,23 +608,28 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
 
 case ALTTABB: if (record->event.pressed) {
  alt_tab_timer = timer_read(); 
- register_code(KC_LGUI); 
- if (!is_alt_tab_active) {  // если is_alt_tab_active не активирован
-          is_alt_tab_active = true;  // ...активировать
-          register_code(KC_LALT);  // зажать альт
-        }
+ register_code(KC_LGUI);
+ gpu_active = true;
+ //if (!is_alt_tab_active) {  // если is_alt_tab_active не активирован
+ //         is_alt_tab_active = true;  // ...активировать
+ //         register_code(KC_LALT);  // зажать альт
+  //      }
 } else {
- unregister_code(KC_LGUI); 
- if (timer_elapsed(alt_tab_timer) < 300) { //TAPPING_TERM
+ unregister_code(KC_LGUI);
+ gpu_active = false;
+ if (timer_elapsed(alt_tab_timer) < TAPPING_TERM) { //TAPPING_TERM
   //tap_code(KC_LGUI);
    // wait_ms(100);
         /// alt_tab_timer = timer_read(); // начать запись времени (каждый раз нажимая, записывать с нуля)
-        tap_code(KC_TAB); // зажать таб
+        tap_code16(A(KC_TAB)); // зажать таб
 } else {
-  unregister_code(KC_LALT);
+  case KC_I: if (record->event.pressed) { 
+     tap_code(KC_1);
+      }
+    break;
   } 
 } 
-break; 
+break;
  // альт будет деактивирован по таймеру, а пока он нажат и мы перемещаемся по окнам табом.
     //case KC_9: 
      //if (record->event.pressed) {
@@ -634,6 +640,38 @@ break;
    // }
   // return true;
   //   break;
+
+    case KC_BSLS: if (record->event.pressed) { 
+    if (gpu_active) { tap_code(KC_1); }
+      }
+    break;
+    case RU_E: if (record->event.pressed) { 
+    if (gpu_active) { tap_code(KC_2); }
+      }
+    break;
+    case KC_Q: if (record->event.pressed) { 
+    if (gpu_active) { tap_code(KC_3); }
+      }
+    break;
+    case KC_Y: if (record->event.pressed) { 
+    if (gpu_active) { tap_code(KC_4); }
+    else { tap_code(KC_Y); }
+    }
+    break;
+    case KC_NUBS: if (record->event.pressed) { 
+    if (gpu_active) { tap_code(KC_5); }
+      }
+    return false;
+    break;
+
+    case KC_RESET: // Custom RESET code
+      if (!record->event.pressed) {
+        reset_keyboard();
+      }
+    return false;
+    break;
+
+
     case VOPR:  REG_R2(tap_code16(S(KC_SLSH)), send_string(SS_LALT(SS_TAP(X_KP_9)SS_TAP(X_KP_2))))
     case KAVYCH: REG_R2(tap_code16(S(KC_QUOT)), tap_code(KC_QUOT))
     case ZSKOB:  REG_R2(tap_code16(S(KC_0)), send_string(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_8)SS_TAP(X_KP_7))))  
@@ -665,10 +703,10 @@ void matrix_scan_user(void) {  // Супер Альт-Таб и пр.
       twz_active = false; //
     }
   }
-  if (is_alt_tab_active) {  // если is_alt_tab_active активирован
-    if (timer_elapsed(alt_tab_timer) > 500) { // если сработал таймер на 500 мс   wait_ms(100);
-      unregister_code(KC_LALT);  // деактивировать альт
-      is_alt_tab_active = false; // деактивировать is_alt_tab_active
-    }
-  }
+  //if (is_alt_tab_active) {  // если is_alt_tab_active активирован
+   // if (timer_elapsed(alt_tab_timer) > 500) { // если сработал таймер на 500 мс   wait_ms(100);
+   //   unregister_code(KC_LALT);  // деактивировать альт
+   //   is_alt_tab_active = false; // деактивировать is_alt_tab_active
+    //}
+  //}
 }
