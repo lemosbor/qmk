@@ -13,7 +13,7 @@
 #define RGBLIGHT_SLEEP // если ПК в спящем режиме, то подсветка отключается
 #define NO_DEBUG // отключить отладку для экономии кода
 
-#define TAPPING_TERM 180 // задержка для клавиш двойного назначения
+#define TAPPING_TERM 200 // задержка для клавиш двойного назначения
 // #define IGNORE_MOD_TAP_INTERRUPT
 #define PERMISSIVE_HOLD // ускорение двойного нажатия
 #define COMBO_TERM 20 // задержка для комбо
@@ -27,6 +27,9 @@
 #define ENCODERS_PAD_B { B13 }
 #define ENCODER_RESOLUTION 1 // размерность шага
 
+#define MUSIC_MASK (keycode != MU_TOG)
+#define MIDI_BASIC
+//#define PITCH_STANDARD_A 200.0f
 //#define AUTO_SHIFT_MODIFIERS // автоматический шифт
 //#define AUTO_SHIFT_TIMEOUT 150 // время необходимого удержания для авто-шифта
 //#define UNICODE_KEY_WINC KC_LALT
