@@ -457,14 +457,25 @@ void x_finished(qk_tap_dance_state_t *state, void *user_data) { // функци�
             rgblight_disable_noeeprom();
             }
         #endif
-        register_code(KC_CAPS); break; // нажатие КАПС
-        case SINGLE_HOLD: register_code(KC_CAPS); break; // нажатие КАПС
+        register_code(KC_CAPS);
+        break; // нажатие КАПС
+        case SINGLE_HOLD: 
+tap_code(KC_CAPS);
+        //register_code(KC_CAPS); 
+        break; // нажатие КАПС
     }
 }
 void x_reset(qk_tap_dance_state_t *state, void *user_data) { // Действие при отпускании (то отключить слой)
     switch (ql_tap_state.state) {
-        case SINGLE_TAP: break; // снятие КАПС
-        case SINGLE_HOLD: register_code(KC_CAPS); break;  // нажатие КАПС
+        case SINGLE_TAP:
+        unregister_code(KC_CAPS); 
+        //shift_active = false;
+//shift_timer = 0; 
+         break; // снятие КАПС
+        case SINGLE_HOLD: 
+       tap_code(KC_CAPS); 
+        //register_code(KC_CAPS); 
+        break;  // нажатие КАПС
     }
     ql_tap_state.state = 0; // обнуление состояния
 };
@@ -819,7 +830,10 @@ void matrix_scan_user(void) {                  // сканирование та�
   if (shift_active) {                          // если активен индикатор зажатого РЕГ 
     if (timer_elapsed(shift_timer) > 3000) {   // если прошло более ... мс // wait_ms(100);
       unregister_code(KC_LSFT);                // KC_LSFT в положение отпущен
-      shift_active = false;                    // деактивировать индикатор зажатого РЕГ 
+      shift_active = false;                  // деактивировать индикатор зажатого РЕГ 
+      //shift_timer = 0;
+      // clear_mods();
+      //clear_oneshot_mods();
     }
   }
   if (twz_active) {                            // если активен индикатор Ъ
@@ -832,4 +846,14 @@ if (host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK)) {
      } else {
       caps_active=false;
     }
+};
+
+#ifdef RGBLIGHT_ENABLE
+void keyboard_post_init_user(void){
+ if (caps_active) { 
+            rgblight_enable_noeeprom();
+            } else { 
+            rgblight_disable_noeeprom();
+            }
 }
+#endif
