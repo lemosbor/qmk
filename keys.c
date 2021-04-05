@@ -1,6 +1,11 @@
 #define L_OSNOVA 0 // слой 0 (основной)
 #define L_DOP 1 // слой 1 (сервисный)
 
+
+#ifdef AUDIO_ENABLE
+  float plover_song[][2]     = SONG(PLOVER_SOUND);
+#endif
+
 // функция подмены верхнего регистра
 #define REG_R2(kn1, kn2) \
 if (record->event.pressed) { \
@@ -28,15 +33,19 @@ return false;
 #define C_PGUP C(KC_PGUP)
 #define C_PGDN C(KC_PGDN)
 #define C_ENT C(KC_ENT)
+#define C_A C(KC_A)
+#define C_K C(KC_K)
 #define C_C C(KC_C)
 #define C_V C(KC_V)
 #define C_X C(KC_X)
 #define C_S C(KC_S)
+#define C_P C(KC_P)
 #define C_Z C(KC_Z)
 #define C_Y C(KC_Y)
 #define C_F C(KC_F)
 #define C_HOME C(KC_HOME)
 #define S_SCLN S(KC_SCLN)
+#define S_3 S(KC_3)
 #define S_4 S(KC_4)
 #define S_6 S(KC_6)
 #define S_7 S(KC_7)
@@ -47,6 +56,8 @@ return false;
 #define S_DOT S(KC_DOT)
 #define ALSTB A(S(KC_TAB))
 #define ALTB A(KC_TAB)
+
+#define ST_GEM  QK_STENO_GEMINI
 //индикаторы
 bool shift_held = false; // обнуляем индикатор зажатого РЕГ
 bool gpu_active = false;
@@ -101,24 +112,24 @@ enum custom_keycodes {
 enum combo_events { // обозначение комбо-команд
 comb_TOCH, comb_ZAP, comb_TZ, comb_DT, comb_DEF, comb_TIRE, comb_VOS, comb_VOP, comb_DOP, comb_REG1, comb_REG2, comb_PROB, comb_NACH, comb_KON, comb_LEV, comb_PRAV, comb_VERH,
 comb_VNIZ, comb_VSH, comb_VVOD, comb_UDL, comb_TAB, comb_VIH, comb_KOP1, comb_VST1, comb_UPR1, comb_OTM, comb_N1, comb_N2, comb_N3, comb_N4, comb_N5, comb_N6, comb_N7, comb_N8,
-comb_N9, comb_N0, comb_ALTB, comb_INS, comb_VYR, comb_PER1, comb_PER2, comb_REG3, comb_VVOD2, comb_PER3, comb_SOYI, comb_BUKTZ, comb_ZSCOB, comb_OSCOB, comb_OKAV, comb_ZKAV,  
-comb_KAV, comb_PROB2, comb_PGUP, comb_PGDN, comb_TIRE2,
+comb_N9, comb_N0, comb_ALTB, comb_INS, comb_VYR, comb_PER1, comb_PER2, comb_REG3, comb_VVOD2, comb_PER3, comb_SOYI, comb_OSCOB, comb_OKAV,  
+comb_KAV, comb_PROB2, comb_PGUP, comb_PGDN, comb_TIRE2, comb_SOH, comb_CK,  comb_CP, comb_CA, comb_RESH, comb_PL,  comb_MI, comb_RAW, comb_UM, 
 /*comb_N_BOL, comb_N_KAV, comb_N_AND, comb_N_ZAP, comb_N_TOCH, comb_N_DEL, comb_N_UMN, comb_N_MIN, comb_N_PLUS, comb_N_OSK, comb_N_ZSK, comb_N_RAV, comb_N_DT, comb_N_TZ, comb_N_DOL, comb_N_STEP, comb_N_MEN,
 */};
 
 // задаем сочетания комбо-клавиш
 const uint16_t PROGMEM TOCH_combo[] = {KC_J, KC_L, COMBO_END};
-const uint16_t PROGMEM ZAP_combo[] = {KC_I, KC_Q, COMBO_END};
-const uint16_t PROGMEM TZ_combo[] = {KC_Q,  KC_F15, COMBO_END};
-const uint16_t PROGMEM DT_combo[] = {KC_V , KC_J, COMBO_END};
+const uint16_t PROGMEM ZAP_combo[] = {KC_I, KC_U, COMBO_END};
+const uint16_t PROGMEM TZ_combo[] = {KC_T,  KC_J, COMBO_END};
+const uint16_t PROGMEM DT_combo[] = {KC_C , KC_J, COMBO_END};
 const uint16_t PROGMEM DEF_combo[] = {KC_O, KC_T, COMBO_END};
 const uint16_t PROGMEM TIRE_combo[] = {KC_A, KC_N, COMBO_END};
 const uint16_t PROGMEM TIRE2_combo[] = {KC_MINS, KC_DOT, COMBO_END};
-const uint16_t PROGMEM VOS_combo[] = {KC_X, KC_U, COMBO_END};
+const uint16_t PROGMEM VOS_combo[] = {KC_X, KC_Q, COMBO_END};
 const uint16_t PROGMEM VOP_combo[] = {KC_LBRC, KC_BSLS, COMBO_END};
 const uint16_t PROGMEM REG1_combo[] = {KC_I, KC_O, COMBO_END};
-const uint16_t PROGMEM REG2_combo[] = {KC_Q, KC_Y, COMBO_END};
-const uint16_t PROGMEM VVOD2_combo[] = {KC_P, KC_T, COMBO_END};
+const uint16_t PROGMEM REG2_combo[] = {KC_U, KC_Y, COMBO_END};
+const uint16_t PROGMEM VVOD2_combo[] = {KC_Z, KC_T, COMBO_END};
 const uint16_t PROGMEM VVOD_combo[] = {KC_O, KC_Y, COMBO_END};
 const uint16_t PROGMEM PROB_combo[] = {KC_T, KC_N, COMBO_END};
 const uint16_t PROGMEM PROB2_combo[] = {KC_A, KC_O, COMBO_END};
@@ -130,40 +141,48 @@ const uint16_t PROGMEM VERH_combo[] = {KC_L, KC_D, COMBO_END};
 const uint16_t PROGMEM VNIZ_combo[] = {KC_R, KC_M, COMBO_END};
 const uint16_t PROGMEM VSH_combo[] = {KC_S, KC_E, COMBO_END};
 const uint16_t PROGMEM UDL_combo[] = {KC_F, KC_NUBS, COMBO_END};
-const uint16_t PROGMEM TAB_combo[] = {KC_Z, KC_T, COMBO_END};
+const uint16_t PROGMEM TAB_combo[] = {KC_P, KC_T, COMBO_END};
 const uint16_t PROGMEM VIH_combo[] = {KC_D, KC_GRV, COMBO_END};
 const uint16_t PROGMEM KOP1_combo[] = {KC_NUBS, KC_I, COMBO_END};
 const uint16_t PROGMEM VST1_combo[] = {KC_E, KC_A, COMBO_END};
 const uint16_t PROGMEM VYR_combo[] = {KC_F, KC_I, COMBO_END};
-const uint16_t PROGMEM UPR1_combo[] = {KC_A, KC_U, COMBO_END};
-const uint16_t PROGMEM OTM_combo[] = {KC_Q, KC_O, COMBO_END};
-const uint16_t PROGMEM N1_combo[] = {KC_RGHT, KC_T, COMBO_END};
-const uint16_t PROGMEM N2_combo[] = {KC_RGHT, KC_N, COMBO_END};
-const uint16_t PROGMEM N3_combo[] = {KC_RGHT, KC_K, COMBO_END};
-const uint16_t PROGMEM N4_combo[] = {KC_RGHT, KC_W, COMBO_END};
-const uint16_t PROGMEM N5_combo[] = {KC_RGHT, KC_V , COMBO_END};
-const uint16_t PROGMEM N6_combo[] = {KC_RGHT, KC_J, COMBO_END};
-const uint16_t PROGMEM N7_combo[] = {KC_RGHT, KC_L, COMBO_END};
-const uint16_t PROGMEM N8_combo[] = {KC_RGHT, KC_D, COMBO_END};
-const uint16_t PROGMEM N9_combo[] = {KC_RGHT, KC_GRV, COMBO_END};
-const uint16_t PROGMEM N0_combo[] = {KC_RGHT, KC_P, COMBO_END};
+const uint16_t PROGMEM UPR1_combo[] = {KC_A, KC_Q, COMBO_END};
+const uint16_t PROGMEM OTM_combo[] = {KC_U, KC_O, COMBO_END};
+const uint16_t PROGMEM N1_combo[] = {KC_UP, KC_T, COMBO_END};
+const uint16_t PROGMEM N2_combo[] = {KC_UP, KC_N, COMBO_END};
+const uint16_t PROGMEM N3_combo[] = {KC_UP, KC_K, COMBO_END};
+const uint16_t PROGMEM N4_combo[] = {KC_UP, KC_W, COMBO_END};
+const uint16_t PROGMEM N5_combo[] = {KC_UP, KC_C , COMBO_END};
+const uint16_t PROGMEM N6_combo[] = {KC_UP, KC_J, COMBO_END};
+const uint16_t PROGMEM N7_combo[] = {KC_UP, KC_L, COMBO_END};
+const uint16_t PROGMEM N8_combo[] = {KC_UP, KC_D, COMBO_END};
+const uint16_t PROGMEM N9_combo[] = {KC_UP, KC_GRV, COMBO_END};
+const uint16_t PROGMEM N0_combo[] = {KC_UP, KC_Z, COMBO_END};
 const uint16_t PROGMEM ALTB_combo[] = {KC_G, KC_N, COMBO_END};
-const uint16_t PROGMEM INS_combo[] = {KC_F, KC_S, COMBO_END};
+const uint16_t PROGMEM INS_combo[] = {KC_E, KC_NUBS, COMBO_END};
 const uint16_t PROGMEM PER1_combo[] = {KC_K, KC_R, COMBO_END};
-const uint16_t PROGMEM PER2_combo[] = {KC_GRV, KC_W, COMBO_END};
+const uint16_t PROGMEM PER3_combo[] = {KC_GRV, KC_W, COMBO_END};
 const uint16_t PROGMEM REG3_combo[] = {KC_T, KC_L, COMBO_END};
 
-const uint16_t PROGMEM PER3_combo[] = {KC_W, KC_B, COMBO_END};
+const uint16_t PROGMEM PER2_combo[] = {KC_W, KC_B, COMBO_END};
 const uint16_t PROGMEM SOYI_combo[] = {KC_I, KC_A, COMBO_END};
-const uint16_t PROGMEM BUKTZ_combo[] = {KC_S, KC_NUBS, COMBO_END};
 const uint16_t PROGMEM DOP_combo[] = {KC_T, KC_R, COMBO_END};
-const uint16_t PROGMEM ZSCOB_combo[] = {KC_O, KC_W, COMBO_END};
 const uint16_t PROGMEM OSCOB_combo[] = {KC_BSLS, KC_X, COMBO_END};
-const uint16_t PROGMEM OKAV_combo[] = {KC_LBRC, KC_U, COMBO_END};
-const uint16_t PROGMEM ZKAV_combo[] = {KC_A, KC_K, COMBO_END};
-const uint16_t PROGMEM KAV_combo[] = {KC_Y, KC_P, COMBO_END};
+const uint16_t PROGMEM OKAV_combo[] = {KC_LBRC, KC_Q, COMBO_END};
+const uint16_t PROGMEM KAV_combo[] = {KC_Y, KC_Z, COMBO_END};
 const uint16_t PROGMEM PGUP_combo[] = {KC_D, KC_N, COMBO_END};
 const uint16_t PROGMEM PGDN_combo[] = {KC_N, KC_M, COMBO_END};
+
+const uint16_t PROGMEM SOH_combo[] = {KC_S, KC_F, COMBO_END};
+const uint16_t PROGMEM CK_combo[] = {KC_K, KC_M, COMBO_END};
+const uint16_t PROGMEM CP_combo[] = {KC_P, KC_Z, COMBO_END};
+const uint16_t PROGMEM CA_combo[] = {KC_A, KC_X, COMBO_END};
+const uint16_t PROGMEM RESH_combo[] = {KC_N, KC_R, COMBO_END};
+const uint16_t PROGMEM PL_combo[] = {KC_D, KC_K, COMBO_END};
+const uint16_t PROGMEM MI_combo[] = {KC_M, KC_LEFT, COMBO_END};
+const uint16_t PROGMEM RAW_combo[] = {KC_R, KC_B, COMBO_END};
+const uint16_t PROGMEM UM_combo[] = {KC_L, KC_N, COMBO_END};
+
 
 /*const uint16_t PROGMEM N_ZAP_combo[] = {KC_1, KC_5, COMBO_END};
 const uint16_t PROGMEM N_TOCH_combo[] = {KC_5, KC_3, COMBO_END};
@@ -231,15 +250,22 @@ combo_t key_combos[COMBO_COUNT] = {
 [comb_PER3] = COMBO(PER3_combo, C_PGUP),
 [comb_REG3] = COMBO_ACTION(REG3_combo),
 [comb_SOYI] = COMBO_ACTION(SOYI_combo),
-[comb_BUKTZ] = COMBO_ACTION(BUKTZ_combo),
 [comb_DOP] = COMBO_ACTION(DOP_combo),
 [comb_OSCOB] = COMBO_ACTION(OSCOB_combo),
-[comb_ZSCOB] = COMBO(ZSCOB_combo, S_0),
 [comb_OKAV] = COMBO_ACTION(OKAV_combo),
-[comb_ZKAV] = COMBO_ACTION(ZKAV_combo),
 [comb_KAV] = COMBO(KAV_combo, S_QUOT),
 [comb_PGUP] = COMBO(PGUP_combo, KC_PGUP),
 [comb_PGDN] = COMBO(PGDN_combo, KC_PGDN),
+
+[comb_SOH] = COMBO(SOH_combo, C_S),
+[comb_CK] = COMBO(CK_combo, C_K),
+[comb_CP] = COMBO(CP_combo, C_P),
+[comb_CA] = COMBO(CA_combo, C_A),
+[comb_RESH] = COMBO(RESH_combo, S_3),
+[comb_PL] = COMBO(PL_combo, KC_PPLS),
+[comb_MI] = COMBO(MI_combo, KC_PMNS),
+[comb_RAW] = COMBO(RAW_combo, KC_EQL),
+[comb_UM] = COMBO(UM_combo, KC_PAST),
 
 /*[comb_N_ZAP] = COMBO(N_ZAP_combo, KC_COMM),
 [comb_N_TOCH] = COMBO(N_TOCH_combo, KC_PDOT),
@@ -290,17 +316,7 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         skob_active=false;      // деактивируем индикатор скобки
         }       
       }
-      break;  
-    case comb_ZKAV: // закрытая кавычка » 0187
-      if (pressed) {
-        register_code(KC_LALT);
-        tap_code(KC_P0);
-        tap_code(KC_P1);
-        tap_code(KC_P8);
-        tap_code(KC_P7);
-        unregister_code(KC_LALT);
-      }
-      break;      
+      break;     
     case comb_OKAV: // открытая кавычка
       if (pressed) {
         if (!kav_active) {  //
@@ -405,15 +421,6 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         tap_code(KC_SPC);
         tap_code(KC_I);
         tap_code(KC_SPC);
-      }
-      break;
-    case comb_BUKTZ: // ъ
-      if (pressed) {
-        register_code(KC_LALT);
-        tap_code(KC_P2);
-        tap_code(KC_P3);
-        tap_code(KC_P4);
-        unregister_code(KC_LALT);
       }
       break;
   }
@@ -548,8 +555,9 @@ void VYH_reset(qk_tap_dance_state_t *state, void *user_data) {
 void OSKOBT_finished(qk_tap_dance_state_t *state, void *user_data) {
     ql_tap_state.state = cur_dance(state);
     switch (ql_tap_state.state) {
-        case SINGLE_TAP:                                                                  // при одиночном нажатии
-          register_code16(S(KC_9));                                                       // (
+        case SINGLE_TAP:    
+        if (shift_held) {register_code16(S(KC_COMM));}
+           else {register_code16(S(KC_9));}                                                     // (
         break;
         case DOUBLE_TAP:                                                                  // при двойном нажатии
           send_string(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_7)SS_TAP(X_KP_1))); // «
@@ -568,7 +576,7 @@ void OSKOBT_finished(qk_tap_dance_state_t *state, void *user_data) {
 void OSKOBT_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (ql_tap_state.state) {
         case SINGLE_TAP:
-          unregister_code16(S(KC_9)); break;
+          unregister_code16(S(KC_9)); unregister_code16(S(KC_COMM)); break;
         case DOUBLE_TAP: break;
         case SINGLE_HOLD: break;
     }
@@ -578,7 +586,8 @@ void ZSKOBT_finished(qk_tap_dance_state_t *state, void *user_data) {
     ql_tap_state.state = cur_dance(state);
     switch (ql_tap_state.state) {
         case SINGLE_TAP:
-          register_code16(S(KC_0));
+if (shift_held) {register_code16(S(KC_DOT));}
+           else {register_code16(S(KC_0));}                              
         break;
         case DOUBLE_TAP:
           send_string(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_8)SS_TAP(X_KP_7)));
@@ -597,7 +606,7 @@ void ZSKOBT_finished(qk_tap_dance_state_t *state, void *user_data) {
 void ZSKOBT_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (ql_tap_state.state) {
         case SINGLE_TAP:
-          unregister_code16(S(KC_0)); break;
+          unregister_code16(S(KC_0)); unregister_code16(S(KC_DOT)); break;
         case DOUBLE_TAP: break;
         case SINGLE_HOLD: break;
     }
@@ -675,20 +684,29 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
         twz_timer = timer_read(); // начать запись времени индикатора Ъ
     return true;
     break; 
-    case TD(RU_AN):                                                       // в случае нажатия TD(RU_AN)(ъ или RU_AN)
+   // case TD(RU_AN):                                                       // в случае нажатия TD(RU_AN)(ъ или RU_AN)
+   //   if (record->event.pressed) {                                        // при нажатии
+    //    if (twz_active) {                                                 // если индикатор Ъ активен
+    //    send_string(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_3)SS_TAP(X_KP_4))); // посылаем альт-код символа ъ
+    //    return false;                                                     // не выполнять основное действие нажатия
+  //      } 
+  //    }
+  //  break;
+    case KC_F15:                                                             // в случае нажатия TWZ(ъ или KC_HOME)
       if (record->event.pressed) {                                        // при нажатии
-        if (twz_active) {                                                 // если индикатор Ъ активен
-        send_string(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_3)SS_TAP(X_KP_4))); // посылаем альт-код символа ъ
-        return false;                                                     // не выполнять основное действие нажатия
-        } 
-      }
-    break;
-    case TWZ:                                                             // в случае нажатия TWZ(ъ или KC_HOME)
-      if (record->event.pressed) {                                        // при нажатии
-        if (!twz_active) {                                                // если индикатор Ъ не активен
-          tap_code(KC_HOME);                                              // топнуть KC_HOME
-      } else {                                                            // если индикатор Ъ активен
-        send_string(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_3)SS_TAP(X_KP_4))); // посылаем альт-код символа ъ
+        if (!twz_active) {
+        #ifdef AUDIO_ENABLE
+          stop_all_notes();
+          PLAY_SONG(plover_song);
+        #endif
+          layer_on(L_PLOVER);
+          return false;  
+        //if (shift_held) {unregister_code(KC_LSFT); tap_code(KC_HOME);}
+        // else tap_code(KC_END);
+       }
+          else {                                                            // если индикатор Ъ активен
+        send_string(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_3)SS_TAP(X_KP_4)));// посылаем альт-код символа ъ
+        return false;  
         }
       }
       break;
@@ -714,7 +732,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
     }
     break;
 
-
     case KC_9: if (record->event.pressed) {                             // в случае нажатия KC_9: при нажатии
     if (shift_held) {                                                   // если активен индикатор РЕГ
       unregister_code(KC_LSFT);                                         // KC_LSFT в положение отпущен
@@ -732,39 +749,44 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
     }
     break;
     // Действия с клавишей ГИП
-    case KC_BSLS: if (record->event.pressed) {        // в случае нажатия KC_BSLS (Э): при нажатии
+    case KC_LBRC: if (record->event.pressed) {        // в случае нажатия KC_BSLS (Э): при нажатии
     if (gpu_active) {                                 // если активен индикатор ГИП
       tap_code(KC_1);                                 // топнуть 1
       return false;                                   // не выполнять основное действие нажатия (Э)
       }
     }
     break;
-    case KC_Q: if (record->event.pressed) {           // в случае нажатия KC_Q: при нажатии
-    if (gpu_active) {tap_code(KC_3); return false; }  // если активен индикатор ГИП: топнуть 3; отменить основное действие нажатия (Q)
+    case KC_BSLS: if (record->event.pressed) {           // в случае нажатия KC_Q: при нажатии
+    if (gpu_active) {tap_code(KC_2); return false; }  // если активен индикатор ГИП: топнуть 3; отменить основное действие нажатия (Q)
     }
     break;
-    case KC_Y: if (record->event.pressed) { 
-    if (gpu_active) { tap_code(KC_4); return false;}
+    case KC_X: if (record->event.pressed) { 
+    if (gpu_active) { tap_code(KC_3); return false;}
     }
     break;
-    case KC_NUBS: if (record->event.pressed) {        // в случае нажатия KC_NUBS
-    if (gpu_active) { tap_code(KC_5); return false;}  // и ГИП, нажать клавишу 5
+    case KC_Q: if (record->event.pressed) {        // в случае нажатия KC_NUBS
+    if (gpu_active) { tap_code(KC_4); return false;}  // и ГИП, нажать клавишу 5
       }
     break;
     case RU_E: if (record->event.pressed) {                                   // в случае нажатия RU_E
-    if (gpu_active) { tap_code(KC_2); return false;}                          // и ГИП, нажать клавишу 2
+    if (gpu_active) { tap_code(KC_5); return false;}                          // и ГИП, нажать клавишу 2
     else { 
       REG_R2(send_string(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_4)SS_TAP(X_KP_1))), send_string(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_4)SS_TAP(X_KP_0)))); }
       }                                                                       // иначе послать букву ё
     break;
     case TD(VYDEL): if (record->event.pressed) {                                           // в случае нажатия TD(VYDEL)
     if (gpu_active) {                                                                      // и ГИП
-      unregister_code(KC_LGUI); tap_code(KC_LGUI); tap_code16(C(KC_PGUP)); return false;}  // перейти в следующее окно
+      unregister_code(KC_LGUI); tap_code16(C(KC_PGUP)); return false;}  // перейти в следующее окно
+    }
+    break;
+     case TD(RU_AN): if (record->event.pressed) {                                           // в случае нажатия TD(VYDEL)
+    if (gpu_active) {                                                                      // и ГИП
+      unregister_code(KC_LGUI); tap_code16(C(KC_PGUP)); return false;}  // перейти в следующее окно
     }
     break;
     case ALT_T(KC_F2): if (record->event.pressed) {                                        // ALT_T(KC_F2)
     if (gpu_active) {                                                                      // и ГИП
-      unregister_code(KC_LGUI); tap_code(KC_LGUI); tap_code16(C(KC_PGDN)); return false;}  // перейти в предыдущее окно
+      unregister_code(KC_LGUI); tap_code16(C(KC_PGDN)); return false;}  // перейти в предыдущее окно
     }
     break;
 
@@ -806,6 +828,10 @@ if (host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK)) {  // если индикат
      } else {
       caps_active=false;                              // иначе деактивировать индикатор caps_active
     }
+};
+
+void matrix_init_user() {
+  steno_set_mode(STENO_MODE_GEMINI); // or STENO_MODE_BOLT
 };
 
 #ifdef RGBLIGHT_ENABLE                        // если опция подсветки включена
