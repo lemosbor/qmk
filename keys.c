@@ -61,7 +61,6 @@ return false;
 //индикаторы
 bool shift_held = false; // обнуляем индикатор зажатого РЕГ
 bool gpu_active = false;
-uint16_t alt_tab_timer = 0;  
 bool twz_active = false;
 uint16_t twz_timer = 0;   
 bool shift_active = false;
@@ -84,6 +83,7 @@ enum {
     OSKOBT, // открытая скобка
     ZSKOBT, // закрытая скобка
     MINS,   // минус
+    GIP,
 };
 // клавиши с одной командой
 enum custom_keycodes { 
@@ -105,7 +105,6 @@ enum custom_keycodes {
   STEPE, // степень
   GRADU, // градус
   UMNO, // умножение
-  ALTTABB, // ГИП
   KC_RESET, // перезагрузка клавиатуры
 }; 
 
@@ -635,6 +634,32 @@ void MINS_reset(qk_tap_dance_state_t *state, void *user_data) {
     }
     ql_tap_state.state = 0; // обнуление состояния
 };
+void GIP_finished(qk_tap_dance_state_t *state, void *user_data) {
+    ql_tap_state.state = cur_dance(state);
+    switch (ql_tap_state.state) {
+        case SINGLE_TAP:
+          tap_code16(A(KC_TAB));
+        break;
+        case DOUBLE_TAP:
+          tap_code16(A(KC_ESC));
+          break;
+        case SINGLE_HOLD:
+        register_code(KC_LGUI);                                // KC_LGUI в положение нажат
+     gpu_active = true; 
+        break;
+    }
+}
+void GIP_reset(qk_tap_dance_state_t *state, void *user_data) {
+    switch (ql_tap_state.state) {
+        case SINGLE_TAP: break;
+        case DOUBLE_TAP: break;
+        case SINGLE_HOLD:
+        unregister_code(KC_LGUI);                                // KC_LGUI в положение нажат
+     gpu_active = false; 
+      break;
+    }
+    ql_tap_state.state = 0; // обнуление состояния
+};
 
 qk_tap_dance_action_t tap_dance_actions[] = { // связка кнопок с функциями двойного нажатия
     [VYH] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, VYH_finished, VYH_reset), // выйти / принудительно закрыть / закрыть окно
@@ -647,6 +672,7 @@ qk_tap_dance_action_t tap_dance_actions[] = { // связка кнопок с ф
     [VYDEL] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, vydel_finished, vydel_reset), // в начало / в конец / выделить строку
     [KOP1] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, kopi_finished, kopi_reset),  // копировать / вырезать
     [VST1] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, vstav_finished, vstav_reset), // вставить / вставить и нажать ввод / удалить всё и вставить
+    [GIP] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, GIP_finished, GIP_reset), // вставить / вставить и нажать ввод / удалить всё и вставить
 };
 
 //Создание кнопок
@@ -720,18 +746,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
         tap_code(KC_DEL);
       }
     break;
-    case ALTTABB: if (record->event.pressed) {              // в случае нажатия ALTTABB: при нажатии
-     alt_tab_timer = timer_read();                          // начать запись времени (каждый раз нажимая, записывать с нуля)
-     register_code(KC_LGUI);                                // KC_LGUI в положение нажат
-     gpu_active = true;                                     // активировать индикатор gpu_active
-    } else {                                                // при отпускании
-     if (timer_elapsed(alt_tab_timer) < TAPPING_TERM) {     // если время нажатия меньше значения TAPPING_TERM
-            tap_code16(A(KC_TAB)); }                        // топнуть альт-табом
-     unregister_code(KC_LGUI);                              // KC_LGUI в положение отпущен
-     gpu_active = false;                                    // деактивировать индикатор gpu_active
-    }
-    break;
-
     case KC_9: if (record->event.pressed) {                             // в случае нажатия KC_9: при нажатии
     if (shift_held) {                                                   // если активен индикатор РЕГ
       unregister_code(KC_LSFT);                                         // KC_LSFT в положение отпущен
