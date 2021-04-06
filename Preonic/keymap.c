@@ -22,7 +22,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // определ
 KC_F,  KC_NUBS,  KC_I, KC_U ,   KC_F15,   TD(POISK),  KC_RBRC,  KC_C,   KC_J,  KC_L,  KC_D,  KC_GRV,  \
 KC_S,  KC_E,  KC_A,  KC_O,  KC_Y,  KC_TAB,   KC_V,  KC_Z,  KC_T,  KC_N,  KC_K,  KC_W,  \
 KC_LBRC,  KC_BSLS,  KC_X, KC_Q ,  RU_E,  KC_DEL,    KC_H,  KC_P,  KC_G,  KC_R,  KC_M,  KC_B,  \
-  ALTTABB,TD(RU_AN),ALT_T(KC_F2),OSM(MOD_LSFT),CTL_T(KC_SPC),  KC_ENT,  LT(L_DOP, KC_BSPC),KC_SPC, KC_UP, KC_DOWN,KC_LEFT,KC_RGHT \
+  TD(GIP),TD(RU_AN),ALT_T(KC_F2),OSM(MOD_LSFT),CTL_T(KC_SPC),  KC_ENT,  LT(L_DOP, KC_BSPC),KC_SPC, KC_UP, KC_DOWN,KC_LEFT,KC_RGHT \
 ),
 [L_DOP] = LAYOUT_preonic_grid( \
   RGB_TOG,      RGB_MOD,       S(KC_7), S(KC_2),      S(KC_1),     S(KC_3),   KC_F10,  KC_F11,  KC_F12,   KC_PAST,   KC_PPLS, KC_EQL,  \
