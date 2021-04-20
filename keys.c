@@ -692,8 +692,8 @@ qk_tap_dance_action_t tap_dance_actions[] = { // связка кнопок с ф
     [KOP1] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, kopi_finished, kopi_reset),  // копировать / вырезать
     [VST1] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, vstav_finished, vstav_reset), // вставить / вставить и нажать ввод / удалить всё и вставить
     [GIP] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, GIP_finished, GIP_reset), // вставить / вставить и нажать ввод / удалить всё и вставить
-    [VOPRR] = ACTION_TAP_DANCE_DOUBLE(VOPR, S(KC_1)),
-    [SCLN] = ACTION_TAP_DANCE_DOUBLE(S(KC_SLSH), S(KC_SCLN)),
+    [VOPRR] = ACTION_TAP_DANCE_DOUBLE(S(KC_SLSH), S(KC_1)),
+    [SCLN] = ACTION_TAP_DANCE_DOUBLE(KC_SCLN, S(KC_SCLN)),
     [UPRPR] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, UPRPR_finished, UPRPR_reset),
 
 };
