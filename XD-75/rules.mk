@@ -13,9 +13,9 @@ COMMAND_ENABLE = no      # команды
 STENO_ENABLE = no        # стенография
 EXTRAKEY_ENABLE = no 	   # системные и аубиоконтольные клавиши
 SLEEP_LED_ENABLE = no    # спящее состояние
+STENO_ENABLE = no       # стенография
+FORCE_NKRO = no         # одновременное нажатие более 6 клавиш
 # Включить:
 BACKLIGHT_ENABLE = yes   # поддержка светодиодов клавиш
 TAP_DANCE_ENABLE = yes   # поддержка двойных нажатий
 COMBO_ENABLE = yes       # спец. комбинации из букв
-STENO_ENABLE = yes       # стенография
-FORCE_NKRO = yes         # одновременное нажатие более 6 клавиш

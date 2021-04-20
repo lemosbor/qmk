@@ -12,4 +12,4 @@
 #define ONESHOT_TAP_TOGGLE 2 // ожидающие кнопки. Количество нажатий для залипания.
 #define ONESHOT_TIMEOUT 3000  // ожидающие кнопки. время ожидания (мс) 
 
-#define FORCE_NKRO
+//#define FORCE_NKRO // одновременное нажатие более 6 клавиш
