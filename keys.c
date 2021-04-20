@@ -1,11 +1,6 @@
 #define L_OSNOVA 0 // слой 0 (основной)
 #define L_DOP 1 // слой 1 (сервисный)
-#define L_PLOVER 2
 
-#ifdef AUDIO_ENABLE
-  float plover_song[][2]     = SONG(PLOVER_SOUND);
-  float plover_gb_song[][2]  = SONG(PLOVER_GOODBYE_SOUND);
-#endif
 
 // функция подмены верхнего регистра
 #define REG_R2(kn1, kn2) \
@@ -56,7 +51,7 @@ return false;
 #define S_COMM S(KC_COMM)
 #define S_DOT S(KC_DOT)
 #define ALSTB A(S(KC_TAB))
-#define ALTB A(KC_TAB)
+#define ALTB C(KC_BSPC)
 
 #define ST_BOLT QK_STENO_BOLT
 #define ST_GEM  QK_STENO_GEMINI
@@ -86,7 +81,9 @@ enum {
     ZSKOBT, // закрытая скобка
     MINS,   // минус
     GIP,
-    PLOVER,
+    SCLN,
+    VOPRR,
+    UPRPR,
 };
 // клавиши с одной командой
 enum custom_keycodes { 
@@ -162,7 +159,7 @@ const uint16_t PROGMEM N7_combo[] = {KC_UP, KC_L, COMBO_END};
 const uint16_t PROGMEM N8_combo[] = {KC_UP, KC_D, COMBO_END};
 const uint16_t PROGMEM N9_combo[] = {KC_UP, KC_GRV, COMBO_END};
 const uint16_t PROGMEM N0_combo[] = {KC_UP, KC_V, COMBO_END};
-const uint16_t PROGMEM ALTB_combo[] = {KC_P, KC_N, COMBO_END};
+const uint16_t PROGMEM ALTB_combo[] = {KC_S, KC_A, COMBO_END};
 const uint16_t PROGMEM INS_combo[] = {KC_E, KC_BSLS, COMBO_END};
 const uint16_t PROGMEM PER1_combo[] = {KC_K, KC_R, COMBO_END};
 const uint16_t PROGMEM PER3_combo[] = {KC_GRV, KC_W, COMBO_END};
@@ -479,14 +476,14 @@ void x_reset(qk_tap_dance_state_t *state, void *user_data) { // Действие
 void soh_finished(qk_tap_dance_state_t *state, void *user_data) {
     ql_tap_state.state = cur_dance(state);
     switch (ql_tap_state.state) {
-        case SINGLE_TAP: register_code16(C(KC_S)); break;
+        case SINGLE_TAP: register_code(KC_PAST); break;
         case DOUBLE_TAP: register_code16(C(KC_S)); break;
         case SINGLE_HOLD: register_code(KC_F12); break;
     }
 }
 void soh_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (ql_tap_state.state) {
-        case SINGLE_TAP: unregister_code16(C(KC_S)); break;
+        case SINGLE_TAP: unregister_code(KC_PAST); break;
         case DOUBLE_TAP: unregister_code16(C(KC_S)); tap_code16(A(KC_F4)); break;
         case SINGLE_HOLD: unregister_code(KC_F12); break;
     }
@@ -511,24 +508,24 @@ void vydel_reset(qk_tap_dance_state_t *state, void *user_data) {
 void kopi_finished(qk_tap_dance_state_t *state, void *user_data) {
     ql_tap_state.state = cur_dance(state);
     switch (ql_tap_state.state) {
-        case SINGLE_TAP: register_code16(C(KC_INS));  break;
+        case SINGLE_TAP: register_code16(C(KC_C));  break;
         case DOUBLE_TAP: register_code16(C(KC_X));  break;
-        case SINGLE_HOLD: tap_code16(C(KC_INS)); break;
+        case SINGLE_HOLD: tap_code16(C(KC_C)); break;
     }
 }
 void kopi_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (ql_tap_state.state) {
-        case SINGLE_TAP: unregister_code16(C(KC_INS)); break;
+        case SINGLE_TAP: unregister_code16(C(KC_C)); break;
         case DOUBLE_TAP: unregister_code16(C(KC_X)); break;
-        case SINGLE_HOLD: tap_code16(S(KC_INS)); break;
+        case SINGLE_HOLD: tap_code16(C(KC_V)); break;
     }
     ql_tap_state.state = 0; // обнуление состояния
 };
 void vstav_finished(qk_tap_dance_state_t *state, void *user_data) {
     ql_tap_state.state = cur_dance(state);
     switch (ql_tap_state.state) {
-        case SINGLE_TAP:  tap_code16(S(KC_INS));  break;
-        case DOUBLE_TAP: tap_code16(S(KC_INS));  break;
+        case SINGLE_TAP:  tap_code16(C(KC_V));  break;
+        case DOUBLE_TAP: tap_code16(C(KC_V));  break;
         case SINGLE_HOLD: tap_code16(C(KC_A)); break;
     }
 }
@@ -536,7 +533,7 @@ void vstav_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (ql_tap_state.state) {
         case SINGLE_TAP: break;
         case DOUBLE_TAP: tap_code(KC_ENT); break;
-        case SINGLE_HOLD: tap_code16(S(KC_INS)); break;
+        case SINGLE_HOLD: tap_code16(C(KC_V)); break;
     }
     ql_tap_state.state = 0; // обнуление состояния
 };
@@ -602,7 +599,7 @@ if (shift_held) {register_code16(S(KC_DOT));}
             tap_code(KC_RBRC);
             tap_code(KC_CAPS);
             } else {
-            tap_code(KC_LBRC);
+            tap_code(KC_RBRC);
             }
         break;
     }
@@ -665,38 +662,25 @@ void GIP_reset(qk_tap_dance_state_t *state, void *user_data) {
     }
     ql_tap_state.state = 0; // обнуление состояния
 };
-
-void PLOVER_finished(qk_tap_dance_state_t *state, void *user_data) { // функция реакции двойного нажатия Б/Ц. Действие при нажатии
+void UPRPR_finished(qk_tap_dance_state_t *state, void *user_data) {
     ql_tap_state.state = cur_dance(state);
     switch (ql_tap_state.state) {
-        case SINGLE_TAP: // одиночное нажатие
-            if (layer_state_is(L_PLOVER)) { // проверка не назначен ли данный слой уже   
-              #ifdef AUDIO_ENABLE
-                PLAY_SONG(plover_gb_song);
-              #endif             
-                layer_off(L_PLOVER); // если установлен, то отключить
-            } else {
-              #ifdef AUDIO_ENABLE
-                stop_all_notes();
-              PLAY_SONG(plover_song);
-              #endif
-                layer_on(L_PLOVER); // если не установлен, то включить
-            }
-            break;
-        case SINGLE_HOLD: // одиночное удержание. Временное переключение слоя
-            layer_on(L_PLOVER);
-            break;
+        case SINGLE_TAP: register_code16(S(KC_SPC)); break;
+        case DOUBLE_TAP: break;
+        case SINGLE_HOLD: register_code(KC_LCTL); break;
     }
-};
-void PLOVER_reset(qk_tap_dance_state_t *state, void *user_data) { // Действие при отпускании (то отключить слой)
-    if (ql_tap_state.state == SINGLE_HOLD) { //при одиночном нажатии
-        layer_off(L_PLOVER); // отключить слой
+}
+void UPRPR_reset(qk_tap_dance_state_t *state, void *user_data) {
+    switch (ql_tap_state.state) {
+        case SINGLE_TAP: unregister_code16(S(KC_SPC)); break;
+        case DOUBLE_TAP: set_oneshot_mods(MOD_LCTL); break;
+        case SINGLE_HOLD: unregister_code(KC_LCTL); break;
     }
     ql_tap_state.state = 0; // обнуление состояния
 };
 
+
 qk_tap_dance_action_t tap_dance_actions[] = { // связка кнопок с функциями двойного нажатия
-    [PLOVER] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, PLOVER_finished, PLOVER_reset, 275), // Б/Ц
     [VYH] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, VYH_finished, VYH_reset), // выйти / принудительно закрыть / закрыть окно
     [POISK] = ACTION_TAP_DANCE_DOUBLE(KC_F3, C_F), // поиск (продолжить) / поиск
     [OSKOBT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, OSKOBT_finished, OSKOBT_reset), // («[{
@@ -708,6 +692,10 @@ qk_tap_dance_action_t tap_dance_actions[] = { // связка кнопок с ф
     [KOP1] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, kopi_finished, kopi_reset),  // копировать / вырезать
     [VST1] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, vstav_finished, vstav_reset), // вставить / вставить и нажать ввод / удалить всё и вставить
     [GIP] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, GIP_finished, GIP_reset), // вставить / вставить и нажать ввод / удалить всё и вставить
+    [VOPRR] = ACTION_TAP_DANCE_DOUBLE(VOPR, S(KC_1)),
+    [SCLN] = ACTION_TAP_DANCE_DOUBLE(S(KC_SLSH), S(KC_SCLN)),
+    [UPRPR] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, UPRPR_finished, UPRPR_reset),
+
 };
 
 //Создание кнопок
@@ -824,20 +812,23 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
       REG_R2(send_string(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_4)SS_TAP(X_KP_1))), send_string(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_4)SS_TAP(X_KP_0)))); }
       }                                                                       // иначе послать букву ё
     break;
-    case TD(VYDEL): if (record->event.pressed) {                                           // в случае нажатия TD(VYDEL)
+
+    case OTMENA: if (record->event.pressed) {                                           // в случае нажатия TD(VYDEL)
     if (gpu_active) {                                                                      // и ГИП
-      tap_code16(C(KC_PGUP)); unregister_code(KC_LGUI); return false;}  // перейти в следующее окно
+      unregister_code(KC_LGUI); tap_code16(C(KC_PGUP));  // для pri
+      //tap_code16(C(KC_PGUP)); unregister_code(KC_LGUI); return false;}  // для xd
+    }
+    else {
+      REG_R2(tap_code16(C(KC_Z)), tap_code16(C(KC_Y)))
+      }
     }
     break;
-     case TD(RU_AN): if (record->event.pressed) {                                           // в случае нажатия TD(VYDEL)
-    if (gpu_active) {                                                                      // и ГИП
-      unregister_code(KC_LGUI); tap_code16(C(KC_PGUP)); return false;}  // перейти в следующее окно
-    }
-    break;
+
     case ALT_T(KC_F2): if (record->event.pressed) {                                        // ALT_T(KC_F2)
     if (gpu_active) {                                                                      // и ГИП
-     unregister_code(KC_LGUI);  tap_code16(C(KC_PGDN)); return false;}  // перейти в предыдущее окно unregister_code(KC_LGUI); 
-    }
+     unregister_code(KC_LGUI);  tap_code16(C(KC_PGDN)); return false;}  // для pri 
+    //tap_code16(C(KC_PGDN)); unregister_code(KC_LGUI);  return false;}  // для xd
+   }
     break;
 
     case KC_RESET:                    // в случае нажатия KC_RESET
@@ -847,11 +838,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
     return false;
     break;
     // Отправка альт-кодов в зависимости от положения РЕГ:
-    case VOPR:  REG_R2(tap_code16(S(KC_SLSH)), tap_code16(S(KC_1)))
     case ZAP: REG_R2(tap_code(KC_COMM), send_string(SS_LALT(SS_TAP(X_KP_1)SS_TAP(X_KP_2)SS_TAP(X_KP_4))))
     case TOCH:  REG_R2(tap_code(KC_DOT), tap_code(KC_PAST))
     case KAVYCH: REG_R2(tap_code16(S(KC_QUOT)), tap_code(KC_QUOT))
-    case OTMENA: REG_R2(tap_code16(C(KC_Z)), tap_code16(C(KC_Y)))
     case SLESH: REG_R2(tap_code(KC_PSLS), send_string(SS_LALT(SS_TAP(X_KP_9)SS_TAP(X_KP_2))))
     case RU_TY: REG_R2(send_string(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_3)SS_TAP(X_KP_4))), send_string(SS_LALT(SS_TAP(X_KP_1)SS_TAP(X_KP_5)SS_TAP(X_KP_4))))
     case UDAR: REG_R2(send_string(SS_LALT(SS_TAP(X_KP_9)SS_TAP(X_KP_6))), send_string(SS_LALT(SS_TAP(X_KP_1)SS_TAP(X_KP_2)SS_TAP(X_KP_6))))
@@ -882,9 +871,6 @@ if (host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK)) {  // если индикат
     }
 };
 
-void matrix_init_user() {
-  steno_set_mode(STENO_MODE_GEMINI); // or STENO_MODE_BOLT
-};
 
 #ifdef RGBLIGHT_ENABLE                        // если опция подсветки включена
 void keyboard_post_init_user(void){
