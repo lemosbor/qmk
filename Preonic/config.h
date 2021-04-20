@@ -43,4 +43,4 @@
 //#define MIDI_TONE_KEYCODE_OCTAVES 2
 //qmk compile -kb preonic/rev3 -km pri
 
-#define FORCE_NKRO
+//#define FORCE_NKRO # одновременное нажатие более 6 клавиш
