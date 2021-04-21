@@ -2,4 +2,5 @@
 - Прошивка ортогональной клавиатуры «Преоник» на микроконтроллере СТМ32Ф303 (5×12)
 - Прошивка ортогональной клавиатуры XD-75 (5×15)
 
-#If GetKeyState("ScrollLock", "T")
+#If GetKeyState("ScrollLock", "T")  
+{ "keys": ["pause"], "command": "exec", "args": {"kill": true} },
