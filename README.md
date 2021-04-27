@@ -29,9 +29,11 @@ return
 	Send ^v
 return
 
-XButton2::
-	Send ^{Click Left}
-return
+XButton1::Send ^c
+XButton1 Up::Send ^v
+
+XButton2::Send ^{Click Left}
+
 
 WheelLeft::
 	Send !{PgDn}
