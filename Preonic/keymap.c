@@ -22,18 +22,18 @@ KC_LBRC,  KC_NUBS,  KC_X, KC_U ,  RU_E,  KC_DEL,    KC_H,  KC_G,  KC_P,  KC_R,  
   TD(GIP),OTMENA,ALT_T(KC_F2),OSM(MOD_LSFT),LCTL_T(KC_SPC),  KC_ENT, TD(RU_AN), LT(L_DOP, KC_SPC), KC_UP, KC_DOWN,KC_LEFT,KC_RGHT \
 ),
 [L_DOP] = LAYOUT_preonic_grid( \
-  C_INS,      S_INS,       S(KC_7), S(KC_2),      S(KC_1),     S(KC_3),   KC_F10,  KC_F11,  KC_F12,   KC_PAST,   KC_PPLS, KC_EQL,  \
-  KC_NUMLOCK,   KC_VOLU,        KC_TRNS,     KC_RESET,   KC_PSCR,  RGB_TOG, KC_F7,   KC_F8,   KC_F9,     KC_7,     KC_8,     KC_9, \
-  KC_BRIU,      KC_VOLD,        MEH(KC_A),     KC_MSTP,   KC_MNXT,  RGB_MOD, KC_F4,   KC_F5,   KC_F6,     KC_4,     KC_5,     KC_6, \
-  KC_BRID,   KC_MUTE,        MEH(KC_X),     C(S(KC_ESC)),KC_TRNS,UD_STROK, KC_F1,   KC_F2,   KC_F3,     KC_1,     KC_2,     KC_3, \
-  TO(L_MUSIC),     PS_1,           PS_2,        KC_TRNS, C(KC_PGUP),C(KC_PGDN),G_SP, KC_TRNS,  KC_PGUP,  KC_PDOT ,  KC_0,     KC_PGDN \
+  C_INS,      S_INS,       KC_RESET, KC_TRNS,   G_NOM,   G_PARA,   RGB_TOG,  RGB_MOD,  KC_VOLD,   KC_VOLU,   KC_BRID, KC_BRIU,  \
+  KC_F1, KC_F2,     KC_F3,     KC_F4,   KC_F5,  KC_F6, KC_F7,   KC_F8,   KC_F9,     KC_F10,     KC_F11,     KC_F12, \
+  KC_6,      KC_4,     KC_2,     KC_0,   KC_8,  KC_TRNS, KC_NUMLOCK,   KC_9,   KC_1,     KC_3,     KC_5,     KC_7, \
+  KC_MUTE,   KC_TRNS,        MEH(KC_A),     KC_COMM,S(KC_6),UD_STROK, KC_TRNS,   KC_EQL,   KC_PPLS,     KC_PSLS,     KC_PMNS,     KC_PAST, \
+  TO(L_MUSIC),     PS_1,           PS_2,        PS_3, KC_TRNS,KC_TRNS,G_SP, KC_TRNS,  KC_PGUP,  KC_PGDN ,  C(KC_PGUP),     C(KC_PGDN) \
 ),
 [L_MUSIC] = LAYOUT_preonic_grid( \
-    KC_NO  ,  KC_NO ,  KC_NO ,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO, \
+    MU_TOG  ,  MU_MOD ,  TO(L_OSNOVA) ,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO, \
     KC_NO  ,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO, \
-    MU_TOG ,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO, \
-    MU_MOD,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO, \
-    TO(L_OSNOVA),  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO \
+    KC_NO ,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO, \
+    KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO, \
+    KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO \
 ),
 }; 
 
