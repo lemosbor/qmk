@@ -17,7 +17,7 @@
 // #define IGNORE_MOD_TAP_INTERRUPT
 #define PERMISSIVE_HOLD // ускорение двойного нажатия
 #define COMBO_TERM 20 // задержка для комбо
-#define COMBO_COUNT 69 // количество спец. комбинаций с клавишами
+#define COMBO_COUNT 71 // количество спец. комбинаций с клавишами
 #define COMBO_ALLOW_ACTION_KEY
 
 #define ONESHOT_TAP_TOGGLE 2 // ожидающие кнопки. Количество нажатий для залипания.
