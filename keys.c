@@ -94,7 +94,7 @@ bool kav_active=false;
 bool caps_active=false;
 bool u_active = false;
 bool y_active = false;
-
+bool metod_perek = false;
 bool comotE_active = false;
 uint16_t comotE_timer = 0;  
 bool comotS_active = false;
@@ -143,6 +143,7 @@ enum custom_keycodes {
   GRADU, // градус
   UMNO, // умножение
   KC_RESET, // перезагрузка клавиатуры
+  MET_PER, // метод переключения
 }; 
 
 enum combo_events { // обозначение комбо-команд
@@ -565,7 +566,12 @@ void x_finished(qk_tap_dance_state_t *state, void *user_data) { // функци�
             rgblight_disable_noeeprom();  // выключить подсветку
             }
         #endif
-        register_code(KC_CAPS);
+         if (metod_perek) {                               // если капс активен (русская раскладка)                   
+              register_code(KC_LALT);
+              register_code(KC_LSFT);
+            } else {
+                register_code(KC_CAPS);
+              }
         break; // нажатие КАПС
         case SINGLE_HOLD: 
         tap_code(KC_CAPS);
@@ -575,7 +581,12 @@ void x_finished(qk_tap_dance_state_t *state, void *user_data) { // функци�
 void x_reset(qk_tap_dance_state_t *state, void *user_data) { // Действие при отпускании
     switch (ql_tap_state.state) {
         case SINGLE_TAP:
-        unregister_code(KC_CAPS); 
+        if (metod_perek) {                               // если капс активен (русская раскладка)                   
+              unregister_code(KC_LSFT);
+              unregister_code(KC_LALT);
+            } else {
+             unregister_code(KC_CAPS); 
+              }
         break; // снятие КАПС
         case SINGLE_HOLD: 
         tap_code(KC_CAPS); 
@@ -670,9 +681,9 @@ void OSKOBT_finished(qk_tap_dance_state_t *state, void *user_data) {
     switch (ql_tap_state.state) {
         case SINGLE_TAP:    
         if (shift_held) {
-          if (caps_active) {                                                              // если капс активен (русская раскладка)
+          if (caps_active & !metod_perek) {                                                              // если капс активен (русская раскладка)
             tap_code(KC_CAPS);                                                            // деактивировать капс (перейти на английскую раскладку)
-            register_code16(S(KC_COMM));                                                            // [
+            register_code16(S(KC_COMM));                                                          // [
             tap_code(KC_CAPS);
             } else {
             register_code16(S(KC_COMM));
@@ -684,7 +695,7 @@ void OSKOBT_finished(qk_tap_dance_state_t *state, void *user_data) {
           send_string(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_7)SS_TAP(X_KP_1))); // «
           break;
         case SINGLE_HOLD:                                                                 // при удержании
-          if (caps_active) {                                                              // если капс активен (русская раскладка)
+          if (caps_active & !metod_perek) {                                                              // если капс активен (русская раскладка)
             tap_code(KC_CAPS);                                                            // деактивировать капс (перейти на английскую раскладку)
             tap_code(KC_LBRC);                                                            // [
             tap_code(KC_CAPS);
@@ -708,7 +719,7 @@ void ZSKOBT_finished(qk_tap_dance_state_t *state, void *user_data) {
     switch (ql_tap_state.state) {
         case SINGLE_TAP:   
         if (shift_held) {
-          if (caps_active) {                                                            // если капс активен (русская раскладка)
+          if (caps_active & !metod_perek) {                                                            // если капс активен (русская раскладка)
             tap_code(KC_CAPS);                                                            // деактивировать капс (перейти на английскую раскладку)
             register_code16(S(KC_DOT));                                                            // [
             tap_code(KC_CAPS);
@@ -722,7 +733,7 @@ void ZSKOBT_finished(qk_tap_dance_state_t *state, void *user_data) {
           send_string(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_8)SS_TAP(X_KP_7)));
           break;
         case SINGLE_HOLD:
-          if (caps_active) { 
+          if (caps_active & !metod_perek) { 
             tap_code(KC_CAPS);
             tap_code(KC_RBRC);
             tap_code(KC_CAPS);
@@ -892,8 +903,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
 
     case KC_F15:
       if (record->event.pressed & !y_active) { 
-          if (caps_active) { 
-            send_string(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_3)SS_TAP(X_KP_4))); // посылаем альт-код символа ъ 
+          if (caps_active & !metod_perek) { 
+            send_string(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_3)SS_TAP(X_KP_4))); // посылаем альт-код символа ъ // Поменять на Ф
 /*            register_code(KC_ALGR);
             tap_code(KC_X);
             unregister_code(KC_ALGR);*/
@@ -932,6 +943,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
         tap_code(KC_PMNS);
       }
     break;
+
+    case MET_PER:
+      if (record->event.pressed) {
+         if (!metod_perek) { 
+          metod_perek=true
+      } else {metod_perek=false}
+}
+    break;
+
     case KC_9: if (record->event.pressed) {                             // в случае нажатия KC_9: при нажатии
     if (shift_held) {                                                   // если активен индикатор РЕГ
       unregister_code(KC_LSFT);                                         // KC_LSFT в положение отпущен
@@ -954,13 +974,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
       tap_code(KC_1);                                 // топнуть 1
       return false;                                   // не выполнять основное действие нажатия (Э)
       }
-    else if (!caps_active) {       
+    else if (!caps_active & !metod_perek) {       
     tap_code(KC_S); tap_code(KC_H); return false;}
     }
     break;
 
     case KC_NUBS: if (record->event.pressed) {           // в случае нажатия KC_Q: при нажатии
     if (gpu_active) {tap_code(KC_2); return false; }  // если активен индикатор ГИП: топнуть 3; отменить основное действие нажатия (Q)
+    else if (!caps_active & !metod_perek) {       
+    tap_code(KC_T); tap_code(KC_H); return false;}
+    }
+
     }
     break;
     case KC_X: if (record->event.pressed) { 
@@ -974,23 +998,38 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) { // https://bet
       }
     else u_active = false;
     break;
+
    case KC_F14: if (record->event.pressed) {                                   // в случае нажатия RU_E
     if (gpu_active) { tap_code(KC_5); return false;}                          // и ГИП, нажать клавишу 2
-     else if (caps_active & !u_active) {
-     REG_R2(tap_code16(S(KC_COMM)), tap_code16(S(KC_DOT))); }  
+     else if (!u_active) {
+      if (!caps_active & !metod_perek) {tap_code(KC_E); tap_code(KC_R); return false;} 
+      else {REG_R2(tap_code16(S(KC_COMM)), tap_code16(S(KC_DOT)));
+/*            register_code(KC_ALGR);
+            tap_code(KC_X);
+            unregister_code(KC_ALGR);*/
+      }
+    }
+  }  
+
    // REG_R2(send_string(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_4)SS_TAP(X_KP_1))), send_string(SS_LALT(SS_TAP(X_KP_2)SS_TAP(X_KP_4)SS_TAP(X_KP_0)))); }
  }                                                                    // иначе послать букву ё
     break;
     case KC_GRV: if (record->event.pressed) { 
-    if (!caps_active) {       
+    if (!caps_active & !metod_perek) {       
     tap_code(KC_C); tap_code(KC_H); return false;}
       }
     break;
-    case KC_BSLS: if (record->event.pressed) { 
-    if (!caps_active) {       
+    case KC_BSLS: if (record->event.pressed) { // заменить на Ф16
+    if (!caps_active & !metod_perek) {       
     tap_code(KC_G); tap_code(KC_H); return false;}
       }
     break;
+    case KC_RBRC: if (record->event.pressed) { 
+    if (!caps_active & !metod_perek) {       
+    tap_code(KC_W); tap_code(KC_H); return false;}
+      }
+    break;
+
 
     case OTMENA: if (record->event.pressed) {                                           // в случае нажатия TD(VYDEL)
       REG_R2(tap_code16(C(KC_Z)), tap_code16(C(KC_Y)))
